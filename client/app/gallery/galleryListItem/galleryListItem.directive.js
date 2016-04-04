@@ -7,20 +7,11 @@ angular.module('photoboxApp')
 
       restrict: 'A',
       replace: false,
+      scope: {
+        galleryListItem: '='
+      },
 
       link: function (scope, element, attrs) {
-        var userlist = scope.$parent.vm.userlist;
-
-        scope.getUsername = function(id) {
-          var username = 'unknown user';
-
-          for (var i = 0; i < userlist.length; i++) {
-            if (userlist[i].hasOwnProperty("name") && userlist[i]._id === id) {
-              return userlist[i].name;
-            }
-          }
-          return username;
-        };
 
       }
     };

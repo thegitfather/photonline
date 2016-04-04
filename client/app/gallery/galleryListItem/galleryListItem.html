@@ -2,10 +2,11 @@
 
 <div class="content">
   <div class="preview-image">
-    <a sref="gallery/{{gallery._id}}" href="gallery/{{gallery._id}}">
-      <img ng-src="/uploads/preview/gallery_{{gallery._id}}.jpg">
+    <a sref="gallery/{{galleryListItem._id}}" href="gallery/{{galleryListItem._id}}">
+      <img ng-src="/uploads/preview/gallery_{{galleryListItem._id}}.jpg">
     </a>
   </div>
-  <p class="gallery-name">{{gallery.name}}</p>
-  <p class="username">{{getUsername(gallery.user_id)}}</p>
+  <p class="gallery-name">{{galleryListItem.name}}</p>
+  <p class="user-name">{{galleryListItem.user_name}}</p>
+  <p class="created-at">{{galleryListItem.created_at}}</p>
 </div>

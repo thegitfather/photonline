@@ -4,6 +4,8 @@
 
 <section class="gallery-list">
   <div class="container">
-    <article gallery-list-item ng-repeat="gallery in vm.galleries" class="box gallery-list-item"></article>
+    <article class="box gallery-list-item"
+      gallery-list-item="gallery"
+      ng-repeat="gallery in vm.galleries"></article>
   </div>
 </section>
