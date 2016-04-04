@@ -1,0 +1,61 @@
+<h1 class="state title">New Gallery</h1>
+
+<section class="gallery-create">
+  <form name="createGalleryForm" class="" ng-submit="createGallery()">
+    <div class="columns">
+      <div class="column is-half">
+
+        <div class="control">
+          <label class="control-label" for="name">Gallery name</label>
+          <!-- TODO: add validation -->
+          <input id="name" class="input" name="name" type="text" placeholder="Gallery name" autocomplete="off"
+          ng-model="name"
+          required />
+        </div>
+
+      </div>
+    </div>
+
+    <!-- TODO: create directive with file list and preview image -->
+    <section class="hero">
+      <div class="hero-content file-drop-area" nv-file-drop uploader="uploader">
+        <div class="container">
+          <h1 class="title">
+            Drag & drop images here
+          </h1>
+          <h2 class="subtitle">
+            (or click to select files)
+          </h2>
+        </div>
+        <input class="" type="file" nv-file-select uploader="uploader" multiple><br>
+      </div>
+    </section>
+
+    <!-- <div class="control">
+      <div nv-file-drop uploader="uploader" class="file-drop-area">
+        <span>Drag & drop images here</span>
+        <input type="file" nv-file-select uploader="uploader" multiple><br>
+      </div>
+    </div> -->
+    <div class="control">
+      <ul>
+        <li ng-repeat="item in uploader.queue">
+          Name: <span ng-bind="item.file.name"></span><br>
+        </li>
+      </ul>
+      <div>uploader.queue.length: {{uploader.queue.length}}</div>
+    </div>
+
+    <div class="form-submitted-errors" ng-show="formError && form.submitted">
+      <div ng-repeat="error in formError" class="notification is-danger">
+        {{error.message}}
+      </div>
+    </div>
+
+    <div class="control">
+      <button type="submit" class="button is-primary">Create</button>
+    </div>
+
+  </form>
+
+</section>

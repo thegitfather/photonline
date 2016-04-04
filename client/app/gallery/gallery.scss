@@ -1,0 +1,16 @@
+.gallery-list {
+  .container {
+    display: flex;
+    // flex-wrap: wrap;
+    // flex-direction: row;
+    flex-flow: row wrap;
+    justify-content: flex-start;
+  }
+}
+
+
+.file-drop-area {
+  background-color: #eee;
+  border: 6px dashed #ccc;
+  border-radius: 6px;
+}

@@ -1,0 +1,13 @@
+main#main {
+  & > section {
+    padding: 20px;
+    & > header {
+      margin-bottom: $default-gap-bottom;
+    }
+  }
+}
+
+
+@media (max-width: 1020px) {
+
+}

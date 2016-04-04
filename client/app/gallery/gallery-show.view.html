@@ -1,0 +1,20 @@
+<h1 class="state title">Gallery</h1>
+
+<!-- TODO: filters: username, date, location -->
+
+<section class="gallery">
+  <article ng-repeat="photo in vm.photos" class="photo">
+    <img ng-src="{{photo.path}}{{photo.filename}}">
+  </article>
+</section>
+
+
+
+<!-- <section ui-view="">
+  <h1>gallery.show view</h1>
+
+  <article ng-repeat="photo in vm.photos" class="photo">
+    <img ng-src="{{photo.path}}{{photo.filename}}">
+  </article>
+
+</section> -->

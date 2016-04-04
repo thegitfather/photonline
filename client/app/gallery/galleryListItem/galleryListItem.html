@@ -1,0 +1,11 @@
+<!-- gallery.list.view: ng-repeat="gallery in vm.galleries" -->
+
+<div class="content">
+  <div class="preview-image">
+    <a sref="gallery/{{gallery._id}}" href="gallery/{{gallery._id}}">
+      <img ng-src="/uploads/default.jpg">
+    </a>
+  </div>
+  <p class="gallery-name">{{gallery.name}}</p>
+  <p class="username">{{getUsername(gallery.user_id)}}</p>
+</div>

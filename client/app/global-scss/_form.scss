@@ -1,0 +1,34 @@
+form {
+  .notification {
+    margin-top: 1px;
+    padding: 0 $default-gap-bottom;
+    max-height: 0;
+    transition: all 500ms ease-in-out;
+    &.visible {
+      padding: 0.5em $default-gap-bottom;
+      max-height: 100%;
+    }
+    &:not(last-child) {
+      margin-bottom: 0;
+    }
+    code {
+      background-color: rgba(255, 255, 255, 0.2);
+      color: #fff;
+      font-size: 0.85em;
+    }
+  }
+
+  .input, .textarea {
+    &.ng-invalid-required:not(.ng-untouched),
+    &.ng-invalid-pattern,
+    &.ng-invalid-email {
+      border: 1px solid $red;
+    }
+  }
+
+  .server-responses {
+    border-top: 1px solid $grey-light;
+    margin-bottom: 10px;
+    padding-top: 10px;
+  }
+}

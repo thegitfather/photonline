@@ -1,0 +1,125 @@
+<section class="login">
+
+  <header>
+    <h1 class="title">Sign up</h1>
+  </header>
+
+  <form name="form" ng-submit="vm.register(form)" novalidate>
+
+    <div class="columns">
+      <div class="column is-half">
+
+        <div class="control">
+          <label>Username</label>
+          <input class="input" type="text" name="name" autocomplete="off" required
+          ng-model="vm.user.name"
+          ng-pattern="/^[a-zA-Z0-9_-]*$/"
+          ng-minlength="3"
+          ng-maxlength="16"
+          mongoose-error />
+          <div class="notification is-danger"
+          ng-show="form.name.$error.pattern"
+          ng-class="{ visible:form.name.$error.pattern }">
+            Invalid username pattern (no whitespaces <code>[a-zA-Z0-9_-]</code>)
+          </div>
+          <div class="notification is-danger"
+          ng-show="form.name.$error.minlength && form.name.$touched"
+          ng-class="{ visible:form.name.$error.minlength }">
+            Invalid minlength (min 3 chars)
+          </div>
+          <div class="notification is-danger"
+          ng-show="form.name.$error.maxlength"
+          ng-class="{ visible:form.name.$error.maxlength }">
+            Invalid minlength (max 16 chars)
+          </div>
+          <div class="notification is-danger"
+          ng-show="form.name.$error.required && form.name.$touched"
+          ng-class="{ visible:form.name.$error.required }">
+            A username is required!
+          </div>
+          <div class="notification is-danger"
+          ng-show="form.name.$error.mongoose"
+          ng-class="{ visible:form.name.$error.mongoose }">
+            {{ vm.errors.name }}
+          </div>
+        </div>
+
+        <div class="control">
+          <label>Email</label>
+          <input class="input" type="email" name="email" autocomplete="off" required
+          ng-model="vm.user.email"
+          mongoose-error />
+          <div class="notification is-danger"
+          ng-show="form.email.$error.email && form.email.$touched"
+          ng-class="{ visible:form.email.$error.email }">
+            Doesn't look like a valid email.
+          </div>
+          <div class="notification is-danger"
+          ng-show="form.email.$error.required && form.email.$touched"
+          ng-class="{ visible:form.email.$error.required }">
+            An email address is required!
+          </div>
+          <div class="notification is-danger"
+          ng-show="form.email.$error.mongoose"
+          ng-class="{ visible:form.email.$error.mongoose }">
+            {{ vm.errors.email }}
+          </div>
+        </div>
+
+        <div class="control">
+          <label>Password</label>
+          <input class="input" type="password" name="password" required
+          ng-model="vm.user.password"
+          ng-minlength="6"
+          ng-maxlength="32"
+          mongoose-error />
+          <div class="notification is-danger"
+          ng-show="form.password.$error.minlength && form.name.$touched"
+          ng-class="{ visible:form.password.$error.minlength }">
+            Invalid minlength (min 6 chars)
+          </div>
+          <div class="notification is-danger"
+          ng-show="form.password.$error.maxlength"
+          ng-class="{ visible:form.password.$error.maxlength }">
+            Invalid minlength (max 32 chars)
+          </div>
+          <div class="notification is-danger"
+          ng-show="form.password.$error.required && form.password.$touched"
+          ng-class="{ visible:form.password.$error.required }">
+            A password is required!
+          </div>
+          <div class="notification is-danger"
+          ng-show="form.password.$error.mongoose"
+          ng-class="{ visible:form.password.$error.mongoose }">
+            {{ vm.errors.password }}
+          </div>
+        </div>
+
+        <div class="control">
+          <label>Confirm Password</label>
+          <input class="input" type="password" name="confirmPassword" required
+          ng-model="vm.user.confirmPassword"
+          match="vm.user.password" />
+          <div class="notification is-danger"
+          ng-show="form.confirmPassword.$error.match && form.confirmPassword.$touched"
+          ng-class="{ visible:form.confirmPassword.$error.match }">
+            Passwords must match!
+          </div>
+        </div>
+
+        <div class="control">
+          <button class="button is-primary" type="submit">Sign up</button>
+          <a class="button" ui-sref="login">Login</a>
+        </div>
+
+      </div>
+    </div>
+
+  </form>
+
+  <footer>
+    <hr />
+    <oauth-buttons classes="button"></oauth-buttons>
+  </footer>
+
+</section>

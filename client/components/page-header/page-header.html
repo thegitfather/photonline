@@ -1,0 +1,32 @@
+<header class="page-header header" ng-controller="PageHeaderController">
+
+  <div class="container">
+    <div class="header-left">
+      <a ui-sref="main" ui-sref-active="is-active" class="header-item title is-4">photobox</a>
+      <a ui-sref="gallery.list" ui-sref-active="is-active" class="header-tab">List Galleries</a>
+      <a ng-show="nav.isLoggedIn()" ui-sref="gallery.create" ui-sref-active="is-active" class="header-tab">Create Galllery</a>
+    </div>
+
+    <!-- Hamburger menu (on mobile) -->
+    <!--
+    <span class="header-toggle">
+      <span></span>
+      <span></span>
+      <span></span>
+    </span>
+    -->
+
+    <div class="header-right header-menu">
+      <!-- TODO: refactor to directive? -->
+      <a ng-hide="nav.isLoggedIn()" ui-sref="signup" ui-sref-active="active" class="header-item">Sign up</a>
+      <a ng-hide="nav.isLoggedIn()" ui-sref="login" ui-sref-active="active" class="header-item"><i class="fa fa-sign-in"></i>&nbsp;Login</a>
+      <span ng-show="nav.isLoggedIn()" class="header-item greeting">Hello {{ nav.getCurrentUser().name }}</span>
+      <a ng-show="nav.isAdmin()" ui-sref="admin" ui-sref-active="is-active" class="header-item">Admin</a>
+      <a ng-show="nav.isLoggedIn()" ui-sref="settings" ui-sref-active="active" class="header-item">
+        <i class="fa fa-cog"></i>
+      </a>
+      <a ng-show="nav.isLoggedIn()" ui-sref="logout" ui-sref-active="active" class="header-item">Logout&nbsp;<i class="fa fa-sign-out"></i></a>
+    </div>
+  </div>
+
+</header>

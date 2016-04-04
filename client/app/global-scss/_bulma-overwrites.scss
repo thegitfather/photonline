@@ -1,0 +1,21 @@
+.control {
+  margin-bottom: $default-gap-bottom;
+}
+
+
+@media screen and (max-width: 768px) {
+
+  .header .container {
+    flex-direction: inherit;
+  }
+
+  .header-menu {
+    display: flex;
+    box-shadow: none;
+  }
+
+  .header-menu .header-item {
+    border-top-width: 0;
+  }
+
+}

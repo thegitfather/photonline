@@ -1,0 +1,21 @@
+@import 'global-scss/vars';
+@import 'global-scss/mixins';
+@import 'global-scss/extends';
+@import 'global-scss/fonts';
+@import 'global-scss/layout';
+@import 'global-scss/form';
+
+@import '../bower_components/bulma_fork/bulma';
+@import 'global-scss/bulma-overwrites';
+
+
+
+// Component styles are injected through grunt injector
+@import 'admin/admin';
+@import 'gallery/gallery';
+@import 'gallery/galleryListItem/galleryListItem';
+@import 'main/main';
+@import '../components/page-header/page-header';
+@import '../components/page-footer/page-footer';
+@import '../components/oauth-buttons/oauth-buttons';
+// endinjector

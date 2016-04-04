@@ -1,0 +1,40 @@
+@import "colors";
+
+
+$fa-font-path: "../../bower_components/font-awesome/fonts";
+
+// Typography
+
+$family-sans-serif: "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+$family-monospace: "Source Code Pro", "Monaco", "Inconsolata", monospace;
+
+$size-1: 24px;
+$size-2: 22px;
+$size-3: 20px;
+$size-4: 18px;
+$size-5: 16px;
+$size-6: 12px;
+$size-7: 11px;
+
+$weight-title-normal: 300;
+$weight-title-bold: 500;
+
+// Breakpoints
+
+$tablet: 769px;
+$desktop: 980px;
+$widescreen: 1180px;
+
+// Dimensions
+
+$column-gap: 20px;
+
+$header-height: 50px;
+
+$default-gap-bottom: 1em;
+
+// Miscellaneous
+
+$easing: ease-out;
+$radius: 3px;
+$speed: 86ms;

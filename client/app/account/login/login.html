@@ -1,0 +1,56 @@
+<section class="login">
+
+  <header>
+    <h1 class="title">Login</h1>
+    <p>Accounts are reset on server restart from <code>server/config/seed.js</code>. Default account is <code>test@example.com</code> / <code>12qw34er</code></p>
+    <p>Admin account is <code>admin@example.com</code> / <code>12qw34er</code></p>
+  </header>
+
+  <form name="form" ng-submit="vm.login(form)" novalidate>
+
+    <div class="columns">
+      <div class="column is-half">
+        <div class="control">
+          <label>Email</label>
+          <input type="email" name="email" class="input" required
+          ng-model="vm.user.email" />
+          <div class="notification is-danger"
+          ng-show="form.email.$error.email && form.email.$touched"
+          ng-class="{ visible:form.email.$error.email }">
+            Doesn't look like a valid email.
+          </div>
+          <div class="notification is-danger"
+          ng-show="form.email.$error.required && form.email.$touched"
+          ng-class="{ visible:form.email.$error.required }">
+            Please enter your email.
+          </div>
+        </div>
+
+        <div class="control">
+          <label>Password</label>
+          <input type="password" name="password" class="input" required
+          ng-model="vm.user.password" />
+          <div class="notification is-danger"
+          ng-show="form.password.$error.required && form.password.$touched"
+          ng-class="{ visible:form.password.$error.required }">
+            Please enter your password.
+          </div>
+        </div>
+
+        <div class="server-responses" ng-show="vm.serverResponses.length && vm.submitted"></div>
+
+        <div class="control">
+          <button class="button is-primary" type="submit">Login</button>
+          <a class="button" ui-sref="signup">Register</a>
+        </div>
+      </div>
+    </div>
+
+  </form>
+
+  <footer>
+    <hr />
+    <oauth-buttons classes="button"></oauth-buttons>
+  </footer>
+
+</section>
