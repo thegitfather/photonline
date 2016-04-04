@@ -28,6 +28,9 @@ var PhotoSchema = new mongoose.Schema(
       type: String,
       default: 'unset',
       trim: true
+    },
+    position: {
+      type: Number
     }
   }
 );

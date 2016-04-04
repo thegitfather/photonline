@@ -62,7 +62,6 @@ function handleError(res, statusCode) {
 
 // Gets a list of Galleries
 export function index(req, res) {
-  console.log("index()");
   return Gallery.find().exec()
     .then(respondWithResult(res))
     .catch(handleError(res));

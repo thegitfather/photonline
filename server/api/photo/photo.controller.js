@@ -14,6 +14,8 @@ import Photo from './photo.model';
 import Gallery from '../gallery/gallery.model';
 import multer from 'multer';
 import mkdirp from 'mkdirp';
+import sharp from 'sharp';
+import fs from 'fs';
 import sharedConfig from '../../config/environment/shared';
 
 
@@ -121,7 +123,8 @@ export function create(req, res) {
       if (isJpeg) { cb(null, true); }
       else { cb(new Error("mime is not 'image/jpeg'")); }
     }
-  }).array('photos');
+  //}).array('photos');
+  }).single('photo');
 
   upload(req, res, function (uploadError) {
     if (uploadError) {
@@ -133,7 +136,27 @@ export function create(req, res) {
       photo = new Photo(req.body);
       photo.path = dest;
       photo.filename = filename;
-      photo.size = req.files[0].size;
+      photo.size = req.file.size;
+
+      // console.log("photo:", photo);
+      // console.log("req.file:", req.file);
+
+      if (photo.position === 0) {
+        fs.stat(dest + filename, function(err, stats) {
+          if (stats !== undefined) {
+            mkdirp.sync("uploads/preview/");
+            sharp(dest + filename)
+            .resize(196, null)
+            .toFile('uploads/preview/gallery_' + photo.gallery_id + '.jpg')
+            .then(info => {
+              // console.log("info:", info);
+            })
+            .catch(err => {
+              console.error("err:", err);
+            });
+          }
+        });
+      }
 
       // push current photo id to gallery
       Gallery.findById(photo.gallery_id).exec()

@@ -13,7 +13,7 @@ angular.module('photoboxApp')
 
     vm.uploader = new FileUploader({
       url: '/api/photo',
-      alias: 'photos',
+      alias: 'photo',
       queueLimit: appConfig.uploadLimits.queueLimit,
       headers : {
         'X-XSRF-TOKEN': xsrfToken,
@@ -52,7 +52,9 @@ angular.module('photoboxApp')
           //   item.remove();
           // }
           // console.info("MD5 '%s':", item._file.name, md5sum);
-          item.formData.push({ md5: md5sum, originalFilename: item._file.name });
+
+          item.formData.push({ md5: md5sum });
+          item.formData.push({ originalFilename: item._file.name });
         });
       } else {
         console.info('The FileReader readAsArrayBuffer API is not supported');
@@ -76,6 +78,7 @@ angular.module('photoboxApp')
         var galleryId = response.data._id;
 
         vm.uploader.onBeforeUploadItem = function(item) {
+          item.formData.push({ position: vm.uploader.getIndexOfItem(item) });
           item.formData.push({ gallery_id: galleryId });
         };
 
