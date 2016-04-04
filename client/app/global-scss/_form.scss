@@ -3,10 +3,13 @@ form {
     margin-top: 1px;
     padding: 0 $default-gap-bottom;
     max-height: 0;
+    opacity: 0;
     transition: all 500ms ease-in-out;
+
     &.visible {
       padding: 0.5em $default-gap-bottom;
       max-height: 100%;
+      opacity: 1;
     }
     &:not(last-child) {
       margin-bottom: 0;
