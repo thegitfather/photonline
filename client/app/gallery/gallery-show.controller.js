@@ -2,7 +2,7 @@
 
 angular.module('photoboxApp')
   .controller('GalleryShowController', ['$scope', '$stateParams', 'Gallery', 'Photo', function ($scope, $stateParams, Gallery, Photo) {
-    let vm = this;
+    var vm = this;
 
     vm.photos = [];
 

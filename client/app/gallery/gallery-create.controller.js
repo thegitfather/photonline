@@ -3,11 +3,11 @@
 angular.module('photoboxApp')
   .controller('GalleryCreateController', ['$scope', '$state', 'FileUploader', '$cookies', '$http', 'appConfig', 'fileMd5Service',
   function ($scope, $state, FileUploader, $cookies, $http, appConfig, fileMd5Service) {
-    let vm = $scope;
-    let gallery = {};
+    var vm = $scope;
+    var gallery = {};
 
-    let xsrfToken = $cookies.get("XSRF-TOKEN");
-    let authToken = 'Bearer ' + $cookies.get("token");
+    var xsrfToken = $cookies.get("XSRF-TOKEN");
+    var authToken = 'Bearer ' + $cookies.get("token");
 
     // vm.formError = [];
 
@@ -26,8 +26,8 @@ angular.module('photoboxApp')
     vm.uploader.filters.push({
       name: 'jpegs-only',
       fn: function (item) {
-        let isJpeg = (/image\/jpeg/i).test(item.type);
-        let sizeRange = (item.size <= appConfig.uploadLimits.maxFileSize && item.size >= appConfig.uploadLimits.minFileSize);
+        var isJpeg = (/image\/jpeg/i).test(item.type);
+        var sizeRange = (item.size <= appConfig.uploadLimits.maxFileSize && item.size >= appConfig.uploadLimits.minFileSize);
         // console.log("item:", item, isJpeg, sizeRange);
         if ( isJpeg && sizeRange ) {
           return true;
@@ -39,7 +39,7 @@ angular.module('photoboxApp')
     vm.uploader.onAfterAddingFile = function (item) {
       // console.log("item:", item);
       if (window.FileReader && window.FileReader.prototype.readAsArrayBuffer) {
-        let md5sum = getMd5Sum(item);
+        var md5sum = getMd5Sum(item);
         md5sum.progress(function(stats) {
           console.info('Hashed ' + stats.loaded + ' B out of ' + stats.total + ' B');
         })

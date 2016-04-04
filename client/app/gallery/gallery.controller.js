@@ -2,7 +2,7 @@
 
 angular.module('photoboxApp')
   .controller('GalleryController', ['$scope', 'User', 'userlist', 'Gallery', function ($scope, User, userlist, Gallery) {
-    let vm = this;
+    var vm = this;
 
     vm.galleries = [];
     vm.userlist = userlist;

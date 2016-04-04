@@ -9,10 +9,10 @@ angular.module('photoboxApp')
       replace: false,
 
       link: function (scope, element, attrs) {
-        let userlist = scope.$parent.vm.userlist;
+        var userlist = scope.$parent.vm.userlist;
 
         scope.getUsername = function(id) {
-          let username = 'unknown user';
+          var username = 'unknown user';
 
           for (var i = 0; i < userlist.length; i++) {
             if (userlist[i].hasOwnProperty("name") && userlist[i]._id === id) {
