@@ -12,6 +12,10 @@
           <label>Current password</label>
           <input class="input" type="password" name="password" autocomplete="off" required
           ng-model="vm.user.oldPassword" />
+          <div class="notification is-danger"
+          ng-class="{ visible: (form.password.$error.required && form.password.$touched) }">
+            A password is required!
+          </div>
         </div>
 
         <div class="control">
@@ -21,18 +25,15 @@
           ng-minlength="6"
           ng-maxlength="32" />
           <div class="notification is-danger"
-          ng-show="form.newPassword.$error.minlength && form.newPassword.$touched"
-          ng-class="{ visible:form.newPassword.$error.minlength }">
+          ng-class="{ visible: (form.newPassword.$error.minlength && form.newPassword.$touched) }">
             Invalid minlength (min 6 chars)
           </div>
           <div class="notification is-danger"
-          ng-show="form.newPassword.$error.maxlength"
-          ng-class="{ visible:form.newPassword.$error.maxlength }">
+          ng-class="{ visible: (form.newPassword.$error.maxlength && form.newPassword.$touched) }">
             Invalid minlength (max 32 chars)
           </div>
           <div class="notification is-danger"
-          ng-show="form.newPassword.$error.required && form.newPassword.$touched"
-          ng-class="{ visible:form.newPassword.$error.required }">
+          ng-class="{ visible: (form.newPassword.$error.required && form.newPassword.$touched) }">
             A password is required!
           </div>
         </div>
@@ -43,13 +44,12 @@
           ng-model="vm.user.confirmPassword"
           match="vm.user.newPassword" />
           <div class="notification is-danger"
-          ng-show="form.confirmPassword.$error.match && form.confirmPassword.$touched"
-          ng-class="{ visible:form.confirmPassword.$error.match }">
+          ng-class="{ visible: (form.confirmPassword.$error.match && form.confirmPassword.$touched) }">
             Passwords must match!
           </div>
         </div>
 
-        <div class="server-responses" ng-show="vm.serverResponses.length && vm.submitted"></div>
+        <div class="server-responses" ng-show="vm.serverResponses.length && form.$submitted"></div>
 
         <div class="control">
           <button class="button is-primary" type="submit">Save changes</button>
@@ -60,57 +60,3 @@
   </form>
 
 </section>
-
-
-
-<!-- <div class="container">
-  <div class="row">
-    <div class="col-sm-12">
-      <h1>Change Password</h1>
-    </div>
-    <div class="col-sm-12">
-      <form class="form" name="form" ng-submit="vm.changePassword(form)" novalidate>
-
-        <div class="form-group">
-          <label>Current Password</label>
-
-          <input type="password" name="password" class="form-control" ng-model="vm.user.oldPassword"
-                 mongoose-error/>
-          <p class="help-block" ng-show="form.password.$error.mongoose">
-              {{ vm.errors.other }}
-          </p>
-        </div>
-
-        <div class="form-group">
-          <label>New Password</label>
-
-          <input type="password" name="newPassword" class="form-control" ng-model="vm.user.newPassword"
-                 ng-minlength="3"
-                 required/>
-          <p class="help-block"
-             ng-show="(form.newPassword.$error.minlength || form.newPassword.$error.required) && (form.newPassword.$dirty || vm.submitted)">
-            Password must be at least 3 characters.
-          </p>
-        </div>
-
-        <div class="form-group">
-          <label>Confirm New Password</label>
-
-          <input type="password" name="confirmPassword" class="form-control" ng-model="vm.user.confirmPassword"
-                 match="vm.user.newPassword"
-                 ng-minlength="3"
-                 required=""/>
-          <p class="help-block"
-             ng-show="form.confirmPassword.$error.match && vm.submitted">
-            Passwords must match.
-          </p>
-
-        </div>
-
-        <p class="help-block"> {{ vm.message }} </p>
-
-        <button class="btn btn-lg btn-primary" type="submit">Save changes</button>
-      </form>
-    </div>
-  </div>
-</div> -->

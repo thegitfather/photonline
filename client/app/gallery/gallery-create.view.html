@@ -1,16 +1,27 @@
 <h1 class="state title">New Gallery</h1>
 
 <section class="gallery-create">
-  <form name="createGalleryForm" class="" ng-submit="createGallery()">
+  <form name="form" class="" ng-submit="vm.createGallery(form)" novalidate>
     <div class="columns">
       <div class="column is-half">
 
         <div class="control">
-          <label class="control-label" for="name">Gallery name</label>
+          <label class="control-label" for="galleryName">Gallery name</label>
           <!-- TODO: add validation -->
-          <input id="name" class="input" name="name" type="text" placeholder="Gallery name" autocomplete="off"
-          ng-model="name"
-          required />
+          <input id="galleryName" class="input" name="galleryName" type="text" placeholder="Gallery name" autocomplete="off"
+            ng-model="vm.galleryName"
+            required />
+          <div class="notification is-danger"
+            ng-class="{ visible: (form.galleryName.$error.required && form.galleryName.$touched) }">
+            Please enter a gallery name.
+          </div>
+        </div>
+
+        <div class="control">
+          <label class="control-label" for="location">Location</label>
+          <!-- TODO: add validation -->
+          <input id="location" class="input" name="location" type="text" placeholder="Location (e.g. Paris)" autocomplete="off"
+            ng-model="vm.location" />
         </div>
 
       </div>
@@ -18,7 +29,7 @@
 
     <!-- TODO: create directive with file list and preview image -->
     <section class="hero">
-      <div class="hero-content file-drop-area" nv-file-drop uploader="uploader">
+      <div class="hero-content file-drop-area" nv-file-drop uploader="vm.uploader">
         <div class="container">
           <h1 class="title">
             Drag & drop images here
@@ -27,30 +38,20 @@
             (or click to select files)
           </h2>
         </div>
-        <input class="" type="file" nv-file-select uploader="uploader" multiple><br>
+        <input class="" type="file" nv-file-select uploader="vm.uploader" multiple><br>
       </div>
     </section>
 
-    <!-- <div class="control">
-      <div nv-file-drop uploader="uploader" class="file-drop-area">
-        <span>Drag & drop images here</span>
-        <input type="file" nv-file-select uploader="uploader" multiple><br>
-      </div>
-    </div> -->
     <div class="control">
       <ul>
-        <li ng-repeat="item in uploader.queue">
+        <li ng-repeat="item in vm.uploader.queue">
           Name: <span ng-bind="item.file.name"></span><br>
         </li>
       </ul>
-      <div>uploader.queue.length: {{uploader.queue.length}}</div>
+      <div>vm.uploader.queue.length: {{vm.uploader.queue.length}}</div>
     </div>
 
-    <div class="form-submitted-errors" ng-show="formError && form.submitted">
-      <div ng-repeat="error in formError" class="notification is-danger">
-        {{error.message}}
-      </div>
-    </div>
+
 
     <div class="control">
       <button type="submit" class="button is-primary">Create</button>

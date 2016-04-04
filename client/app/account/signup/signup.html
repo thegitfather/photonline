@@ -18,28 +18,23 @@
           ng-maxlength="16"
           mongoose-error />
           <div class="notification is-danger"
-          ng-show="form.name.$error.pattern"
-          ng-class="{ visible:form.name.$error.pattern }">
+          ng-class="{ visible: (form.name.$error.pattern && form.name.$touched) }">
             Invalid username pattern (no whitespaces <code>[a-zA-Z0-9_-]</code>)
           </div>
           <div class="notification is-danger"
-          ng-show="form.name.$error.minlength && form.name.$touched"
-          ng-class="{ visible:form.name.$error.minlength }">
+          ng-class="{ visible: (form.name.$error.minlength && form.name.$touched) }">
             Invalid minlength (min 3 chars)
           </div>
           <div class="notification is-danger"
-          ng-show="form.name.$error.maxlength"
-          ng-class="{ visible:form.name.$error.maxlength }">
+          ng-class="{ visible: (form.name.$error.maxlength && form.name.$touched) }">
             Invalid minlength (max 16 chars)
           </div>
           <div class="notification is-danger"
-          ng-show="form.name.$error.required && form.name.$touched"
-          ng-class="{ visible:form.name.$error.required }">
+          ng-class="{ visible: (form.name.$error.required && form.name.$touched) }">
             A username is required!
           </div>
           <div class="notification is-danger"
-          ng-show="form.name.$error.mongoose"
-          ng-class="{ visible:form.name.$error.mongoose }">
+          ng-class="{ visible: (form.name.$error.mongoose && form.$submitted) }">
             {{ vm.errors.name }}
           </div>
         </div>
@@ -50,18 +45,15 @@
           ng-model="vm.user.email"
           mongoose-error />
           <div class="notification is-danger"
-          ng-show="form.email.$error.email && form.email.$touched"
-          ng-class="{ visible:form.email.$error.email }">
+          ng-class="{ visible: (form.email.$error.email && form.email.$touched) }">
             Doesn't look like a valid email.
           </div>
           <div class="notification is-danger"
-          ng-show="form.email.$error.required && form.email.$touched"
-          ng-class="{ visible:form.email.$error.required }">
+          ng-class="{ visible: (form.email.$error.required && form.email.$touched) }">
             An email address is required!
           </div>
           <div class="notification is-danger"
-          ng-show="form.email.$error.mongoose"
-          ng-class="{ visible:form.email.$error.mongoose }">
+          ng-class="{ visible: (form.email.$error.mongoose && form.$submitted) }">
             {{ vm.errors.email }}
           </div>
         </div>
@@ -74,23 +66,19 @@
           ng-maxlength="32"
           mongoose-error />
           <div class="notification is-danger"
-          ng-show="form.password.$error.minlength && form.name.$touched"
-          ng-class="{ visible:form.password.$error.minlength }">
+          ng-class="{ visible: (form.password.$error.minlength && form.password.$touched) }">
             Invalid minlength (min 6 chars)
           </div>
           <div class="notification is-danger"
-          ng-show="form.password.$error.maxlength"
-          ng-class="{ visible:form.password.$error.maxlength }">
+          ng-class="{ visible: (form.password.$error.maxlength && form.password.$touched) }">
             Invalid minlength (max 32 chars)
           </div>
           <div class="notification is-danger"
-          ng-show="form.password.$error.required && form.password.$touched"
-          ng-class="{ visible:form.password.$error.required }">
+          ng-class="{ visible: (form.password.$error.required && form.password.$touched) }">
             A password is required!
           </div>
           <div class="notification is-danger"
-          ng-show="form.password.$error.mongoose"
-          ng-class="{ visible:form.password.$error.mongoose }">
+          ng-class="{ visible: (form.password.$error.mongoose && form.$submitted) }">
             {{ vm.errors.password }}
           </div>
         </div>
@@ -101,8 +89,7 @@
           ng-model="vm.user.confirmPassword"
           match="vm.user.password" />
           <div class="notification is-danger"
-          ng-show="form.confirmPassword.$error.match && form.confirmPassword.$touched"
-          ng-class="{ visible:form.confirmPassword.$error.match }">
+          ng-class="{ visible: (form.confirmPassword.$error.match && form.password.$touched) }">
             Passwords must match!
           </div>
         </div>

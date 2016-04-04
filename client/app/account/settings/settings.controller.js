@@ -2,15 +2,13 @@
 
 class SettingsController {
   constructor(Auth) {
+    this.Auth = Auth;
+
     this.serverResponses = [];
     this.error = {};
-    this.submitted = false;
-
-    this.Auth = Auth;
   }
 
   changePassword(form) {
-    this.submitted = true;
     this.serverResponses = []; // empty array for re-submit
 
     if (form.$valid) {

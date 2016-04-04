@@ -6,7 +6,7 @@ var GallerySchema = new mongoose.Schema(
   {
     name: {
       type: String,
-      default: 'noname_gallery',
+      default: 'no_name',
       trim: true
     },
     user_id: {
@@ -16,7 +16,12 @@ var GallerySchema = new mongoose.Schema(
     photo_ids: [{
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Photo'
-    }]
+    }],
+    location: {
+      type: String,
+      default: 'unknown_location',
+      trim: true
+    }
   },
   // Schema options
   // http://mongoosejs.com/docs/guide.html#timestamps

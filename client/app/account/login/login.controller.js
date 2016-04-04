@@ -14,11 +14,9 @@ class LoginController {
     this.$state = $state;
     this.serverResponses = [];
     this.user = {};
-    this.submitted = false;
   }
 
   login(form) {
-    this.submitted = true;
     this.serverResponses = []; // empty array before (re)submit
 
     if (form.$valid) {

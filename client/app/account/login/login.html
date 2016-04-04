@@ -15,13 +15,11 @@
           <input type="email" name="email" class="input" required
           ng-model="vm.user.email" />
           <div class="notification is-danger"
-          ng-show="form.email.$error.email && form.email.$touched"
-          ng-class="{ visible:form.email.$error.email }">
+          ng-class="{ visible: (form.email.$error.email && form.email.$touched) }">
             Doesn't look like a valid email.
           </div>
           <div class="notification is-danger"
-          ng-show="form.email.$error.required && form.email.$touched"
-          ng-class="{ visible:form.email.$error.required }">
+          ng-class="{ visible: (form.email.$error.required && form.email.$touched) }">
             Please enter your email.
           </div>
         </div>
@@ -31,13 +29,12 @@
           <input type="password" name="password" class="input" required
           ng-model="vm.user.password" />
           <div class="notification is-danger"
-          ng-show="form.password.$error.required && form.password.$touched"
-          ng-class="{ visible:form.password.$error.required }">
+          ng-class="{ visible: (form.password.$error.required && form.password.$touched) }">
             Please enter your password.
           </div>
         </div>
 
-        <div class="server-responses" ng-show="vm.serverResponses.length && vm.submitted"></div>
+        <div class="server-responses" ng-show="vm.serverResponses.length && form.$submitted"></div>
 
         <div class="control">
           <button class="button is-primary" type="submit">Login</button>

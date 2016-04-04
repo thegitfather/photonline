@@ -15,12 +15,9 @@ class SignupController {
 
     this.user = {};
     this.errors = {};
-    this.submitted = false;
   }
 
   register(form) {
-    this.submitted = true;
-
     if (form.$valid) {
       this.Auth.createUser({
         name: this.user.name,

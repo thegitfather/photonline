@@ -24,6 +24,7 @@ angular.module('photoboxApp')
     url: '/create',
     templateUrl: 'app/gallery/gallery-create.view.html',
     controller: 'GalleryCreateController',
+    controllerAs: 'vm',
     authenticate: true
   })
   .state('gallery.show', {
