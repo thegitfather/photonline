@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
+command -v mongo >/dev/null 2>&1 || { echo "please make sure 'mongo' is properly installed. aborting..." >&2; exit 1; }
 
 BASEDIR=$(dirname $0)
 

@@ -1,31 +1,33 @@
 'use strict';
 
 /**
- * Removes server error when user updates input
+ * Display server responses
  */
 angular.module('photoboxApp')
-  .directive('serverResponses', function() {
-    return {
-      restrict: 'C',
-      replace: false,
-      link: function(scope, element, attrs) {
-        // console.log("scope.vm.serverResponses:", scope.vm.serverResponses);
-        element.css('display', 'none');
+.directive('serverResponses', function() {
+  return {
+    restrict: 'C',
+    replace: false,
+    link: function(scope, element, attrs) {
+      // console.log("scope.vm.serverResponses:", scope.vm.serverResponses);
 
-        scope.$watchCollection('vm.serverResponses', function(responses) {
-          element.empty();
+      // TODO: css animation and keep height after submit?
+      element.css('display', 'none');
 
-          responses.forEach(function(curVal) {
-            var msgElement = angular.element("<div class='notification' />");
-            msgElement.text(curVal.message);
-            msgElement.addClass(curVal.classes);
-            element.append(msgElement);
-          });
+      scope.$watchCollection('vm.serverResponses', function(responses) {
+        element.empty();
 
-          if (responses.length > 0) {
-            element.fadeIn();
-          }
+        responses.forEach(function(curVal) {
+          var msgElement = angular.element("<div class='notification' />");
+          msgElement.text(curVal.message);
+          msgElement.addClass(curVal.classes);
+          element.append(msgElement);
         });
-      }
-    };
-  });
+
+        if (responses.length > 0) {
+          element.css("display", "block");
+        }
+      });
+    }
+  };
+});

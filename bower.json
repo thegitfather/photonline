@@ -16,8 +16,8 @@
     "angular-file-upload": "^2.2.0",
     "angular-file-md5": "https://github.com/thegitfather/angular-file-md5.git#0.0.2",
     "SparkMD5": "^2.0.2",
-    "bulma_fork": "*",
-    "jquery": "~2.2.0"
+    "bulma_fork_TODO": "*",
+    "angular-flabel_TODO": "*"
   },
   "devDependencies": {
     "angular-mocks": "~1.5.0"
