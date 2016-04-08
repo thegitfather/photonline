@@ -10,13 +10,13 @@
       <div class="column is-half">
 
         <div class="control">
-          <label>Username</label>
-          <input class="input" type="text" name="name" autocomplete="off" required
+          <input class="input" type="text" name="name" autocomplete="off" placeholder="Username" required
           ng-model="vm.user.name"
           ng-pattern="/^[a-zA-Z0-9_-]*$/"
           ng-minlength="3"
           ng-maxlength="16"
-          mongoose-error />
+          mongoose-error
+          flabel />
           <div class="notification is-danger"
           ng-class="{ visible: (form.name.$error.pattern && form.name.$touched) }">
             Invalid username pattern (no whitespaces <code>[a-zA-Z0-9_-]</code>)
@@ -40,10 +40,10 @@
         </div>
 
         <div class="control">
-          <label>Email</label>
-          <input class="input" type="email" name="email" autocomplete="off" required
+          <input class="input" type="email" name="email" autocomplete="off" placeholder="Email" required
           ng-model="vm.user.email"
-          mongoose-error />
+          mongoose-error
+          flabel />
           <div class="notification is-danger"
           ng-class="{ visible: (form.email.$error.email && form.email.$touched) }">
             Doesn't look like a valid email.
@@ -59,12 +59,12 @@
         </div>
 
         <div class="control">
-          <label>Password</label>
-          <input class="input" type="password" name="password" required
+          <input class="input" type="password" name="password" placeholder="Password" required
           ng-model="vm.user.password"
           ng-minlength="6"
           ng-maxlength="32"
-          mongoose-error />
+          mongoose-error
+          flabel />
           <div class="notification is-danger"
           ng-class="{ visible: (form.password.$error.minlength && form.password.$touched) }">
             Invalid minlength (min 6 chars)
@@ -84,10 +84,10 @@
         </div>
 
         <div class="control">
-          <label>Confirm Password</label>
-          <input class="input" type="password" name="confirmPassword" required
+          <input class="input" type="password" name="confirmPassword" placeholder="Confirm Password" required
           ng-model="vm.user.confirmPassword"
-          match="vm.user.password" />
+          match="vm.user.password"
+          flabel />
           <div class="notification is-danger"
           ng-class="{ visible: (form.confirmPassword.$error.match && form.password.$touched) }">
             Passwords must match!

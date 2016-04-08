@@ -6,11 +6,11 @@
       <div class="column is-half">
 
         <div class="control">
-          <label class="control-label" for="galleryName">Gallery name</label>
           <!-- TODO: add validation -->
           <input id="galleryName" class="input" name="galleryName" type="text" placeholder="Gallery name" autocomplete="off"
             ng-model="vm.galleryName"
-            required />
+            required
+            flabel />
           <div class="notification is-danger"
             ng-class="{ visible: (form.galleryName.$error.required && form.galleryName.$touched) }">
             Please enter a gallery name.
@@ -18,10 +18,10 @@
         </div>
 
         <div class="control">
-          <label class="control-label" for="location">Location</label>
           <!-- TODO: add validation -->
           <input id="location" class="input" name="location" type="text" placeholder="Location (e.g. Paris)" autocomplete="off"
-            ng-model="vm.location" />
+            ng-model="vm.location"
+            flabel="Location" />
         </div>
 
       </div>

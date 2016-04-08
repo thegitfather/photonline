@@ -11,7 +11,8 @@ angular.module('photoboxApp', [
   'ui.router',
   'validation.match',
   'angularFileUpload',
-  'ljungmann.fileMd5'
+  'ljungmann.fileMd5',
+  'thegitfather.flabel'
 ]).config(function($urlRouterProvider, $locationProvider) {
   $urlRouterProvider.otherwise('/');
   $locationProvider.html5Mode(true);
