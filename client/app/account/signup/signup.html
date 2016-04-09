@@ -10,7 +10,7 @@
       <div class="column is-half">
 
         <div class="control">
-          <input class="input" type="text" name="name" autocomplete="off" placeholder="Username" required
+          <input class="input" type="text" name="name" placeholder="Username" required
           ng-model="vm.user.name"
           ng-pattern="/^[a-zA-Z0-9_-]*$/"
           ng-minlength="3"
@@ -40,7 +40,7 @@
         </div>
 
         <div class="control">
-          <input class="input" type="email" name="email" autocomplete="off" placeholder="Email" required
+          <input class="input" type="email" name="email" placeholder="Email" required
           ng-model="vm.user.email"
           mongoose-error
           flabel />

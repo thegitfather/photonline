@@ -7,19 +7,19 @@
 
         <div class="control">
           <!-- TODO: add validation -->
-          <input id="galleryName" class="input" name="galleryName" type="text" placeholder="Gallery name" autocomplete="off"
+          <input id="galleryName" class="input" name="galleryName" type="text" placeholder="Gallery name"
             ng-model="vm.galleryName"
             required
             flabel />
           <div class="notification is-danger"
-            ng-class="{ visible: (form.galleryName.$error.required && form.galleryName.$touched) }">
+            ng-class="{ visible: (form.galleryName.$error.required && (form.galleryName.$touched || form.$submitted)) }">
             Please enter a gallery name.
           </div>
         </div>
 
         <div class="control">
-          <!-- TODO: add validation -->
-          <input id="location" class="input" name="location" type="text" placeholder="Location (e.g. Paris)" autocomplete="off"
+          <!-- TODO: add validation, guess country by IP service? -->
+          <input id="location" class="input" name="location" type="text" placeholder="Location (e.g. Paris)"
             ng-model="vm.location"
             flabel="Location" />
         </div>
@@ -27,19 +27,7 @@
       </div>
 
       <div class="column is-half">
-        <section class="hero">
-          <div class="hero-content file-drop-area" nv-file-drop uploader="vm.uploader">
-            <div class="container">
-              <h1 class="title">
-                Drag & drop images here
-              </h1>
-              <h2 class="subtitle">
-                (or click to select files)
-              </h2>
-            </div>
-            <input class="" type="file" nv-file-select uploader="vm.uploader" multiple><br>
-          </div>
-        </section>
+        <file-drop-area></file-drop-area>
       </div>
 
     </div>
