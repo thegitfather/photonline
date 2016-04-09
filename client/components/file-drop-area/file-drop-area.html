@@ -1,4 +1,8 @@
-<article class="file-drop-area" ng-class="{ invalid: (form.uploaderQueueLength.$invalid && form.$submitted)}" nv-file-drop uploader="vm.uploader">
+<article class="file-drop-area"
+  ng-class="{ invalid: (form.uploaderQueueLength.$invalid && form.$submitted)}"
+  nv-file-drop uploader="vm.uploader"
+  nv-file-over
+  over-class="over-active">
   <div class="text-wrapper">
     <h1 class="title">
       Drag & drop images here

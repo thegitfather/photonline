@@ -21,6 +21,9 @@
   &.invalid {
     border-color: $red;
   }
+  &.over-active {
+    border-color: $green;
+  }
   .text-wrapper {
     margin: 0 auto;
   }
