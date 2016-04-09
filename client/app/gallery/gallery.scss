@@ -10,7 +10,25 @@
 
 
 .file-drop-area {
+  position: relative;
+  display: flex;
+  align-items: center;
+  height: 200px;
+  text-align: center;
   background-color: #eee;
   border: 6px dashed #ccc;
   border-radius: 6px;
+  &.invalid {
+    border-color: $red;
+  }
+  .text-wrapper {
+    margin: 0 auto;
+  }
+  .notification {
+    position: absolute;
+    bottom: -6px;
+    left: -6px;
+    width: 100%;
+    width: calc(100% + 12px);
+  }
 }
