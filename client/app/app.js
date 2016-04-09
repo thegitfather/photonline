@@ -10,7 +10,7 @@ angular.module('photoboxApp', [
   'ngAnimate',
   'ui.router',
   'validation.match',
-  'angularFileUpload',
+  'ngFileUpload',
   'ljungmann.fileMd5',
   'thegitfather.flabel'
 ]).config(function($urlRouterProvider, $locationProvider) {

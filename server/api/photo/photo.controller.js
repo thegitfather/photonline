@@ -93,38 +93,56 @@ export function create(req, res) {
   let dest = './uploads/pool/';
   let filename;
 
-  let storage = multer.diskStorage({
-    // destination: './uploads/'+ req.user.name,
+  // console.log("req:", req);
+
+  var storage = multer.diskStorage({ //multers disk storage settings
     destination: function (req, file, cb) {
-      if (req.body.md5 === "unset") {
-        dest = './uploads/tmp/';
-      }
-      mkdirp.sync(dest);
-      cb(null, dest);
+      console.log("file:", file);
+      cb(null, './uploads/');
     },
     filename: function (req, file, cb) {
-      // console.log("req.body:", req.body);
-      if (req.body.md5 === "unset") {
-        filename = file.originalname;
-      } else {
-        filename = req.body.md5 + ".jpg";
-      }
-      cb(null, filename);
+      var datetimestamp = Date.now();
+      cb(null, file.fieldname + '-' + datetimestamp + '.' + file.originalname.split('.')[file.originalname.split('.').length -1]);
     }
   });
 
-  let upload = multer({
-    storage: storage,
-    limits: {
-      fileSize: sharedConfig.uploadLimits.maxFileSize
-    },
-    fileFilter: function (req, file, cb) {
-      let isJpeg = (/image\/jpeg/i).test(file.mimetype);
-      if (isJpeg) { cb(null, true); }
-      else { cb(new Error("mime is not 'image/jpeg'")); }
-    }
-  //}).array('photos');
-  }).single('photo');
+  var upload = multer({
+    storage: storage
+  }).single('file');
+
+
+  // let storage = multer.diskStorage({
+  //   // destination: './uploads/'+ req.user.name,
+  //   destination: function (req, file, cb) {
+  //     if (req.body.md5 === "unset") {
+  //       dest = './uploads/tmp/';
+  //     }
+  //     mkdirp.sync(dest);
+  //     cb(null, dest);
+  //   },
+  //   filename: function (req, file, cb) {
+  //     // console.log("req.body:", req.body);
+  //     if (req.body.md5 === "unset") {
+  //       filename = file.originalname;
+  //     } else {
+  //       filename = req.body.md5 + ".jpg";
+  //     }
+  //     cb(null, filename);
+  //   }
+  // });
+
+  // let upload = multer({
+  //   storage: storage,
+  //   limits: {
+  //     fileSize: sharedConfig.uploadLimits.maxFileSize
+  //   },
+  //   fileFilter: function (req, file, cb) {
+  //     let isJpeg = (/image\/jpeg/i).test(file.mimetype);
+  //     if (isJpeg) { cb(null, true); }
+  //     else { cb(new Error("mime is not 'image/jpeg'")); }
+  //   }
+  // //}).array('photos');
+  // }).single('photo');
 
   upload(req, res, function (uploadError) {
     if (uploadError) {
@@ -133,44 +151,56 @@ export function create(req, res) {
         message: 'Error occurred while uploading photo'
       });
     } else {
-      photo = new Photo(req.body);
-      photo.path = dest;
-      photo.filename = filename;
-      photo.size = req.file.size;
-
-      // console.log("photo:", photo);
-      // console.log("req.file:", req.file);
-
-      if (photo.position === 0) {
-        fs.stat(dest + filename, function(err, stats) {
-          if (stats !== undefined) {
-            mkdirp.sync("uploads/preview/");
-            sharp(dest + filename)
-            .resize(196, null)
-            .toFile('uploads/preview/gallery_' + photo.gallery_id + '.jpg')
-            .then(info => {
-              // console.log("info:", info);
-            })
-            .catch(err => {
-              console.error("err:", err);
-            });
-          }
-        });
-      }
-
-      // push current photo id to gallery
-      Gallery.findById(photo.gallery_id).exec()
-        .then(function(res) {
-          res.photo_ids.push(photo._id);
-          res.save();
-        });
-
-      // create new photo entry
-      Photo.create(photo)
-        .then(respondWithResult(res, 201))
-        .catch(handleError(res));
+      console.log("foo");
     }
   })
+
+  // upload(req, res, function (uploadError) {
+  //   if (uploadError) {
+  //     console.log("uploadError:", uploadError);
+  //     return res.status(400).send({
+  //       message: 'Error occurred while uploading photo'
+  //     });
+  //   } else {
+  //     photo = new Photo(req.body);
+  //     photo.path = dest;
+  //     photo.filename = filename;
+  //     photo.size = req.file.size;
+  //
+  //     // console.log("photo:", photo);
+  //     // console.log("req.file:", req.file);
+  //
+  //     if (photo.position === 0) {
+  //       fs.stat(dest + filename, function(err, stats) {
+  //         if (stats !== undefined) {
+  //           mkdirp.sync("uploads/preview/");
+  //           sharp(dest + filename)
+  //           .resize(196, null)
+  //           .toFile('uploads/preview/gallery_' + photo.gallery_id + '.jpg')
+  //           .then(info => {
+  //             // console.log("info:", info);
+  //           })
+  //           .catch(err => {
+  //             console.error("err:", err);
+  //           });
+  //         }
+  //       });
+  //     }
+  //
+  //     // push current photo id to gallery
+  //     Gallery.findById(photo.gallery_id).exec()
+  //       .then(function(res) {
+  //         res.photo_ids.push(photo._id);
+  //         res.save();
+  //       });
+  //
+  //     // create new photo entry
+  //     Photo.create(photo)
+  //       .then(respondWithResult(res, 201))
+  //       .catch(handleError(res));
+  //   }
+  // })
+
 }
 
 
