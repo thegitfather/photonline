@@ -1,4 +1,7 @@
-<article class="file-drop-area">
+<article class="file-drop-area" name="fileDropArea"
+  ngf-drop
+  ng-model="vm.files"
+  required>
   <div class="text-wrapper">
     <h1 class="title">
       Drag & drop images here
@@ -7,13 +10,9 @@
       (or click to select files)
     </h2>
   </div>
-
-
-
-  <!-- <input type="file" nv-file-select uploader="vm.uploader" multiple />
-  <input type="number" name="uploaderQueueLength" ng-model="uploaderQueueLength" min="1" />
+  <input type="file" ngf-select ng-model="vm.files" />
   <div class="notification is-danger"
-  ng-class="{ visible: (form.uploaderQueueLength.$invalid && form.$submitted) }">
-    Select at least 1 photo!
-  </div> -->
+    ng-class="{ visible: (form.fileDropArea.$error.required && form.$submitted) }">
+    Please add at least 1 image for upload.
+  </div>
 </article>

@@ -7,7 +7,6 @@ var PhotoSchema = new mongoose.Schema(
     gallery_id : { type: mongoose.Schema.Types.ObjectId, ref: 'Gallery' },
     filename: {
       type: String,
-      default: 'default.jpg',
       trim: true
     },
     path: {
@@ -17,7 +16,6 @@ var PhotoSchema = new mongoose.Schema(
     },
     originalFilename: {
       type: String,
-      default: 'originalFilename.jpg',
       trim: true
     },
     size: {
@@ -26,7 +24,6 @@ var PhotoSchema = new mongoose.Schema(
     },
     md5: {
       type: String,
-      default: 'unset',
       trim: true
     },
     position: {

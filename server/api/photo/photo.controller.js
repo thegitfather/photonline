@@ -92,57 +92,39 @@ export function create(req, res) {
   let photo;
   let dest = './uploads/pool/';
   let filename;
+  let md5 = req.query.md5;
 
-  // console.log("req:", req);
-
-  var storage = multer.diskStorage({ //multers disk storage settings
+  let storage = multer.diskStorage({
+    // destination: './uploads/'+ req.user.name,
     destination: function (req, file, cb) {
-      console.log("file:", file);
-      cb(null, './uploads/');
+      if (md5.length !== 32) {
+        dest = './uploads/tmp/';
+      }
+      mkdirp.sync(dest);
+      cb(null, dest);
     },
     filename: function (req, file, cb) {
-      var datetimestamp = Date.now();
-      cb(null, file.fieldname + '-' + datetimestamp + '.' + file.originalname.split('.')[file.originalname.split('.').length -1]);
+      console.log("file:", file);
+      if (md5.length !== 32) {
+        filename = getRandomHash(16) + ".jpg";
+      } else {
+        filename = md5 + ".jpg";
+      }
+      cb(null, filename);
     }
   });
 
-  var upload = multer({
-    storage: storage
-  }).single('file');
-
-
-  // let storage = multer.diskStorage({
-  //   // destination: './uploads/'+ req.user.name,
-  //   destination: function (req, file, cb) {
-  //     if (req.body.md5 === "unset") {
-  //       dest = './uploads/tmp/';
-  //     }
-  //     mkdirp.sync(dest);
-  //     cb(null, dest);
-  //   },
-  //   filename: function (req, file, cb) {
-  //     // console.log("req.body:", req.body);
-  //     if (req.body.md5 === "unset") {
-  //       filename = file.originalname;
-  //     } else {
-  //       filename = req.body.md5 + ".jpg";
-  //     }
-  //     cb(null, filename);
-  //   }
-  // });
-
-  // let upload = multer({
-  //   storage: storage,
-  //   limits: {
-  //     fileSize: sharedConfig.uploadLimits.maxFileSize
-  //   },
-  //   fileFilter: function (req, file, cb) {
-  //     let isJpeg = (/image\/jpeg/i).test(file.mimetype);
-  //     if (isJpeg) { cb(null, true); }
-  //     else { cb(new Error("mime is not 'image/jpeg'")); }
-  //   }
-  // //}).array('photos');
-  // }).single('photo');
+  let upload = multer({
+    storage: storage,
+    limits: {
+      fileSize: sharedConfig.uploadLimits.maxFileSize
+    },
+    fileFilter: function (req, file, cb) {
+      let isJpeg = (/image\/jpeg/i).test(file.mimetype);
+      if (isJpeg) { cb(null, true); }
+      else { cb(new Error("mime is not 'image/jpeg'")); }
+    }
+  }).single('photo');
 
   upload(req, res, function (uploadError) {
     if (uploadError) {
@@ -151,55 +133,53 @@ export function create(req, res) {
         message: 'Error occurred while uploading photo'
       });
     } else {
-      console.log("foo");
+      photo = new Photo(req.body);
+      photo.path = dest;
+      photo.filename = filename;
+      photo.size = req.file.size;
+
+      console.log("photo:", photo);
+      console.log("req.file:", req.file);
+
+      if (photo.position === 0) {
+        fs.stat(dest + filename, function(err, stats) {
+          if (stats !== undefined) {
+            mkdirp.sync("uploads/preview/");
+            sharp(dest + filename)
+            .resize(196, null)
+            .toFile('uploads/preview/gallery_' + photo.gallery_id + '.jpg')
+            .then(info => {
+              // console.log("info:", info);
+            })
+            .catch(err => {
+              console.error("err:", err);
+            });
+          }
+        });
+      }
+
+      // push current photo id to gallery
+      Gallery.findById(photo.gallery_id).exec()
+        .then(function(res) {
+          res.photo_ids.push(photo._id);
+          res.save();
+        });
+
+      // create new photo entry
+      Photo.create(photo)
+        .then(respondWithResult(res, 201))
+        .catch(handleError(res));
     }
   })
 
-  // upload(req, res, function (uploadError) {
-  //   if (uploadError) {
-  //     console.log("uploadError:", uploadError);
-  //     return res.status(400).send({
-  //       message: 'Error occurred while uploading photo'
-  //     });
-  //   } else {
-  //     photo = new Photo(req.body);
-  //     photo.path = dest;
-  //     photo.filename = filename;
-  //     photo.size = req.file.size;
-  //
-  //     // console.log("photo:", photo);
-  //     // console.log("req.file:", req.file);
-  //
-  //     if (photo.position === 0) {
-  //       fs.stat(dest + filename, function(err, stats) {
-  //         if (stats !== undefined) {
-  //           mkdirp.sync("uploads/preview/");
-  //           sharp(dest + filename)
-  //           .resize(196, null)
-  //           .toFile('uploads/preview/gallery_' + photo.gallery_id + '.jpg')
-  //           .then(info => {
-  //             // console.log("info:", info);
-  //           })
-  //           .catch(err => {
-  //             console.error("err:", err);
-  //           });
-  //         }
-  //       });
-  //     }
-  //
-  //     // push current photo id to gallery
-  //     Gallery.findById(photo.gallery_id).exec()
-  //       .then(function(res) {
-  //         res.photo_ids.push(photo._id);
-  //         res.save();
-  //       });
-  //
-  //     // create new photo entry
-  //     Photo.create(photo)
-  //       .then(respondWithResult(res, 201))
-  //       .catch(handleError(res));
-  //   }
-  // })
+  function getRandomHash(count) {
+    const alphabet = '0123456789abcdefghijklmnopqrstuvwxyz';
+    var result = '', i;
+    for (i = 0; i < count; i++) {
+      result += alphabet.charAt(Math.floor(Math.random() * alphabet.length));
+    }
+    return result;
+  }
 
 }
 

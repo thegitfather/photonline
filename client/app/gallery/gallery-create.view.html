@@ -1,7 +1,7 @@
 <h1 class="state title">New Gallery</h1>
 
 <section class="gallery-create">
-  <form name="form" class="" ng-submit="vm.submit()" novalidate>
+  <form name="form" class="" ng-submit="vm.submit(form)" novalidate>
     <div class="columns">
       <div class="column is-half">
 
@@ -27,35 +27,7 @@
       </div>
 
       <div class="column is-half">
-        <!-- <file-drop-area></file-drop-area> -->
-
-        <article class="file-drop-area">
-          <div class="text-wrapper">
-            <h1 class="title">
-              Drag & drop images here
-            </h1>
-            <h2 class="subtitle">
-              (or click to select files)
-            </h2>
-          </div>
-
-          <!-- <div class="button" ngf-select ng-model="vm.file" name="file" ngf-pattern="'image/*'"
-              ngf-accept="'image/*'" ngf-max-size="20MB">Select</div> -->
-
-          <!-- <input
-            type="file"
-            ngf-select
-            ng-model="vm.file"
-            name="file"
-            ngf-pattern="'image/*'"
-            ngf-accept="'image/*'"
-            /> -->
-
-          <div class="button" ngf-select ng-model="vm.files" ngf-multiple="true">Select</div>
-          <div ngf-drop ng-model="vm.files" class="drop-box">Drop</div>
-
-        </article>
-
+        <file-drop-area></file-drop-area>
 
       </div>
 
@@ -64,12 +36,13 @@
 
     <div class="control">
       <ul>
-        <li ng-repeat="item in vm.uploader.queue">
-          Name: <span ng-bind="item.file.name"></span><br>
-          <div ng-show="vm.uploader.isHTML5" ng-thumb="{ file: item._file, height: 100 }"></div>
+        <li ng-repeat="item in vm.files">
+          Name: <span ng-bind="item.name"></span><br>
+          <img ngf-src="item" />
+          <!-- <div ng-show="vm.uploader.isHTML5" ng-thumb="{ file: item._file, height: 100 }"></div> -->
         </li>
       </ul>
-      <div>vm.uploader.queue.length: {{vm.uploader.queue.length}}</div>
+      <div>vm.files.length: {{vm.files.length}}</div>
     </div>
 
 

@@ -18,10 +18,11 @@
   background-color: #eee;
   border: 6px dashed #ccc;
   border-radius: 6px;
+  cursor: pointer;
   &.invalid {
     border-color: $red;
   }
-  &.over-active {
+  &.dragover {
     border-color: $green;
   }
   .text-wrapper {
