@@ -6,6 +6,7 @@ angular.module('photoboxApp')
     var vm = this;
     var gallery = {};
     var galleryId;
+    var curUpload;
 
     vm.files = [];
 
@@ -19,6 +20,8 @@ angular.module('photoboxApp')
       ngfKeep: "'distinct'"
     });
 
+
+
     $scope.$watchCollection('vm.files', function(newCol, oldCol) {
       // console.log("vm.files.length:", vm.files.length);
       if (vm.files && vm.files.length) {
@@ -26,6 +29,7 @@ angular.module('photoboxApp')
           if (vm.files[i].md5 === undefined) {
             addMd5sum(vm.files[i]);
           }
+          console.log("vm.files[i]:", vm.files[i]);
         }
       }
     });
@@ -33,7 +37,7 @@ angular.module('photoboxApp')
     // vm.formError = [];
 
     vm.upload = function(file) {
-      Upload.upload({
+      curUpload = Upload.upload({
         url: '/api/photo?md5=' + file.md5,
         method: 'POST',
         headers: {
@@ -47,18 +51,19 @@ angular.module('photoboxApp')
           position: file.position,
           originalFilename: file.name
         }
-      }).then(function(resp) {
-        console.log('Success ' + resp.config.data.photo.name + ' uploaded. Response: ' + resp.data);
-      }, function(resp) {
-        console.log('Error status: ' + resp.status);
-      }, function(evt) {
-        var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
-        console.log('progress: ' + progressPercentage + '% ' + evt.config.data.photo.name);
+      }).then(function(res) {
+        console.log("Successfully uploaded %s - res.data:", res.config.data.photo.name, res.data);
+      }, function(res) {
+        console.log('Error status: ' + res.status);
+      }, function(event) {
+        var progressPercentage = parseInt(100.0 * event.loaded / event.total);
+        console.log('progress: ' + progressPercentage + '% ' + event.config.data.photo.name);
       });
     };
 
     vm.submit = function(form) {
-      if (form.$valid && vm.files && vm.files.length) {
+      console.log("form:", form);
+      if (form.$valid) {
         gallery.name = vm.galleryName;
         gallery.location = vm.location;
 
@@ -68,9 +73,15 @@ angular.module('photoboxApp')
           for (var i = 0; i < vm.files.length; i++) {
             vm.files[i].position = i;
             vm.upload(vm.files[i]);
-          }
 
-          $state.go("gallery.show", { id: galleryId });
+            // change state when last upload promise is fulfilled
+            if (i === vm.files.length-1) {
+              curUpload.then(function(result) {
+                // console.info("all uploaded");
+                $state.go("gallery.show", { id: galleryId });
+              });
+            }
+          }
 
         }, errorMsg => {
           // TODO: display error msg in scope
