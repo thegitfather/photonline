@@ -1,6 +1,4 @@
-<article class="upload-list" ng-show="vm.files.length" ng-class="{visible: vm.files.length}" ng-cloak>
-  <h2 class="title is-2">Upload List</h2>
-
+<article class="upload-list" files="vm.files" invalid-files="vm.invalidFiles" foo-bar="vm.foobar(val)">
   <div class="pseudo-table">
     <div class="row head">
       <div class="cell name">Filename</div>
@@ -10,7 +8,7 @@
       <div class="cell preview-thumb">Preview</div>
       <div class="cell actions">Actions</div>
     </div>
-    <div class="row" ng-repeat="file in vm.files">
+    <div class="row" ng-repeat="file in files track by $index">
       <div class="cell name">
         {{file.name}}
       </div>
@@ -27,7 +25,7 @@
         <img ngf-src="file" />
       </div>
       <div class="cell actions">
-        <a href="#" class="remove"><i class="fa fa-trash-o"></i></a>
+        <a href="#" class="remove" ng-click="removeFile($index)"><i class="fa fa-trash-o"></i></a>
       </div>
     </div>
   </div>

@@ -11,7 +11,6 @@ angular.module('photoboxApp')
         $fileInput.css("display", "none");
 
         $element.on("click", function(e) {
-          console.log("$fileInput:", $fileInput);
           $fileInput[0].click();
         });
       }
