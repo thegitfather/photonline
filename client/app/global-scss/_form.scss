@@ -4,7 +4,7 @@ form {
     padding: 0 $default-gap-bottom;
     max-height: 0;
     opacity: 0;
-    transition: all 500ms ease-in-out;
+    transition: all $animation-speed ease-in-out;
 
     &.visible {
       padding: 0.5em $default-gap-bottom;

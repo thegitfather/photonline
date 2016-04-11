@@ -62,7 +62,7 @@ angular.module('photoboxApp')
     };
 
     vm.submit = function(form) {
-      console.log("form:", form);
+      // console.log("form:", form);
       if (form.$valid) {
         gallery.name = vm.galleryName;
         gallery.location = vm.location;

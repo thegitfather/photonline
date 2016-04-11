@@ -1,4 +1,4 @@
-<h1 class="state title">New Gallery</h1>
+<h1 class="state title is-1">New Gallery</h1>
 
 <section class="gallery-create">
   <form name="form" class="" ng-submit="vm.submit(form)" novalidate>
@@ -28,23 +28,15 @@
 
       <div class="column is-half">
         <file-drop-area></file-drop-area>
-
       </div>
 
     </div>
 
-
-    <div class="control">
-      <ul>
-        <li ng-repeat="item in vm.files">
-          Name: <span ng-bind="item.name"></span><br>
-          <img ngf-src="item" />
-          <!-- <div ng-show="vm.uploader.isHTML5" ng-thumb="{ file: item._file, height: 100 }"></div> -->
-        </li>
-      </ul>
+    <div class="columns">
+      <div class="column is-fullwidth">
+        <upload-list></upload-list>
+      </div>
     </div>
-
-
 
     <div class="control">
       <button type="submit" class="button is-primary" ng-class="{ 'is-disabled': (form.$invalid && form.$submitted)}">Create</button>

@@ -1,9 +1,5 @@
 'use strict';
 
-/**
- * Display server responses
- */
-
 angular.module('photoboxApp')
   .directive('fileDropArea', function() {
     return {
