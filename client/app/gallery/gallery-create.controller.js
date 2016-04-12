@@ -7,6 +7,7 @@ angular.module('photoboxApp')
     var gallery = {};
     var galleryId;
 
+    vm.Upload = Upload;
     vm.files = [];
     vm.invalidFiles = [];
 
@@ -21,6 +22,7 @@ angular.module('photoboxApp')
     });
 
     $scope.$watchCollection('vm.files', function(newVal, oldVal) {
+      console.log("watchCollection()");
       if (window.FileReader && window.FileReader.prototype.readAsArrayBuffer) {
         var md5Promises = [];
         var diffArr = _.difference(newVal, oldVal);
@@ -82,7 +84,8 @@ angular.module('photoboxApp')
           originalFilename: file.name
         }
       }).then(function(res) {
-        console.log("Successfully uploaded %s - res.data:", res.config.data.photo.name, res.data);
+        console.log("Successfully uploaded %s");
+        // console.log("res.data:", res.data);
       }, function(res) {
         console.log('Error status: ' + res.status);
       }, function(event) {
@@ -97,6 +100,7 @@ angular.module('photoboxApp')
       var uploadPromises = [];
 
       if (vm.files.length > 0) {
+        // if files in queue set pattern to valid so the form is valid
         form.fileDropArea.$setValidity("pattern", true);
       }
       if (form.$valid) {
@@ -116,9 +120,9 @@ angular.module('photoboxApp')
             $state.go("gallery.show", { id: galleryId });
           });
 
-        }, errorMsg => {
+        }, function(errorMsg) {
           // TODO: display error msg in scope
-          console.log("errorMsg:", errorMsg);
+          console.error("errorMsg:", errorMsg);
         });
       }
     };
@@ -131,7 +135,6 @@ angular.module('photoboxApp')
       .error(function(error) {
         console.error('Error calculating md5: %o', error);
       }).success(function(md5sum) {
-        // item.formData.push({ originalFilename: item._file.name });
         console.log("md5sum:", md5sum);
         file.md5 = md5sum;
         // TODO: check if md5 is in database here
@@ -139,8 +142,8 @@ angular.module('photoboxApp')
       return md5sum; // promise
     }
 
-    vm.foobar = function(val) {
-      console.log("foobar()!!! " + val.anotherVal);
-    };
+    vm.abortAll = function() {
+
+    }
 
   }]);

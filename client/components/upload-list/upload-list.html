@@ -1,4 +1,4 @@
-<article class="upload-list" files="vm.files" invalid-files="vm.invalidFiles" foo-bar="vm.foobar(val)">
+<article class="upload-list" upload="vm.Upload" files="vm.files" invalid-files="vm.invalidFiles">
   <div class="pseudo-table">
     <div class="row head">
       <div class="cell name">Filename</div>
@@ -34,7 +34,11 @@
         <img ngf-thumbnail="!file.$error && file" ngf-size="{width: 80, quality: 0.9}"/>
       </div>
       <div class="cell actions">
-        <a href="#" class="remove" ng-click="removeFile($index)"><i class="fa fa-trash-o"></i></a>
+        <a href="#" class="remove"
+          ng-click="removeFile($index)"
+          ng-hide="upload.isUploadInProgress()">
+          <i class="fa fa-trash-o"></i>
+        </a>
       </div>
     </div>
   </div>

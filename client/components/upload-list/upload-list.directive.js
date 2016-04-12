@@ -7,12 +7,15 @@ angular.module('photoboxApp')
       templateUrl: 'components/upload-list/upload-list.html',
       replace: true,
       scope: {
+        'upload': '=',
         'files': '=',
-        'invalidFiles': '=',
-        'myFunc': '&fooBar',
-        'fooBar': '&'
+        'invalidFiles': '='
       },
       link: function(scope, $element, attrs) {
+
+        scope.$watch('upload', function(newValue, oldValue) {
+          console.log("newValue:", newValue);
+        });
 
         // var testObj = {someVal: "blubXXX", anotherVal: "blubYYY"};
         // console.log("scope.myFunc:", scope.myFunc);
