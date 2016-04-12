@@ -6,7 +6,6 @@ angular.module('photoboxApp')
     var vm = this;
     var gallery = {};
     var galleryId;
-    var curUpload;
 
     vm.files = [];
     vm.invalidFiles = [];
@@ -67,7 +66,7 @@ angular.module('photoboxApp')
     // vm.formError = [];
 
     var upload = function(file) {
-      curUpload = Upload.upload({
+      return Upload.upload({
         url: '/api/photo?md5=' + file.md5,
         method: 'POST',
         headers: {
@@ -92,7 +91,9 @@ angular.module('photoboxApp')
     };
 
     vm.submit = function(form) {
-      console.log("form:", form);
+      // console.log("form:", form);
+      var uploadPromises = [];
+
       if (vm.files.length > 0) {
         form.fileDropArea.$setValidity("pattern", true);
       }
@@ -105,15 +106,12 @@ angular.module('photoboxApp')
 
           for (var i = 0; i < vm.files.length; i++) {
             vm.files[i].position = i;
-            upload(vm.files[i]);
+            uploadPromises.push(upload(vm.files[i]));
 
             // change state when last upload promise is fulfilled
-            if (i === vm.files.length-1) {
-              curUpload.then(function(result) {
-                // console.info("all uploaded");
-                $state.go("gallery.show", { id: galleryId });
-              });
-            }
+            Promise.all(uploadPromises).then(function(values) {
+              $state.go("gallery.show", { id: galleryId });
+            });
           }
 
         }, errorMsg => {
@@ -123,7 +121,7 @@ angular.module('photoboxApp')
       }
     };
 
-    var getMd5sum = function(file) {
+    function getMd5sum(file) {
       var md5sum = fileMd5Service.md5(file); // returns promise
       md5sum.progress(function(stats) {
         console.info('Hashed ' + stats.loaded + ' B out of ' + stats.total + ' B');
@@ -141,6 +139,6 @@ angular.module('photoboxApp')
 
     vm.foobar = function(val) {
       console.log("foobar()!!! " + val.anotherVal);
-    }
+    };
 
   }]);
