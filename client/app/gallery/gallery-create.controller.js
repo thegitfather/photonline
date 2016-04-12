@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('photoboxApp')
-  .controller('GalleryCreateController', ['$scope', '$state', 'Upload', '$cookies', '$http', 'appConfig', 'fileMd5Service', '_',
-  function ($scope, $state, Upload, $cookies, $http, appConfig, fileMd5Service, _) {
+  .controller('GalleryCreateController', ['$scope', '$state', 'Upload', '$cookies', '$http', '$q', 'appConfig', 'fileMd5Service', '_',
+  function ($scope, $state, Upload, $cookies, $http, $q, appConfig, fileMd5Service, _) {
     var vm = this;
     var gallery = {};
     var galleryId;
@@ -24,13 +24,14 @@ angular.module('photoboxApp')
       if (window.FileReader && window.FileReader.prototype.readAsArrayBuffer) {
         var md5Promises = [];
         var diffArr = _.difference(newVal, oldVal);
-        console.log("diffArr:", diffArr);
+
         for (var i = 0; i < diffArr.length; i++) {
           if (diffArr[i].md5 === undefined) {
             md5Promises.push(getMd5sum(diffArr[i]));
           }
         }
-        Promise.all(md5Promises).then(function(values) {
+
+        $q.all(md5Promises).then(function(values) {
           var md5Arr = [];
           md5Arr = _.union(values, md5Arr);
           removeDuplicates(md5Arr);
@@ -86,7 +87,8 @@ angular.module('photoboxApp')
         console.log('Error status: ' + res.status);
       }, function(event) {
         var progressPercentage = parseInt(100.0 * event.loaded / event.total);
-        console.log('progress: ' + progressPercentage + '% ' + event.config.data.photo.name);
+        // console.log('progress: ' + progressPercentage + '% ' + event.config.data.photo.name);
+        file.progress = progressPercentage;
       });
     };
 
@@ -107,12 +109,12 @@ angular.module('photoboxApp')
           for (var i = 0; i < vm.files.length; i++) {
             vm.files[i].position = i;
             uploadPromises.push(upload(vm.files[i]));
-
-            // change state when last upload promise is fulfilled
-            Promise.all(uploadPromises).then(function(values) {
-              $state.go("gallery.show", { id: galleryId });
-            });
           }
+
+          // change state when all upload promise are fulfilled
+          $q.all(uploadPromises).then(function(values) {
+            $state.go("gallery.show", { id: galleryId });
+          });
 
         }, errorMsg => {
           // TODO: display error msg in scope
