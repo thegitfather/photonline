@@ -17,12 +17,6 @@ angular.module('photoboxApp')
           console.log("newValue:", newValue);
         });
 
-        // var testObj = {someVal: "blubXXX", anotherVal: "blubYYY"};
-        // console.log("scope.myFunc:", scope.myFunc);
-        // scope.myFunc({val: testObj});
-        // scope.fooBar({val: testObj});
-
-
         // TODO: add to global helper functions?
         scope.convertBytesToKB = function(value) {
           return Math.floor(value / 1024);

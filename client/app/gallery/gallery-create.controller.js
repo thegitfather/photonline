@@ -8,7 +8,7 @@ angular.module('photoboxApp')
     var galleryId;
 
     vm.Upload = Upload;
-    vm.files = [];
+    $scope.files = [];
     vm.invalidFiles = [];
 
     Upload.setDefaults({
@@ -21,7 +21,7 @@ angular.module('photoboxApp')
       ngfKeep: "'distinct'"
     });
 
-    $scope.$watchCollection('vm.files', function(newVal, oldVal) {
+    $scope.$watchCollection('files', function(newVal, oldVal) {
       console.log("watchCollection()");
       if (window.FileReader && window.FileReader.prototype.readAsArrayBuffer) {
         var md5Promises = [];
@@ -43,19 +43,19 @@ angular.module('photoboxApp')
         console.info('The FileReader readAsArrayBuffer API is not supported');
         // TODO: calc md5 on server, update db and move to /uploads/pool
       }
-      // console.log("vm.files:", vm.files);
+      console.log("$scope.files:", $scope.files);
     });
 
     var removeDuplicates = function(uniqueMd5Arr) {
       var foundDup, i, j;
       for (i = 0; i < uniqueMd5Arr.length; i++) {
         foundDup = false;
-        for (j = 0; j < vm.files.length; j++) {
-          if (foundDup && vm.files[j].md5 === uniqueMd5Arr[i]) {
-            vm.files.splice(j, 1);
+        for (j = 0; j < $scope.files.length; j++) {
+          if (foundDup && $scope.files[j].md5 === uniqueMd5Arr[i]) {
+            $scope.files.splice(j, 1);
             j--;
           }
-          if (vm.files[j].md5 === uniqueMd5Arr[i]) {
+          if ($scope.files[j].md5 === uniqueMd5Arr[i]) {
             foundDup = true;
           }
         }
@@ -99,7 +99,7 @@ angular.module('photoboxApp')
       // console.log("form:", form);
       var uploadPromises = [];
 
-      if (vm.files.length > 0) {
+      if ($scope.files.length > 0) {
         // if files in queue set pattern to valid so the form is valid
         form.fileDropArea.$setValidity("pattern", true);
       }
@@ -110,9 +110,9 @@ angular.module('photoboxApp')
         $http.post("/api/gallery", gallery).then(response => {
           galleryId = response.data._id;
 
-          for (var i = 0; i < vm.files.length; i++) {
-            vm.files[i].position = i;
-            uploadPromises.push(upload(vm.files[i]));
+          for (var i = 0; i < $scope.files.length; i++) {
+            $scope.files[i].position = i;
+            uploadPromises.push(upload($scope.files[i]));
           }
 
           // change state when all upload promise are fulfilled
