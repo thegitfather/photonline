@@ -162,20 +162,7 @@ export function create(req, res) {
         photo.filename = filename;
 
         if (photo.position === 0) {
-          fs.stat(dest + filename, function(err, stats) {
-            if (stats !== undefined) {
-              mkdirp.sync("uploads/preview/");
-              sharp(dest + filename)
-              .resize(196, null)
-              .toFile('uploads/preview/gallery_' + photo.gallery_id + '.jpg')
-              .then(info => {
-                // console.log("info:", info);
-              })
-              .catch(err => {
-                console.error("err:", err);
-              });
-            }
-          });
+          createPreviewImage(photo.gallery_id);
         }
 
         // push current photo id to gallery
@@ -198,23 +185,8 @@ export function create(req, res) {
     clientPhotoData.path = dest;
     clientPhotoData.filename = md5 + ".jpg";
 
-    // TODO:
     if (clientPhotoData.position === 0) {
-      fs.stat(dest + filename, function(err, stats) {
-        // if it doesnt exist already (remove so update will overwrite?)
-        if (stats !== undefined) {
-          mkdirp.sync("uploads/preview/");
-          sharp(dest + filename)
-          .resize(196, null)
-          .toFile('uploads/preview/gallery_' + clientPhotoData.gallery_id + '.jpg')
-          .then(info => {
-            // console.log("info:", info);
-          })
-          .catch(err => {
-            console.error("err:", err);
-          });
-        }
-      });
+      createPreviewImage(clientPhotoData.gallery_id);
     }
 
     // push current photo id to gallery
@@ -231,7 +203,22 @@ export function create(req, res) {
 
   }
 
-
+  function createPreviewImage(galleryId) {
+    fs.stat(dest + filename, function(err, stats) {
+      if (stats !== undefined) {
+        mkdirp.sync("uploads/preview/");
+        sharp(dest + filename)
+        .resize(196, null)
+        .toFile('uploads/preview/gallery_' + galleryId + '.jpg')
+        .then(info => {
+          // console.log("info:", info);
+        })
+        .catch(err => {
+          console.error("err:", err);
+        });
+      }
+    });
+  }
 
   function getRandomHash(count) {
     const alphabet = '0123456789abcdefghijklmnopqrstuvwxyz';
