@@ -81,6 +81,20 @@ export function show(req, res) {
     .catch(handleError(res));
 }
 
+export function check(req, res) {
+  console.log("check() - req.params.checksum:", req.params.checksum);
+  Photo.findOne({ md5: req.params.checksum }).exec().then(data => {
+    // console.log("data:", data);
+    if (data) {
+      console.log("fileAlreadyExists: true");
+      res.send({fileAlreadyExists: true}).end();
+    } else {
+      console.log("fileAlreadyExists: false");
+      res.send({fileAlreadyExists: false}).end();
+    }
+  }).catch(handleError(res));
+}
+
 // Creates a new Photo in the DB
 // export function create(req, res) {
 //   return Photo.create(req.body)
@@ -89,88 +103,135 @@ export function show(req, res) {
 // }
 
 export function create(req, res) {
+  const dest = './uploads/pool/';
+
   let photo;
-  let dest = './uploads/pool/';
-  let filename;
-  let md5 = req.query.md5;
+  let md5 = req.params.checksum;
+  let filename = md5 + ".jpg";
 
-  let storage = multer.diskStorage({
-    // destination: './uploads/'+ req.user.name,
-    destination: function (req, file, cb) {
-      if (md5.length !== 32) {
-        dest = './uploads/tmp/';
-      }
-      mkdirp.sync(dest);
-      cb(null, dest);
-    },
-    filename: function (req, file, cb) {
-      console.log("file:", file);
-      if (md5.length !== 32) {
-        filename = getRandomHash(16) + ".jpg";
-      } else {
-        filename = md5 + ".jpg";
-      }
-      cb(null, filename);
-    }
-  });
-
-  let upload = multer({
-    storage: storage,
-    limits: {
-      fileSize: sharedConfig.uploadLimits.maxFileSize
-    },
-    fileFilter: function (req, file, cb) {
-      let isJpeg = (/image\/jpeg/i).test(file.mimetype);
-      if (isJpeg) { cb(null, true); }
-      else { cb(new Error("mime is not 'image/jpeg'")); }
-    }
-  }).single('photo');
-
-  upload(req, res, function (uploadError) {
-    if (uploadError) {
-      console.log("uploadError:", uploadError);
-      return res.status(400).send({
-        message: 'Error occurred while uploading photo'
-      });
+  // prevent upload if md5 already in db
+  Photo.findOne({ md5: md5 }).exec().then(existingPhoto => {
+    // console.log("data:", data);
+    if (existingPhoto) {
+      console.log("serverCheck fileAlreadyExists: true (gonna skip upload...)");
+      skipUpload(existingPhoto);
     } else {
-      photo = new Photo(req.body);
-      photo.path = dest;
-      photo.filename = filename;
-      photo.size = req.file.size;
-
-      console.log("photo:", photo);
-      console.log("req.file:", req.file);
-
-      if (photo.position === 0) {
-        fs.stat(dest + filename, function(err, stats) {
-          if (stats !== undefined) {
-            mkdirp.sync("uploads/preview/");
-            sharp(dest + filename)
-            .resize(196, null)
-            .toFile('uploads/preview/gallery_' + photo.gallery_id + '.jpg')
-            .then(info => {
-              // console.log("info:", info);
-            })
-            .catch(err => {
-              console.error("err:", err);
-            });
-          }
-        });
-      }
-
-      // push current photo id to gallery
-      Gallery.findById(photo.gallery_id).exec()
-        .then(function(res) {
-          res.photo_ids.push(photo._id);
-          res.save();
-        });
-
-      // create new photo entry
-      Photo.create(photo)
-        .then(respondWithResult(res, 201))
-        .catch(handleError(res));
+      console.log("serverCheck fileAlreadyExists: false (gonna upload...)");
+      upload();
     }
-  })
+  }).catch(handleError(res));
+
+  function upload() {
+    let storage = multer.diskStorage({
+      // destination: './uploads/'+ req.user.name,
+      destination: function (req, file, cb) {
+        mkdirp.sync(dest);
+        cb(null, dest);
+      },
+      filename: function (req, file, cb) {
+        // console.log("file:", file);
+        // TODO: server side md5 generation / db update (cron job?)
+        if (md5.length !== 32) {
+          filename = getRandomHash(16) + ".jpg";
+        }
+        cb(null, filename);
+      }
+    });
+
+    let multerUpload = multer({
+      storage: storage,
+      limits: {
+        fileSize: sharedConfig.uploadLimits.maxFileSize
+      },
+      fileFilter: function (req, file, cb) {
+        let isJpeg = (/image\/jpeg/i).test(file.mimetype);
+        if (isJpeg) { cb(null, true); }
+        else { cb(new Error("mime is not 'image/jpeg'")); }
+      }
+    }).single('photo');
+
+    multerUpload(req, res, function (uploadError) {
+      if (uploadError) {
+        console.log("uploadError:", uploadError);
+        return res.status(400).send({
+          message: 'Error occurred while uploading photo'
+        });
+      } else {
+        photo = new Photo(req.body);
+        photo.path = dest;
+        photo.filename = filename;
+
+        if (photo.position === 0) {
+          fs.stat(dest + filename, function(err, stats) {
+            if (stats !== undefined) {
+              mkdirp.sync("uploads/preview/");
+              sharp(dest + filename)
+              .resize(196, null)
+              .toFile('uploads/preview/gallery_' + photo.gallery_id + '.jpg')
+              .then(info => {
+                // console.log("info:", info);
+              })
+              .catch(err => {
+                console.error("err:", err);
+              });
+            }
+          });
+        }
+
+        // push current photo id to gallery
+        Gallery.findById(photo.gallery_id).exec()
+          .then(function(res) {
+            res.photo_ids.push(photo._id);
+            res.save();
+          });
+
+        // create new photo entry
+        Photo.create(photo)
+          .then(respondWithResult(res, 201))
+          .catch(handleError(res));
+      }
+    })
+  }
+
+  function skipUpload(existingPhoto) {
+    let clientPhotoData = new Photo(req.body);
+    clientPhotoData.path = dest;
+    clientPhotoData.filename = md5 + ".jpg";
+
+    // TODO:
+    if (clientPhotoData.position === 0) {
+      fs.stat(dest + filename, function(err, stats) {
+        // if it doesnt exist already (remove so update will overwrite?)
+        if (stats !== undefined) {
+          mkdirp.sync("uploads/preview/");
+          sharp(dest + filename)
+          .resize(196, null)
+          .toFile('uploads/preview/gallery_' + clientPhotoData.gallery_id + '.jpg')
+          .then(info => {
+            // console.log("info:", info);
+          })
+          .catch(err => {
+            console.error("err:", err);
+          });
+        }
+      });
+    }
+
+    // push current photo id to gallery
+    Gallery.findById(clientPhotoData.gallery_id).exec()
+      .then(function(res) {
+        res.photo_ids.push(clientPhotoData._id);
+        res.save();
+      });
+
+    // create new photo entry in DB
+    Photo.create(clientPhotoData)
+      .then(respondWithResult(res, 201))
+      .catch(handleError(res));
+
+  }
+
+
 
   function getRandomHash(count) {
     const alphabet = '0123456789abcdefghijklmnopqrstuvwxyz';
@@ -182,9 +243,6 @@ export function create(req, res) {
   }
 
 }
-
-
-
 
 // Updates an existing Photo in the DB
 export function update(req, res) {

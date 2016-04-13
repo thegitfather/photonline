@@ -37,20 +37,21 @@ angular.module('photoboxApp')
           var md5Arr = [];
           md5Arr = _.union(values, md5Arr);
           removeDuplicates(md5Arr);
+          markServerDuplicates();
         });
       }
       else {
         console.info('The FileReader readAsArrayBuffer API is not supported');
-        // TODO: calc md5 on server, update db and move to /uploads/pool
       }
       console.log("$scope.files:", $scope.files);
     });
 
-    var removeDuplicates = function(uniqueMd5Arr) {
+    function removeDuplicates(uniqueMd5Arr) {
       var foundDup, i, j;
       for (i = 0; i < uniqueMd5Arr.length; i++) {
         foundDup = false;
         for (j = 0; j < $scope.files.length; j++) {
+          // first occurrance is ok
           if (foundDup && $scope.files[j].md5 === uniqueMd5Arr[i]) {
             $scope.files.splice(j, 1);
             j--;
@@ -60,39 +61,85 @@ angular.module('photoboxApp')
           }
         }
       }
-    };
+    }
 
-    var markServerDuplicates = function(serverMd5Arr) {
-      // TODO:
-    };
+    function markServerDuplicates() {
+      var i;
+      for (i = 0; i < $scope.files.length; i++) {
+        if ($scope.files[i].md5 !== undefined) {
+          markFile($scope.files[i]);
+        }
+      }
+
+      function markFile(file) {
+        $http({
+          method: 'GET',
+          url: '/api/photo/check/' + file.md5
+        }).then(function(res) {
+          // console.log("res.data.fileAlreadyExists:", res.data.fileAlreadyExists);
+          console.log("file:", file);
+          if (res.data.fileAlreadyExists) {
+            file.fileAlreadyExists = true;
+          } else {
+            file.fileAlreadyExists = false;
+          }
+        });
+      }
+    }
 
     // vm.formError = [];
 
     var upload = function(file) {
-      return Upload.upload({
-        url: '/api/photo?md5=' + file.md5,
-        method: 'POST',
-        headers: {
-          'Content-Type': 'multipart/form-data'
-        },
-        data: {
-          // photo: Upload.rename(file, file.md5 + '.jpg'),
+      if (!file.fileAlreadyExists) {
+        return Upload.upload({
+          url: '/api/photo/' + file.md5,
+          method: 'POST',
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          },
+          data: {
+            // photo: Upload.rename(file, file.md5 + '.jpg'),
+            photo: file,
+            md5: file.md5,
+            gallery_id: galleryId,
+            position: file.position,
+            originalFilename: file.name,
+            size: file.size
+          }
+        }).then(function(res) {
+          console.log("Successfully uploaded", file.name);
+          // console.log("res.data:", res.data);
+        }, function(res) {
+          console.log('Error status: ' + res.status);
+        }, function(event) {
+          var progressPercentage = parseInt(100.0 * event.loaded / event.total);
+          // console.log('progress: ' + progressPercentage + '% ' + event.config.data.photo.name);
+          file.progress = progressPercentage;
+        });
+      }
+
+      if (file.fileAlreadyExists) {
+        var data = {
           photo: file,
           md5: file.md5,
           gallery_id: galleryId,
           position: file.position,
-          originalFilename: file.name
-        }
-      }).then(function(res) {
-        console.log("Successfully uploaded %s");
-        // console.log("res.data:", res.data);
-      }, function(res) {
-        console.log('Error status: ' + res.status);
-      }, function(event) {
-        var progressPercentage = parseInt(100.0 * event.loaded / event.total);
-        // console.log('progress: ' + progressPercentage + '% ' + event.config.data.photo.name);
-        file.progress = progressPercentage;
-      });
+          originalFilename: file.name,
+          size: file.size
+        };
+        $http({
+          method: 'POST',
+          url: '/api/photo/' + file.md5,
+          data: data
+        }).then(function(res) {
+          console.log("res:", res);
+        });
+
+        // $http.post("/api/photo", data).then(response => {
+        //   console.log("response:", response);
+        // });
+      }
+
     };
 
     vm.submit = function(form) {

@@ -23,6 +23,9 @@
           <span class="bar" style="width:{{file.progress}}%"></span>
           <span class="percentage-text" ng-bind="file.progress + ' %'" ng-show="file.progress > 0"></span>
         </div>
+        <div>
+          {{file.fileAlreadyExists}}
+        </div>
 
         <!-- <span class="progress" ng-show="picFile.progress >= 0">
             <div style="width:{{picFile.progress}}%" ng-bind="picFile.progress + '%'"></div>
