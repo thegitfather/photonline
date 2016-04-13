@@ -6,7 +6,7 @@
       <div class="cell size">Size</div>
       <div class="cell upload-progress">Upload progress</div>
       <div class="cell preview-thumb">Preview</div>
-      <div class="cell actions">Actions</div>
+      <div class="cell actions"></div>
     </div>
     <div class="row" ng-repeat="file in files track by $index">
       <div class="cell name">
@@ -19,12 +19,16 @@
         {{convertBytesToKB(file.size)}} KB
       </div>
       <div class="cell upload-progress">
-        <div class="progress-bar" ng-class="{ 'in-progress': (file.progress >= 0 && file.progress < 100), 'finished': file.progress == 100 }">
+        <div class="progress-bar"
+          ng-hide="file.fileAlreadyExists"
+          ng-class="{ 'in-progress': (file.progress >= 0 && file.progress < 100), 'finished': file.progress == 100 }">
           <span class="bar" style="width:{{file.progress}}%"></span>
           <span class="percentage-text" ng-bind="file.progress + ' %'" ng-show="file.progress > 0"></span>
         </div>
-        <div>
-          {{file.fileAlreadyExists}}
+        <div class="md5-found-on-server" ng-show="file.fileAlreadyExists">
+          skip<br>
+          <small>( <abbr title="{{ file.md5 }}">md5</abbr> found on server )</small>
+
         </div>
 
         <!-- <span class="progress" ng-show="picFile.progress >= 0">
@@ -33,7 +37,6 @@
 
       </div>
       <div class="cell preview-thumb">
-        <!-- <img ngf-src="file" /> -->
         <img ngf-thumbnail="!file.$error && file" ngf-size="{width: 80, quality: 0.9}"/>
       </div>
       <div class="cell actions">

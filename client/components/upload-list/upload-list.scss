@@ -1,15 +1,30 @@
 .upload-list {
-  .cell.preview-thumb {
-    width: 100px;
-    max-height: 100px;
-    img { display: block; }
+  .cell {
+    &.preview-thumb {
+      width: 100px;
+      max-height: 100px;
+      text-align: center;
+      img {
+        display: block;
+        padding: 1px;
+        background: #fff;
+        box-shadow: 0 0 4px rgba(0, 0, 0, 0.8);
+      }
+    }
+    &.upload-progress {
+      width: 150px;
+      text-align: center;
+    }
+    &.actions {
+      width: 50px;
+    }
   }
+
   .progress-bar {
     position: relative;
     height: 17px;
-    border: 1px solid black;
+    border: 1px solid $grey-dark;
     text-align: center;
-    max-width: 100px;
     background-color: $grey-lighter;
     .bar {
       position: absolute;
@@ -32,6 +47,13 @@
       .percentage-text { color: #fff; }
     }
   }
+
+  .md5-found-on-server {
+    abbr {
+      font-family: monospace;
+    }
+  }
+
 }
 
 .pseudo-table {
