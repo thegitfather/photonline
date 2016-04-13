@@ -176,6 +176,8 @@ angular.module('photoboxApp')
 
           // change state when all upload promise are fulfilled
           $q.all(uploadPromises).then(function(values) {
+            // TODO: DB is not ready yet when all photos in list already on server
+            // (some image are missing... -> F5)
             $state.go("gallery.show", { id: galleryId });
           });
 
