@@ -8,12 +8,12 @@
       <div class="cell preview-thumb">Preview</div>
       <div class="cell actions"></div>
     </div>
-    <div class="row" ng-repeat="file in files track by $index">
+    <div class="row body" ng-repeat="file in files track by $index">
       <div class="cell name">
         {{file.name}}
       </div>
       <div class="cell image-dims">
-        TODO
+        {{ file.dimensions.width }}&times;{{ file.dimensions.height }}
       </div>
       <div class="cell size">
         {{convertBytesToKB(file.size)}} KB

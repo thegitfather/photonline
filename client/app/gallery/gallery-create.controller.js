@@ -23,11 +23,17 @@ angular.module('photoboxApp')
 
     $scope.$watchCollection('files', function(newVal, oldVal) {
       console.log("watchCollection()");
+      var i;
+
+      for (i = 0; i < newVal.length; i++) {
+        appendDimensions(newVal[i]);
+      }
+
       if (window.FileReader && window.FileReader.prototype.readAsArrayBuffer) {
         var md5Promises = [];
         var diffArr = _.difference(newVal, oldVal);
 
-        for (var i = 0; i < diffArr.length; i++) {
+        for (i = 0; i < diffArr.length; i++) {
           if (diffArr[i].md5 === undefined) {
             md5Promises.push(getMd5sum(diffArr[i]));
           }
@@ -141,6 +147,12 @@ angular.module('photoboxApp')
       }
 
     };
+
+    function appendDimensions(file) {
+      Upload.imageDimensions(file).then(function(dimensions) {
+        file.dimensions = dimensions;
+      });
+    }
 
     vm.submit = function(form) {
       // console.log("form:", form);

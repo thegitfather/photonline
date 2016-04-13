@@ -1,4 +1,13 @@
 .upload-list {
+
+  .row.body {
+    .cell {
+      &.name, &.image-dims, &.size {
+        font-family: monospace;
+      }
+    }
+  }
+
   .cell {
     &.preview-thumb {
       width: 100px;
