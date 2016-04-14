@@ -4,11 +4,6 @@ import mongoose from 'mongoose';
 
 var GallerySchema = new mongoose.Schema(
   {
-    name: {
-      type: String,
-      default: 'no_name',
-      trim: true
-    },
     user_id: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'User'
@@ -20,6 +15,16 @@ var GallerySchema = new mongoose.Schema(
     location: {
       type: String,
       default: 'unknown_location',
+      trim: true
+    },
+    timeframeFrom: {
+      type: Date
+    },
+    timeframeTo: {
+      type: Date
+    },
+    description: {
+      type: String,
       trim: true
     }
   },

@@ -21,8 +21,14 @@ form {
     }
   }
 
+  &.ng-submitted {
+    .input, .textarea {
+      &.ng-invalid { border: 1px solid $red; }
+    }
+  }
+
   .input, .textarea {
-    &.ng-invalid-required:not(.ng-untouched),
+    &.ng-invalid:not(.ng-untouched),
     &.ng-invalid-pattern,
     &.ng-invalid-email {
       border: 1px solid $red;

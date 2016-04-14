@@ -4,12 +4,10 @@ angular.module('photoboxApp')
   .controller('GalleryCreateController', ['$scope', '$state', 'Upload', '$cookies', '$http', '$q', 'appConfig', 'fileMd5Service', '_',
   function ($scope, $state, Upload, $cookies, $http, $q, appConfig, fileMd5Service, _) {
     var vm = this;
-    var gallery = {};
-    var galleryId;
 
     vm.Upload = Upload;
-    $scope.files = [];
     vm.invalidFiles = [];
+    $scope.files = [];
 
     Upload.setDefaults({
       ngfMinSize: appConfig.uploadLimits.minFileSize,
@@ -21,12 +19,18 @@ angular.module('photoboxApp')
       ngfKeep: "'distinct'"
     });
 
+    // vm.timeframeFrom = new Date( Date.now() - 1000*60*60*24*7 ); // today - 7 days
+    // vm.timeframeTo = new Date( Date.now() ); // today
+
     $scope.$watchCollection('files', function(newVal, oldVal) {
       console.log("watchCollection()");
+      console.log("vm.timeframeFrom:", vm.timeframeFrom);
       var i;
 
       for (i = 0; i < newVal.length; i++) {
-        appendDimensions(newVal[i]);
+        if (newVal[i].dimensions === undefined) {
+          appendDimensions(newVal[i]);
+        }
       }
 
       if (window.FileReader && window.FileReader.prototype.readAsArrayBuffer) {
@@ -51,6 +55,46 @@ angular.module('photoboxApp')
       }
       console.log("$scope.files:", $scope.files);
     });
+
+    vm.submit = function(form) {
+      // console.log("form:", form);
+      var uploadPromises = [];
+
+      if ($scope.files.length > 0) {
+        // if files in queue set pattern to valid so the form is valid
+        form.fileDropArea.$setValidity("pattern", true);
+      }
+      if (form.$valid) {
+        var gallery = {};
+        gallery.location = vm.location;
+        gallery.timeframeFrom = vm.timeframeFrom;
+        gallery.timeframeTo = vm.timeframeTo;
+        gallery.description = vm.description;
+
+        $http.post("/api/gallery", gallery).then(response => {
+          var galleryId = response.data._id;
+
+          for (var i = 0; i < $scope.files.length; i++) {
+            $scope.files[i].position = i;
+            uploadPromises.push(upload($scope.files[i], galleryId));
+          }
+
+          // change state when all upload promise are fulfilled
+          $q.all(uploadPromises).then(function(values) {
+            // TODO: DB is not ready yet when all photos in list already on server
+            // (some image are missing... -> F5)
+            $state.go("gallery.show", { id: galleryId });
+          });
+
+        }, function(errorMsg) {
+          // TODO: display error msg in scope
+          console.error("errorMsg:", errorMsg);
+        });
+      }
+    };
+
+    // TODO:
+    // vm.abortAll = function() {}
 
     function removeDuplicates(uniqueMd5Arr) {
       var foundDup, i, j;
@@ -93,9 +137,16 @@ angular.module('photoboxApp')
       }
     }
 
-    // vm.formError = [];
+    function upload(file, galleryId) {
+      var uploadData = {
+        photo: file,
+        md5: file.md5,
+        gallery_id: galleryId,
+        position: file.position,
+        originalFilename: file.name,
+        size: file.size
+      };
 
-    var upload = function(file) {
       if (!file.fileAlreadyExists) {
         return Upload.upload({
           url: '/api/photo/' + file.md5,
@@ -103,15 +154,7 @@ angular.module('photoboxApp')
           headers: {
             'Content-Type': 'multipart/form-data'
           },
-          data: {
-            // photo: Upload.rename(file, file.md5 + '.jpg'),
-            photo: file,
-            md5: file.md5,
-            gallery_id: galleryId,
-            position: file.position,
-            originalFilename: file.name,
-            size: file.size
-          }
+          data: uploadData
         }).then(function(res) {
           console.log("Successfully uploaded", file.name);
           // console.log("res.data:", res.data);
@@ -125,68 +168,22 @@ angular.module('photoboxApp')
       }
 
       if (file.fileAlreadyExists) {
-        var data = {
-          photo: file,
-          md5: file.md5,
-          gallery_id: galleryId,
-          position: file.position,
-          originalFilename: file.name,
-          size: file.size
-        };
         $http({
           method: 'POST',
           url: '/api/photo/' + file.md5,
-          data: data
+          data: uploadData
         }).then(function(res) {
           console.log("res:", res);
         });
-
-        // $http.post("/api/photo", data).then(response => {
-        //   console.log("response:", response);
-        // });
       }
 
-    };
+    }
 
     function appendDimensions(file) {
       Upload.imageDimensions(file).then(function(dimensions) {
         file.dimensions = dimensions;
       });
     }
-
-    vm.submit = function(form) {
-      // console.log("form:", form);
-      var uploadPromises = [];
-
-      if ($scope.files.length > 0) {
-        // if files in queue set pattern to valid so the form is valid
-        form.fileDropArea.$setValidity("pattern", true);
-      }
-      if (form.$valid) {
-        gallery.name = vm.galleryName;
-        gallery.location = vm.location;
-
-        $http.post("/api/gallery", gallery).then(response => {
-          galleryId = response.data._id;
-
-          for (var i = 0; i < $scope.files.length; i++) {
-            $scope.files[i].position = i;
-            uploadPromises.push(upload($scope.files[i]));
-          }
-
-          // change state when all upload promise are fulfilled
-          $q.all(uploadPromises).then(function(values) {
-            // TODO: DB is not ready yet when all photos in list already on server
-            // (some image are missing... -> F5)
-            $state.go("gallery.show", { id: galleryId });
-          });
-
-        }, function(errorMsg) {
-          // TODO: display error msg in scope
-          console.error("errorMsg:", errorMsg);
-        });
-      }
-    };
 
     function getMd5sum(file) {
       var md5sum = fileMd5Service.md5(file); // returns promise
@@ -201,10 +198,6 @@ angular.module('photoboxApp')
         // TODO: check if md5 is in database here
       });
       return md5sum; // promise
-    }
-
-    vm.abortAll = function() {
-
     }
 
   }]);

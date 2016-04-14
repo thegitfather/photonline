@@ -6,22 +6,35 @@
       <div class="column is-half">
 
         <div class="control">
-          <!-- TODO: add validation -->
-          <input id="galleryName" class="input" name="galleryName" type="text" placeholder="Gallery name"
-            ng-model="vm.galleryName"
+          <!-- TODO: add validation, guess country by IP service? -->
+          <input id="location" class="input" name="location" type="text" placeholder="Location (e.g. Austria)" autofocus
+            ng-model="vm.location"
             required
-            flabel />
+            flabel="Location" />
           <div class="notification is-danger"
-            ng-class="{ visible: (form.galleryName.$error.required && (form.galleryName.$touched || form.$submitted)) }">
-            Please enter a gallery name.
+            ng-class="{ visible: (form.location.$error.required && (form.location.$touched || form.$submitted)) }">
+            Please enter a location name
+          </div>
+        </div>
+
+        <div class="columns">
+          <div class="column">
+            <label for="timeframe-from">From</label>
+            <input id="timeframe-from" class="input" name="timeframeFrom" type="date"
+              ng-model="vm.timeframeFrom"
+              ng-required="vm.timeframeTo" />
+          </div>
+          <div class="column">
+            <label for="timeframe-to">To</label>
+            <input id="timeframe-to" class="input" name="timeframeTo" type="date"
+              ng-model="vm.timeframeTo" />
           </div>
         </div>
 
         <div class="control">
-          <!-- TODO: add validation, guess country by IP service? -->
-          <input id="location" class="input" name="location" type="text" placeholder="Location (e.g. Paris)"
-            ng-model="vm.location"
-            flabel="Location" />
+          <input id="description" class="input" name="description" type="text" placeholder="Description (e.g. Lots of hiking and sightseeing)"
+            ng-model="vm.description"
+            flabel="Description" />
         </div>
 
       </div>
