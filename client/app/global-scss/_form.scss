@@ -35,6 +35,16 @@ form {
     }
   }
 
+  ::-webkit-input-placeholder { color: $grey;}
+
+  input[type='date'] {
+    color: $grey;
+    &.ng-empty { color: $grey; }
+    &.ng-valid-date { color: $grey-darker; }
+    &.ng-valid-date.ng-empty { color: $grey; }
+  }
+
+
   .server-responses {
     border-top: 1px solid $grey-light;
     margin-bottom: 10px;

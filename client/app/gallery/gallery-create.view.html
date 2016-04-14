@@ -7,7 +7,7 @@
 
         <div class="control">
           <!-- TODO: add validation, guess country by IP service? -->
-          <input id="location" class="input" name="location" type="text" placeholder="Location (e.g. Austria)" autofocus
+          <input id="location" class="input" name="location" type="text" placeholder="Location (e.g. Austria)"
             ng-model="vm.location"
             required
             flabel="Location" />
@@ -22,12 +22,14 @@
             <label for="timeframe-from">From</label>
             <input id="timeframe-from" class="input" name="timeframeFrom" type="date"
               ng-model="vm.timeframeFrom"
+              ng-max="vm.timeframeTo"
               ng-required="vm.timeframeTo" />
           </div>
           <div class="column">
             <label for="timeframe-to">To</label>
             <input id="timeframe-to" class="input" name="timeframeTo" type="date"
-              ng-model="vm.timeframeTo" />
+              ng-model="vm.timeframeTo"
+              ng-min="vm.timeframeFrom" />
           </div>
         </div>
 
