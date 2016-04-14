@@ -2,6 +2,20 @@ html {
   background-color: #eee;
 }
 
+.block {
+  &:not(:last-child) {
+    margin-bottom: 0;
+  }
+}
+
+.title, .subtitle, .box {
+  &:last-child, &:not(:last-child) {
+    margin-bottom: $default-gap-bottom;
+  }
+}
+
+// .title:not(:last-child), .subtitle:not(:last-child), .message:not(:last-child), .notification:not(:last-child), .progress:not(:last-child), .highlight:not(:last-child), .navbar:not(:last-child), .tabs:not(:last-child), .box:not(:last-child)
+
 
 .control {
   margin-bottom: $default-gap-bottom;

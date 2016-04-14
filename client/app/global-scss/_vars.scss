@@ -1,7 +1,16 @@
 @import "colors";
 
-
 $fa-font-path: "../../bower_components/font-awesome/fonts";
+
+$default-gap-bottom: 1em;
+
+$animation-speed: 200ms;
+
+
+
+/*******************************
+  BULMA VARIABLES
+ ******************************/
 
 // Typography
 
@@ -31,12 +40,8 @@ $column-gap: 20px;
 
 $header-height: 50px;
 
-$default-gap-bottom: 1em;
-
 // Miscellaneous
 
 $easing: ease-out;
 $radius: 3px;
 $speed: 86ms;
-
-$animation-speed: 200ms;
