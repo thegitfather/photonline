@@ -1,0 +1,12 @@
+@each $name, $pair in $colors {
+  $color: nth($pair, 1);
+  a {
+    &.is-#{$name} {
+      color: $color;
+      &:hover,
+      &:focus {
+        color: darken($color, 10%);
+      }
+    }
+  }
+}
