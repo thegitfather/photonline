@@ -1,22 +1,21 @@
 <article class="box gallery-list-item">
-  <div class="content">
-    <div class="preview-image">
-      <a sref="gallery/{{galleryListItem._id}}" href="gallery/{{galleryListItem._id}}">
-        <img ng-src="/uploads/preview/gallery_{{galleryListItem._id}}.jpg">
-      </a>
-    </div>
-    <p class="gallery-name">{{galleryListItem.name}}</p>
-    <p class="location">{{galleryListItem.location}}</p>
-    <p class="user-name">{{galleryListItem.user_name}}</p>
-    <p class="timeframe">
-      <span>{{galleryListItem.timeframeFrom | date:'mediumDate'}}</span>
-      <span ng-if="galleryListItem.timeframeFrom !== galleryListItem.timeframeTo">
-        &nbsp;-&nbsp;
-        {{galleryListItem.timeframeTo | date:'mediumDate'}}
-      </span>
-    </p>
-    <footer class="created-at has-text-right">
-      <i><small>created at {{galleryListItem.created_at | date:'mediumDate'}}</small></i>
-    </footer>
+  <div class="preview-image">
+    <a sref="gallery/{{galleryListItem._id}}" href="gallery/{{galleryListItem._id}}">
+      <img ng-src="/uploads/preview/gallery_{{galleryListItem._id}}.jpg">
+    </a>
   </div>
+  <h2 class="title is-4">{{galleryListItem.location}}</h2>
+  <span class="user-name tag is-primary is-small">{{galleryListItem.user_name}}</span>
+  <p class="timeframe">
+    <span>{{galleryListItem.timeframeFrom | date:'mediumDate'}}</span>
+    <span ng-if="galleryListItem.timeframeFrom !== galleryListItem.timeframeTo">
+      &nbsp;-&nbsp;
+      {{galleryListItem.timeframeTo | date:'mediumDate'}}
+    </span>
+  </p>
+  <p class="description">{{galleryListItem.description}}</p>
+
+  <footer class="created-at has-text-right">
+    <i><small>created at {{galleryListItem.created_at | date:'mediumDate'}}</small></i>
+  </footer>
 </article>
