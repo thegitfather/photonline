@@ -200,7 +200,6 @@ export function create(req, res) {
     Photo.create(clientPhotoData)
       .then(respondWithResult(res, 201))
       .catch(handleError(res));
-
   }
 
   function createPreviewImage(galleryId) {
@@ -208,7 +207,8 @@ export function create(req, res) {
       if (stats !== undefined) {
         mkdirp.sync("uploads/preview/");
         sharp(dest + filename)
-        .resize(196, null)
+        // .resize(196, null)
+        .resize(196, 147) // 4:3
         .toFile('uploads/preview/gallery_' + galleryId + '.jpg')
         .then(info => {
           // console.log("info:", info);
