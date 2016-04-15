@@ -9,11 +9,14 @@
     <p class="location">{{galleryListItem.location}}</p>
     <p class="user-name">{{galleryListItem.user_name}}</p>
     <p class="timeframe">
-      <span>{{galleryListItem.timeframeFrom | date:'mediumDate'}}</span>&nbsp;-&nbsp;
-      <span>{{galleryListItem.timeframeTo | date:'mediumDate'}}</span>
+      <span>{{galleryListItem.timeframeFrom | date:'mediumDate'}}</span>
+      <span ng-if="galleryListItem.timeframeFrom !== galleryListItem.timeframeTo">
+        &nbsp;-&nbsp;
+        {{galleryListItem.timeframeTo | date:'mediumDate'}}
+      </span>
     </p>
-    <footer class="created-at">
-      <p><small>{{galleryListItem.created_at}}</small></p>
+    <footer class="created-at has-text-right">
+      <i><small>created at {{galleryListItem.created_at | date:'mediumDate'}}</small></i>
     </footer>
   </div>
 </article>
