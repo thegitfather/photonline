@@ -37,11 +37,13 @@ form {
 
   ::-webkit-input-placeholder { color: $grey;}
 
-  input[type='date'] {
-    color: $grey;
-    &.ng-empty { color: $grey; }
-    &.ng-valid-date { color: $grey-darker; }
-    &.ng-valid-date.ng-empty { color: $grey; }
+  .pickadate-modal {
+    top: auto!important;
+    left: auto!important;
+  }
+
+  .pickadate-cell .pickadate-active {
+    background-color: $primary;
   }
 
 

@@ -1,17 +1,19 @@
-
-
-<article class="box gallery-list-item"
-  >
-
-<div class="content">
-  <div class="preview-image">
-    <a sref="gallery/{{galleryListItem._id}}" href="gallery/{{galleryListItem._id}}">
-      <img ng-src="/uploads/preview/gallery_{{galleryListItem._id}}.jpg">
-    </a>
+<article class="box gallery-list-item">
+  <div class="content">
+    <div class="preview-image">
+      <a sref="gallery/{{galleryListItem._id}}" href="gallery/{{galleryListItem._id}}">
+        <img ng-src="/uploads/preview/gallery_{{galleryListItem._id}}.jpg">
+      </a>
+    </div>
+    <p class="gallery-name">{{galleryListItem.name}}</p>
+    <p class="location">{{galleryListItem.location}}</p>
+    <p class="user-name">{{galleryListItem.user_name}}</p>
+    <p class="timeframe">
+      <span>{{galleryListItem.timeframeFrom | date:'mediumDate'}}</span>&nbsp;-&nbsp;
+      <span>{{galleryListItem.timeframeTo | date:'mediumDate'}}</span>
+    </p>
+    <footer class="created-at">
+      <p><small>{{galleryListItem.created_at}}</small></p>
+    </footer>
   </div>
-  <p class="gallery-name">{{galleryListItem.name}}</p>
-  <p class="location">{{galleryListItem.location}}</p>
-  <p class="user-name">{{galleryListItem.user_name}}</p>
-  <p class="created-at"><small>{{galleryListItem.created_at}}</small></p>
-</div>
 </article>

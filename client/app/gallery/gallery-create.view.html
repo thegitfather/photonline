@@ -20,16 +20,22 @@
         <div class="columns">
           <div class="column">
             <label for="timeframe-from">From</label>
-            <input id="timeframe-from" class="input" name="timeframeFrom" type="date"
+            <input id="timeframe-from" class="input" name="timeframeFrom" type="text"
+              placeholder="YYYY-MM-DD"
+              pickadate
+              max-date="vm.timeframeTo"
+              week-starts-on="1"
               ng-model="vm.timeframeFrom"
-              ng-max="vm.timeframeTo"
               ng-required="vm.timeframeTo" />
           </div>
           <div class="column">
             <label for="timeframe-to">To</label>
-            <input id="timeframe-to" class="input" name="timeframeTo" type="date"
-              ng-model="vm.timeframeTo"
-              ng-min="vm.timeframeFrom" />
+            <input id="timeframe-to" class="input" name="timeframeTo" type="text"
+              placeholder="YYYY-MM-DD"
+              pickadate
+              min-date="vm.timeframeFrom"
+              week-starts-on="1"
+              ng-model="vm.timeframeTo" />
           </div>
         </div>
 
