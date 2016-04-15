@@ -20,8 +20,8 @@
         <div class="columns">
           <div class="column">
             <label for="timeframe-from">From</label>
-            <input id="timeframe-from" class="input" name="timeframeFrom" type="text"
-              placeholder="YYYY-MM-DD"
+            <input id="timeframe-from" class="input" name="timeframeFrom" type="text" placeholder="YYYY-MM-DD"
+              ng-change="vm.syncDate(vm.timeframeFrom)"
               pickadate
               max-date="vm.timeframeTo"
               week-starts-on="1"
@@ -30,8 +30,7 @@
           </div>
           <div class="column">
             <label for="timeframe-to">To</label>
-            <input id="timeframe-to" class="input" name="timeframeTo" type="text"
-              placeholder="YYYY-MM-DD"
+            <input id="timeframe-to" class="input" name="timeframeTo" type="text" placeholder="YYYY-MM-DD"
               pickadate
               min-date="vm.timeframeFrom"
               week-starts-on="1"

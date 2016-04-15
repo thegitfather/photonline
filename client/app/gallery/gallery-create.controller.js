@@ -93,6 +93,20 @@ angular.module('photoboxApp')
       }
     };
 
+    vm.syncDate = function(date) {
+      try {
+        date = new Date(date).toISOString();
+        if (vm.timeframeTo === undefined) {
+          vm.timeframeTo = date;
+        }
+      }
+      catch (e) {
+        if (e instanceof RangeError) {
+          console.log("date range error");
+        }
+      }
+    };
+
     // TODO:
     // vm.abortAll = function() {}
 
@@ -114,8 +128,7 @@ angular.module('photoboxApp')
     }
 
     function markServerDuplicates() {
-      var i;
-      for (i = 0; i < $scope.files.length; i++) {
+      for (var i = 0; i < $scope.files.length; i++) {
         if ($scope.files[i].md5 !== undefined) {
           markFile($scope.files[i]);
         }
