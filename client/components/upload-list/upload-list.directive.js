@@ -13,10 +13,6 @@ angular.module('photoboxApp')
       },
       link: function(scope, $element, attrs) {
 
-        scope.$watch('upload', function(newValue, oldValue) {
-          console.log("newValue:", newValue);
-        });
-
         // TODO: add to global helper functions?
         scope.convertBytesToKB = function(value) {
           return Math.floor(value / 1024);

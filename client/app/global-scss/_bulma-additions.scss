@@ -1,6 +1,6 @@
 @each $name, $pair in $colors {
   $color: nth($pair, 1);
-  a {
+  a, span {
     &.is-#{$name} {
       color: $color;
       &:hover,

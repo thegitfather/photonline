@@ -1,8 +1,7 @@
 <article class="file-drop-area" name="fileDropArea"
   ngf-drop
   ng-model="files"
-  ngf-model-invalid="vm.invalidFiles"
-  ng-class="{ invalid: (form.queueLength.$invalid && form.$submitted) }">
+  ng-class="{ invalid: (vm.form.queueLength.$invalid && vm.form.$submitted) }">
   <div class="text-wrapper">
     <h1 class="title">
       Drag & drop images here
@@ -11,12 +10,12 @@
       (or click to select files)
     </h2>
   </div>
-  <span class="queueLength">{{ files.length }}</span>
-  <span class="queueInvalidLength" style="display:none;">{{ vm.invalidFiles.length }}</span>
-  <input type="file" ngf-select ng-model="files" ngf-model-invalid="invalidFiles" />
+  <span class="queueLength">{{ files.length - queueInvalidLength }}</span>
+  <span class="queueLength invalid" ng-show="queueInvalidLength">-{{ queueInvalidLength }}</span>
+  <input type="file" name="fileSelectInput" ngf-select ng-model="files" ngf-model-invalid="invalidFiles" />
   <input type="number" name="queueLength" ng-model="files.length" min="1" />
   <div class="notification is-danger"
-    ng-class="{ visible: (form.queueLength.$error.min && form.$submitted) }">
+    ng-class="{ visible: (vm.form.queueLength.$error.min && vm.form.$submitted) }">
     Please add at least 1 image for upload.
   </div>
 </article>

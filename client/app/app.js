@@ -20,7 +20,7 @@ angular.module('photoboxApp', [
   pickadateI18nProvider.translations = {
     prev: '<i class="fa fa-arrow-left fa-lg" aria-hidden="true"></i>',
     next: '<i class="fa fa-arrow-right fa-lg" aria-hidden="true"></i>'
-  }
+  };
 }).constant('_', window._).run(function ($rootScope) {
   // allow global use of lodash
   $rootScope._ = window._;

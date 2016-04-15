@@ -1,4 +1,4 @@
-<article class="upload-list" upload="vm.Upload" files="files" invalid-files="vm.invalidFiles">
+<article class="upload-list" upload="vm.Upload" files="files">
   <div class="pseudo-table">
     <div class="row head">
       <div class="cell name">Filename</div>
@@ -8,7 +8,7 @@
       <div class="cell preview-thumb">Preview</div>
       <div class="cell actions"></div>
     </div>
-    <div class="row body" ng-repeat="file in files track by $index">
+    <div class="row body" ng-repeat="file in files track by $index" ng-class="{ 'has-error': file.$error }">
       <div class="cell name">
         {{file.name}}
       </div>
@@ -20,20 +20,20 @@
       </div>
       <div class="cell upload-progress">
         <div class="progress-bar"
-          ng-hide="file.fileAlreadyExists"
+          ng-hide="file.fileAlreadyExists || file.$error"
           ng-class="{ 'in-progress': (file.progress >= 0 && file.progress < 100), 'finished': file.progress == 100 }">
           <span class="bar" style="width:{{file.progress}}%"></span>
           <span class="percentage-text" ng-bind="file.progress + ' %'" ng-show="file.progress > 0"></span>
         </div>
-        <div class="md5-found-on-server" ng-show="file.fileAlreadyExists">
-          skip<br>
-          <small>( <abbr title="{{ file.md5 }}">md5</abbr> found on server )</small>
 
+        <div class="not-uploading" ng-show="file.fileAlreadyExists">
+          <span class="is-success">skip</span><br>
+          <small>( <abbr title="{{ file.md5 }}">md5</abbr> found on server )</small>
         </div>
 
-        <!-- <span class="progress" ng-show="picFile.progress >= 0">
-            <div style="width:{{picFile.progress}}%" ng-bind="picFile.progress + '%'"></div>
-        </span> -->
+        <div class="not-uploading" ng-show="file.$error">
+          <span class="is-danger">skip</span> <small>( <abbr title="{{ file.$error }}">invalid</abbr> )</small>
+        </div>
 
       </div>
       <div class="cell preview-thumb">

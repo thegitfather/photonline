@@ -6,6 +6,17 @@
         font-family: monospace;
       }
     }
+    &.has-error {
+      .cell {
+        &.name, &.image-dims, &.size {
+          color: $grey-light;
+          text-decoration: line-through;
+        }
+        &.actions > a {
+          display: none;
+        }
+      }
+    }
   }
 
   .cell {
@@ -57,7 +68,7 @@
     }
   }
 
-  .md5-found-on-server {
+  .not-uploading {
     abbr {
       font-family: monospace;
     }

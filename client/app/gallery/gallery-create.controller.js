@@ -4,10 +4,9 @@ angular.module('photoboxApp')
   .controller('GalleryCreateController', ['$scope', '$state', 'Upload', '$cookies', '$http', '$q', 'appConfig', 'fileMd5Service', '_',
   function ($scope, $state, Upload, $cookies, $http, $q, appConfig, fileMd5Service, _) {
     var vm = this;
-
     vm.Upload = Upload;
-    vm.invalidFiles = [];
     $scope.files = [];
+    $scope.queueInvalidLength = 0;
 
     Upload.setDefaults({
       ngfMinSize: appConfig.uploadLimits.minFileSize,
@@ -16,30 +15,32 @@ angular.module('photoboxApp')
       ngfPattern: "'.jpg,.jpeg'",
       ngfAccept: "'image/jpeg'",
       ngfMultiple: "true",
-      ngfKeep: "'distinct'"
+      ngfKeep: "'distinct'",
+      ngfMinRatio: "2:3.01",
+      ngfMaxRatio: "16.01:9",
+      ngModelOptions: { allowInvalid: true }
     });
 
-    // vm.timeframeFrom = new Date( Date.now() - 1000*60*60*24*7 ); // today - 7 days
-    // vm.timeframeTo = new Date( Date.now() ); // today
-
     $scope.$watchCollection('files', function(newVal, oldVal) {
-      console.log("watchCollection()");
-      console.log("vm.timeframeFrom:", vm.timeframeFrom);
-      var i;
-
-      for (i = 0; i < newVal.length; i++) {
+      // console.log("$watch files(newVal):", newVal);
+      var fileErrors = 0;
+      for (var i = 0; i < newVal.length; i++) {
         if (newVal[i].dimensions === undefined) {
           appendDimensions(newVal[i]);
         }
+        if (newVal[i].$error !== undefined) {
+          fileErrors += 1;
+        }
       }
+      $scope.queueInvalidLength = fileErrors;
 
       if (window.FileReader && window.FileReader.prototype.readAsArrayBuffer) {
         var md5Promises = [];
         var diffArr = _.difference(newVal, oldVal);
 
-        for (i = 0; i < diffArr.length; i++) {
-          if (diffArr[i].md5 === undefined) {
-            md5Promises.push(getMd5sum(diffArr[i]));
+        for (var j = 0; j < diffArr.length; j++) {
+          if (diffArr[j].md5 === undefined) {
+            md5Promises.push(getMd5sum(diffArr[j]));
           }
         }
 
@@ -53,18 +54,16 @@ angular.module('photoboxApp')
       else {
         console.info('The FileReader readAsArrayBuffer API is not supported');
       }
-      console.log("$scope.files:", $scope.files);
+      // console.log("$scope.files:", $scope.files);
+    });
+
+    $scope.$watch('queueInvalidLength', function(newVal, oldVal) {
+      setValid( [vm.form.fileDropArea, vm.form.fileSelectInput] );
     });
 
     vm.submit = function(form) {
       // console.log("form:", form);
-      var uploadPromises = [];
-
-      if ($scope.files.length > 0) {
-        // if files in queue set pattern to valid so the form is valid
-        form.fileDropArea.$setValidity("pattern", true);
-      }
-      if (form.$valid) {
+      if (form.$valid && $scope.files.length > $scope.queueInvalidLength) {
         var gallery = {};
         gallery.location = vm.location;
         gallery.timeframeFrom = vm.timeframeFrom;
@@ -72,11 +71,16 @@ angular.module('photoboxApp')
         gallery.description = vm.description;
 
         $http.post("/api/gallery", gallery).then(response => {
-          var galleryId = response.data._id;
+          var galleryId = response.data._id,
+          validUploads = [],
+          uploadPromises = [],
+          i, pos = 0;
 
-          for (var i = 0; i < $scope.files.length; i++) {
-            $scope.files[i].position = i;
-            uploadPromises.push(upload($scope.files[i], galleryId));
+          for (i = 0; i < $scope.files.length; i++) {
+            if($scope.files[i].$error === undefined) {
+              $scope.files[i].position = pos++;
+              validUploads.push(upload($scope.files[i], galleryId));
+            }
           }
 
           // change state when all upload promise are fulfilled
@@ -110,6 +114,16 @@ angular.module('photoboxApp')
     // TODO:
     // vm.abortAll = function() {}
 
+    function setValid(formElements) {
+      for (var i = 0; i < formElements.length; i++) {
+        if (formElements[i] !== undefined) {
+          angular.forEach(formElements[i].$error, function(value, key, element) {
+            formElements[i].$setValidity(key, true);
+          });
+        }
+      }
+    }
+
     function removeDuplicates(uniqueMd5Arr) {
       var foundDup, i, j;
       for (i = 0; i < uniqueMd5Arr.length; i++) {
@@ -140,7 +154,7 @@ angular.module('photoboxApp')
           url: '/api/photo/check/' + file.md5
         }).then(function(res) {
           // console.log("res.data.fileAlreadyExists:", res.data.fileAlreadyExists);
-          console.log("file:", file);
+          // console.log("file:", file);
           if (res.data.fileAlreadyExists) {
             file.fileAlreadyExists = true;
           } else {
@@ -172,7 +186,7 @@ angular.module('photoboxApp')
           console.log("Successfully uploaded", file.name);
           // console.log("res.data:", res.data);
         }, function(res) {
-          console.log('Error status: ' + res.status);
+          console.error('Error status: ' + res.status);
         }, function(event) {
           var progressPercentage = parseInt(100.0 * event.loaded / event.total);
           // console.log('progress: ' + progressPercentage + '% ' + event.config.data.photo.name);
@@ -206,7 +220,7 @@ angular.module('photoboxApp')
       .error(function(error) {
         console.error('Error calculating md5: %o', error);
       }).success(function(md5sum) {
-        console.log("md5sum:", md5sum);
+        console.info("md5sum for %s:", file.name, md5sum);
         file.md5 = md5sum;
         // TODO: check if md5 is in database here
       });

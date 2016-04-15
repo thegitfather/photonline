@@ -1,7 +1,7 @@
 <h1 class="state title is-1">New Gallery</h1>
 
 <section class="gallery-create">
-  <form name="form" class="" ng-submit="vm.submit(form)" novalidate>
+  <form name="vm.form" class="" ng-submit="vm.submit(vm.form)" novalidate>
     <div class="columns">
       <div class="column is-half">
 
@@ -12,7 +12,7 @@
             required
             flabel="Location" />
           <div class="notification is-danger"
-            ng-class="{ visible: (form.location.$error.required && (form.location.$touched || form.$submitted)) }">
+            ng-class="{ visible: (vm.form.location.$error.required && (vm.form.location.$touched || vm.form.$submitted)) }">
             Please enter a location name
           </div>
         </div>
@@ -61,11 +61,10 @@
 
     <div class="control">
       <button type="submit" class="button is-primary"
-        ng-class="{ 'is-disabled': (form.$invalid && form.$submitted) || vm.Upload.isUploadInProgress()}">
+        ng-class="{ 'is-disabled': (vm.form.$invalid && vm.form.$submitted) || vm.Upload.isUploadInProgress()}">
         Create
       </button>
     </div>
-    <!-- <button ng-click="vm.abortAll()">abort</div> -->
 
   </form>
 
