@@ -1,9 +1,46 @@
 <h1 class="state title">Galleries</h1>
 
-<!-- TODO: filters: username, date, location -->
-
 <section class="gallery-list">
-  <div class="container">
-    <gallery-list-item gallery-list-item="gallery" ng-repeat="gallery in vm.galleries"></gallery-list-item>
+
+  <div class="columns">
+    <div class="column is-one-quarter">
+      <div class="select">
+        <select ng-model="vm.filterUser.user_name"
+          ng-options="username for username in vm.usernames"
+          ng-change="vm.checkForReset(vm.filterUser)">
+          <option value="">All users</option>
+        </select>
+      </div>
+    </div>
+    <div class="column is-half">
+      <input class="input" type="text" placeholder="Location"
+        ng-model="vm.locationFilter.location" />
+    </div>
+    <div class="column is-one-quarter">
+      <div class="select">
+        <select ng-model="vm.sortOption"
+          ng-options="order.value as order.label for order in vm.orderFilter">
+        </select>
+      </div>
+    </div>
   </div>
+
+  <div class="container">
+    <gallery-list-item gallery-list-item="gallery"
+      ng-repeat="gallery in vm.galleries |
+                 filter: vm.filterUser |
+                 filter: vm.locationFilter |
+                 orderBy: vm.sortOption">
+    </gallery-list-item>
+
+    <div class="nothing-found"><h1 class="title is-1">Nothing found...</h1></div>
+
+    <article class="box gallery-list-item placeholder"
+      ng-repeat="placeholder in [1,2,3]">
+      <!-- 'flex-row' placeholder for 'justify-content: space-between' -->
+    </article>
+
+
+  </div>
+
 </section>

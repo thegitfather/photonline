@@ -208,7 +208,7 @@ export function create(req, res) {
         mkdirp.sync("uploads/preview/");
         sharp(dest + filename)
         // .resize(196, null)
-        .resize(196, 147) // 4:3
+        .resize(204, 153) // 4:3
         .toFile('uploads/preview/gallery_' + galleryId + '.jpg')
         .then(info => {
           // console.log("info:", info);
