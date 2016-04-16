@@ -1,10 +1,11 @@
 'use strict';
 
 angular.module('photoboxApp')
-  .controller('GalleryCreateController', ['$scope', '$state', 'Upload', '$cookies', '$http', '$q', 'appConfig', 'fileMd5Service', '_',
-  function ($scope, $state, Upload, $cookies, $http, $q, appConfig, fileMd5Service, _) {
+  .controller('GalleryCreateController', ['$scope', '$state', 'Upload', '$cookies', '$http', '$q', 'appConfig', 'fileMd5Service', '_', 'location',
+  function ($scope, $state, Upload, $cookies, $http, $q, appConfig, fileMd5Service, _, location) {
     var vm = this;
     vm.Upload = Upload;
+
     $scope.files = [];
     $scope.queueInvalidLength = 0;
 
@@ -20,6 +21,10 @@ angular.module('photoboxApp')
       ngfMaxRatio: "16.01:9",
       ngModelOptions: { allowInvalid: true }
     });
+
+    if (location !== undefined && location.hasOwnProperty("country")) {
+      vm.location = location.country + ", " + location.city;
+    }
 
     $scope.$watchCollection('files', function(newVal, oldVal) {
       // console.log("$watch files(newVal):", newVal);
