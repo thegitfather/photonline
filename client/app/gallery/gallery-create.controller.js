@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('photoboxApp')
-  .controller('GalleryCreateController', ['$scope', '$state', 'Upload', '$cookies', '$http', '$q', 'appConfig', 'fileMd5Service', '_', 'location',
-  function ($scope, $state, Upload, $cookies, $http, $q, appConfig, fileMd5Service, _, location) {
+  .controller('GalleryCreateController', ['$scope', '$state', 'Upload', '$http', '$q', 'appConfig', 'fileMd5Service', '_', 'location',
+  function ($scope, $state, Upload, $http, $q, appConfig, fileMd5Service, _, location) {
     var vm = this;
     vm.Upload = Upload;
 
