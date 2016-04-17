@@ -6,6 +6,7 @@
   </div>
   <h2 class="title is-4">{{galleryListItem.location}}</h2>
   <span class="user-name tag is-primary is-small">{{galleryListItem.user_name}}</span>
+  <span class="photo-count tag">{{galleryListItem.photo_ids.length}}</span>
   <p class="timeframe">
     <span>{{galleryListItem.timeframeFrom | date:'mediumDate'}}</span>
     <span ng-if="galleryListItem.timeframeFrom !== galleryListItem.timeframeTo">

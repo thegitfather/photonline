@@ -22,14 +22,23 @@ article.gallery-list-item {
       box-shadow: 0 0 4px rgba(0, 0, 0, 0.8);
     }
   }
-  span.user-name {
+  span.tag {
     position: absolute;
-    top: 5px;
-    right: 5px;
     box-shadow: 0 0 6px rgba(0, 0, 0, 0.33);
     font-weight: bold;
     border: 1px solid #fff;
+    &.user-name {
+      top: 5px;
+      right: 5px;
+    }
+    &.photo-count {
+      top: 146px;
+      left: 5px;
+      border-radius: 0px;
+      border: 1px solid $grey-lighter;
+    }
   }
+
   footer {
     position: absolute;
     right: 10px;
