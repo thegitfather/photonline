@@ -2,7 +2,7 @@
 
 angular.module('photoboxApp').service('geoLocation', function($q, $http) {
 
-  var config = { responseType: "json", cache: true, timeout: 200 };
+  var config = { responseType: "json", cache: true, timeout: 500 };
 
   // var deferred = $q.defer();
   //
