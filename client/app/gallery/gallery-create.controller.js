@@ -6,7 +6,7 @@ angular.module('photoboxApp')
     var vm = this;
     vm.Upload = Upload;
 
-    $scope.files = [];
+    vm.files = [];
     $scope.queueInvalidLength = 0;
 
     Upload.setDefaults({
@@ -23,11 +23,12 @@ angular.module('photoboxApp')
     });
 
     if (location !== undefined && location.hasOwnProperty("country")) {
-      vm.location = location.country + ", " + location.city;
+      vm.locationPlaceholder = location.country + ", " + location.city;
+    } else {
+      vm.locationPlaceholder = "Germany, Berlin";
     }
 
-    $scope.$watchCollection('files', function(newVal, oldVal) {
-      // console.log("$watch files(newVal):", newVal);
+    $scope.$watchCollection('vm.files', function(newVal, oldVal) {
       var fileErrors = 0;
       for (var i = 0; i < newVal.length; i++) {
         if (newVal[i].dimensions === undefined) {
@@ -59,7 +60,7 @@ angular.module('photoboxApp')
       else {
         console.info('The FileReader readAsArrayBuffer API is not supported');
       }
-      // console.log("$scope.files:", $scope.files);
+      // console.log("vm.files:", vm.files);
     });
 
     $scope.$watch('queueInvalidLength', function(newVal, oldVal) {
@@ -68,7 +69,7 @@ angular.module('photoboxApp')
 
     vm.submit = function(form) {
       // console.log("form:", form);
-      if (form.$valid && $scope.files.length > $scope.queueInvalidLength) {
+      if (form.$valid && vm.files.length > $scope.queueInvalidLength) {
         var gallery = {};
         gallery.location = vm.location;
         gallery.timeframeFrom = vm.timeframeFrom;
@@ -81,10 +82,10 @@ angular.module('photoboxApp')
           uploadPromises = [],
           i, pos = 0;
 
-          for (i = 0; i < $scope.files.length; i++) {
-            if($scope.files[i].$error === undefined) {
-              $scope.files[i].position = pos++;
-              validUploads.push(upload($scope.files[i], galleryId));
+          for (i = 0; i < vm.files.length; i++) {
+            if(vm.files[i].$error === undefined) {
+              vm.files[i].position = pos++;
+              validUploads.push(upload(vm.files[i], galleryId));
             }
           }
 
@@ -133,13 +134,13 @@ angular.module('photoboxApp')
       var foundDup, i, j;
       for (i = 0; i < uniqueMd5Arr.length; i++) {
         foundDup = false;
-        for (j = 0; j < $scope.files.length; j++) {
+        for (j = 0; j < vm.files.length; j++) {
           // first occurrance is ok
-          if (foundDup && $scope.files[j].md5 === uniqueMd5Arr[i]) {
-            $scope.files.splice(j, 1);
+          if (foundDup && vm.files[j].md5 === uniqueMd5Arr[i]) {
+            vm.files.splice(j, 1);
             j--;
           }
-          if ($scope.files[j].md5 === uniqueMd5Arr[i]) {
+          if (vm.files[j].md5 === uniqueMd5Arr[i]) {
             foundDup = true;
           }
         }
@@ -147,9 +148,9 @@ angular.module('photoboxApp')
     }
 
     function markServerDuplicates() {
-      for (var i = 0; i < $scope.files.length; i++) {
-        if ($scope.files[i].md5 !== undefined) {
-          markFile($scope.files[i]);
+      for (var i = 0; i < vm.files.length; i++) {
+        if (vm.files[i].md5 !== undefined) {
+          markFile(vm.files[i]);
         }
       }
 
@@ -205,7 +206,7 @@ angular.module('photoboxApp')
           url: '/api/photo/' + file.md5,
           data: uploadData
         }).then(function(res) {
-          console.log("res:", res);
+          // console.log("res:", res);
         });
       }
 

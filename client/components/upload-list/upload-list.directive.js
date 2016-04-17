@@ -8,8 +8,7 @@ angular.module('photoboxApp')
       replace: true,
       scope: {
         'upload': '=',
-        'files': '=',
-        'invalidFiles': '='
+        'files': '='
       },
       link: function(scope, $element, attrs) {
 
