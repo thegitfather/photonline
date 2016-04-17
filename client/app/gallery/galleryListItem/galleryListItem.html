@@ -3,10 +3,15 @@
     <a sref="gallery/{{galleryListItem._id}}" href="gallery/{{galleryListItem._id}}">
       <img ng-src="/uploads/preview/gallery_{{galleryListItem._id}}.jpg">
     </a>
+    <span class="user-name tag is-primary is-small">
+      {{galleryListItem.user_name}}
+    </span>
+    <span class="photo-count tag" title="Gallery contains {{galleryListItem.photo_ids.length}} photos">
+      {{galleryListItem.photo_ids.length}}
+    </span>
   </div>
   <h2 class="title is-4">{{galleryListItem.location}}</h2>
-  <span class="user-name tag is-primary is-small">{{galleryListItem.user_name}}</span>
-  <span class="photo-count tag">{{galleryListItem.photo_ids.length}}</span>
+
   <p class="timeframe">
     <span>{{galleryListItem.timeframeFrom | date:'mediumDate'}}</span>
     <span ng-if="galleryListItem.timeframeFrom !== galleryListItem.timeframeTo">

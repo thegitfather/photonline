@@ -1,19 +1,13 @@
 article.gallery-list-item {
-  position: relative;
+  position: relative; // -> footer is absolute
   flex: 0 0 24%;
-  margin-bottom: 20px;
-  padding: 10px 10px 30px 10px;
-  // &:nth-child(3n-1) {
-  //   margin-left: 2%;
-  //   margin-right: 2%;
-  // }
-  h2.title {
-    margin-bottom: 0.25em;
-  }
-  p {
-    margin-bottom: 1em;
-  }
+  padding: 10px;
+
+  h2.title { margin-bottom: 0.25em; }
+  p { margin-bottom: 1em; }
+
   .preview-image {
+    position: relative;
     img {
       display: block;
       padding: 1px;
@@ -21,21 +15,22 @@ article.gallery-list-item {
       background: #fff;
       box-shadow: 0 0 4px rgba(0, 0, 0, 0.8);
     }
-  }
-  span.tag {
-    position: absolute;
-    box-shadow: 0 0 6px rgba(0, 0, 0, 0.33);
-    font-weight: bold;
-    border: 1px solid #fff;
-    &.user-name {
-      top: 5px;
-      right: 5px;
-    }
-    &.photo-count {
-      top: 146px;
-      left: 5px;
-      border-radius: 0px;
-      border: 1px solid $grey-lighter;
+    span.tag {
+      position: absolute;
+      box-shadow: 0 0 6px rgba(0, 0, 0, 0.33);
+      font-weight: bold;
+      border: 1px solid #fff;
+      cursor: default;
+      &.user-name {
+        top: -5px;
+        right: -5px;
+      }
+      &.photo-count {
+        bottom: -5px;
+        left: -5px;
+        border-radius: 0px;
+        border: 1px solid $grey-lighter;
+      }
     }
   }
 
