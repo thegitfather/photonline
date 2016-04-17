@@ -1,9 +1,11 @@
 'use strict';
 
 angular.module('photoboxApp')
-  .controller('GalleryShowController', ['$scope', '$stateParams', 'Gallery', 'Photo', function ($scope, $stateParams, Gallery, Photo) {
+  .controller('GalleryShowController', ['$scope', '$stateParams', 'Gallery', 'Photo', 'ngDialog', function ($scope, $stateParams, Gallery, Photo, ngDialog) {
     var vm = this;
     vm.photos = [];
+
+    vm.ngDialog = ngDialog;
 
     Gallery.get({ id: $stateParams.id }, function(data) {
       vm.photos = data.photo_ids; // holds just the photo IDs for now

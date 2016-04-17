@@ -1,12 +1,11 @@
 <h1 class="state title is-1">Gallery</h1>
 
-<section class="gallery">
+<section class="gallery-show">
   <div class="container">
-    <article ng-repeat="photo in vm.photos" class="photo">
-      <img ng-src="{{photo.path}}{{photo.filename}}">
-    </article>
 
-    <article class="photo placeholder"
+    <gallery-item ng-repeat="photo in vm.photos"></gallery-item>
+
+    <article class="gallery-item placeholder"
       ng-repeat="placeholder in [1,2,3]">
       <!-- 'flex-row' placeholder for 'justify-content: space-between' -->
     </article>

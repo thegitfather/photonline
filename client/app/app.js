@@ -13,7 +13,8 @@ angular.module('photoboxApp', [
   'ngFileUpload',
   'ljungmann.fileMd5',
   'thegitfather.flabel',
-  'pickadate'
+  'pickadate',
+  'ngDialog'
 ]).config(function($urlRouterProvider, $locationProvider, pickadateI18nProvider) {
   $urlRouterProvider.otherwise('/');
   $locationProvider.html5Mode(true);
