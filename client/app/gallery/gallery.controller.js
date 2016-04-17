@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('photoboxApp')
-  .controller('GalleryController', ['$scope', 'Gallery', 'User', function ($scope, Gallery, User) {
+  .controller('GalleryController', ['$scope', 'Gallery', 'User', '$q', '_', function ($scope, Gallery, User, $q, _) {
     var vm = this;
     var galleries;
 
@@ -28,17 +28,47 @@ angular.module('photoboxApp')
 
     galleries.then(function(data) {
       // console.log("data:", data);
+      var relevantUsers = [], i;
       vm.galleries = data;
-      vm.galleries.forEach(function(value, index) {
-        User.get({id: vm.galleries[index].user_id}).$promise.then(function(user) {
-          vm.galleries[index].user_name = user.name;
-          if (vm.usernames.indexOf(user.name) === -1) {
-            vm.usernames.push(user.name);
-            vm.usernames.sort();
+
+      // push user_ids for all galleries into array
+      for (i = 0; i < vm.galleries.length; i++) {
+        relevantUsers.push(vm.galleries[i].user_id);
+      }
+      // make array unique
+      relevantUsers = _.uniq(relevantUsers);
+      // replace user_ids with user promise
+      for (i = 0; i < relevantUsers.length; i++) {
+        relevantUsers[i] = User.get({id: relevantUsers[i]}).$promise.catch(angular.noop);
+      }
+
+      // set user_name for every gallery
+      $q.all(relevantUsers).then(function (users) {
+        for (i = 0; i < vm.galleries.length; i++) {
+          var temp = findUserWithId(vm.galleries[i].user_id);
+          if (temp !== undefined) {
+            vm.galleries[i].user_name = temp.name;
+          } else {
+            vm.galleries[i].user_name = "[unknown user_id]";
           }
-        }, function() {
-          console.error("User.get() failed!");
-        });
+        }
+
+        // set values for username filter
+        for (i = 0; i < users.length; i++) {
+          if (users[i] !== undefined) {
+            vm.usernames.push(users[i].name);
+          }
+        }
+        vm.usernames.sort();
+
+        function findUserWithId(id) {
+          var user = _.find(users, function(o) {
+            if (o !== undefined) {
+              return o.id === id;
+            }
+          });
+          return user;
+        }
       });
     });
 
