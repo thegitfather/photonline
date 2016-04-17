@@ -11,3 +11,34 @@
     justify-content: space-between;
   }
 }
+
+.gallery {
+  .container {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    // flex-flow: row wrap;
+    justify-content: space-between;
+  }
+  article.photo {
+    display: flex;
+    align-items: center;
+    width: 24%;
+    height: 200px;
+    &.placeholder {
+      height: 1px;
+      padding: 0;
+      margin: 0;
+      visibility: hidden;
+    }
+    img {
+      max-width: 100%;
+      max-height: 100%;
+      margin: 0 auto;
+      background: #fff;
+      padding: 1px;
+      margin-bottom: 1em;
+      box-shadow: 0 0 4px rgba(0, 0, 0, 0.8);
+    }
+  }
+}

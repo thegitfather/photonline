@@ -1,9 +1,14 @@
-<h1 class="state title">Gallery</h1>
-
-<!-- TODO: filters: username, date, location -->
+<h1 class="state title is-1">Gallery</h1>
 
 <section class="gallery">
-  <article ng-repeat="photo in vm.photos" class="photo">
-    <img ng-src="{{photo.path}}{{photo.filename}}">
-  </article>
+  <div class="container">
+    <article ng-repeat="photo in vm.photos" class="photo">
+      <img ng-src="{{photo.path}}{{photo.filename}}">
+    </article>
+
+    <article class="photo placeholder"
+      ng-repeat="placeholder in [1,2,3]">
+      <!-- 'flex-row' placeholder for 'justify-content: space-between' -->
+    </article>
+  </div>
 </section>
