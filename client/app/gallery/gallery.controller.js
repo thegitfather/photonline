@@ -36,6 +36,8 @@ angular.module('photoboxApp')
             vm.usernames.push(user.name);
             vm.usernames.sort();
           }
+        }, function() {
+          console.error("User.get() failed!");
         });
       });
     });
