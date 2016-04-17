@@ -25,7 +25,7 @@ angular.module('photoboxApp')
     if (location !== undefined && location.hasOwnProperty("country")) {
       vm.locationPlaceholder = location.country + ", " + location.city;
     } else {
-      vm.locationPlaceholder = "Germany, Berlin";
+      vm.locationPlaceholder = "USA, New York";
     }
 
     $scope.$watchCollection('vm.files', function(newVal, oldVal) {
