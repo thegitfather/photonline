@@ -6,6 +6,7 @@
 @import 'global-scss/fonts';
 @import 'global-scss/layout';
 @import 'global-scss/form';
+@import 'global-scss/links';
 
 @import '../bower_components/bulma_TODO/bulma';
 @import 'global-scss/bulma-overwrites';
@@ -19,6 +20,7 @@
 @import 'gallery/gallery';
 @import 'gallery/galleryListItem/galleryListItem';
 @import 'gallery/galleryItem/galleryItem';
+@import 'gallery/galleryItem/photo';
 @import 'main/main';
 @import '../components/file-drop-area/file-drop-area';
 @import '../components/oauth-buttons/oauth-buttons';

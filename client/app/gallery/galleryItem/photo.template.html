@@ -1,4 +1,14 @@
 <div class="wrapper">
-  <!-- <h1>Template heading</h1> -->
-  <img ng-src="{{photo.path}}{{photo.filename}}" style="max-height: {{windowHeight-120}}px;">
+  <h1>{{originalFilename}}</h1>
+  <img ng-src="{{photo.path}}{{photo.filename}}" style="max-height: {{windowHeight-100}}px;">
+  <div class="controls">
+    <div class="click-area next" ng-show="!($last)" ng-click="openNext()"></div>
+    <a href="#" class="next" title="next" ng-show="!($last)" ng-click="openNext()">
+      <i class="fa fa-arrow-circle-right fa-3x" aria-hidden="true"></i>
+    </a>
+    <div class="click-area prev" ng-show="!($first)" ng-click="openPrev()"></div>
+    <a href="#" class="prev" title="previous" ng-show="!($first)" ng-click="openPrev()">
+      <i class="fa fa-arrow-circle-left fa-3x" aria-hidden="true"></i>
+    </a>
+  </div>
 </div>

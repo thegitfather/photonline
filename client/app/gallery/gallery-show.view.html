@@ -3,7 +3,7 @@
 <section class="gallery-show">
   <div class="container">
 
-    <gallery-item ng-repeat="photo in vm.photos"></gallery-item>
+    <gallery-item ng-repeat="photo in vm.photos" id="gallery-item-{{$index}}"></gallery-item>
 
     <article class="gallery-item placeholder"
       ng-repeat="placeholder in [1,2,3]">
