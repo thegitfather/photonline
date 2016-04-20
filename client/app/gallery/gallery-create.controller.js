@@ -19,6 +19,8 @@ angular.module('photoboxApp')
       ngfKeep: "'distinct'",
       ngfMinRatio: "2:3.01",
       ngfMaxRatio: "16.01:9",
+      ngfMinWidth: "400",
+      ngfMaxWidth: "4400",
       ngModelOptions: { allowInvalid: true }
     });
 
@@ -29,10 +31,11 @@ angular.module('photoboxApp')
     }
 
     $scope.$watchCollection('vm.files', function(newVal, oldVal) {
+      console.log("newVal:", newVal);
       var fileErrors = 0;
       for (var i = 0; i < newVal.length; i++) {
         if (newVal[i].dimensions === undefined) {
-          appendDimensions(newVal[i]);
+          // appendDimensions(newVal[i]);
         }
         if (newVal[i].$error !== undefined) {
           fileErrors += 1;
