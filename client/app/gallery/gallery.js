@@ -12,7 +12,7 @@ angular.module('photoboxApp')
   .state('gallery.list', {
     url: '/list',
     templateUrl: 'app/gallery/gallery-list.view.html',
-    controller: 'GalleryController',
+    controller: 'GalleryListController',
     controllerAs: 'vm'
   })
   .state('gallery.create', {

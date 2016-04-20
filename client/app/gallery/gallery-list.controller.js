@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('photoboxApp')
-  .controller('GalleryController', ['$scope', 'Gallery', 'User', '$q', '_', function ($scope, Gallery, User, $q, _) {
+  .controller('GalleryListController', ['$scope', 'Gallery', 'User', '$q', '_', function ($scope, Gallery, User, $q, _) {
     var vm = this;
     var galleries;
 
