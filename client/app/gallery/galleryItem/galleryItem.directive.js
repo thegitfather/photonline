@@ -13,7 +13,6 @@ angular.module('photoboxApp')
       link: function (scope, element, attrs) {
         var ngDialog = scope.$parent.vm.ngDialog;
         scope.windowHeight = window.innerHeight;
-        scope.originalFilename = scope.photo.originalFilename;
 
         element.find("a").on("click", function(e) {
           ngDialog.closeAll();

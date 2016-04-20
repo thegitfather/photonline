@@ -1,5 +1,5 @@
 <div class="wrapper">
-  <h1>{{originalFilename}}</h1>
+  <h1>{{photo.originalFilename}}</h1>
   <img ng-src="{{photo.path}}{{photo.filename}}" style="max-height: {{windowHeight-100}}px;">
   <div class="controls">
     <div class="click-area next" ng-show="!($last)" ng-click="openNext()"></div>
