@@ -7,7 +7,9 @@
       {{vm.gallery.timeframeTo | date:'mediumDate'}}
     </span>
   </p>
-  <p class="description">{{vm.gallery.description}}</p>
+  <p class="description" ng-show="vm.gallery.description">{{vm.gallery.description}}</p>
+
+  <hr>
 
   <div class="container">
     <gallery-item id="gallery-item-{{$index}}"

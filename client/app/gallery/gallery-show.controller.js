@@ -8,7 +8,6 @@ angular.module('photoboxApp')
     vm.ngDialog = ngDialog;
 
     Gallery.get({ id: $stateParams.id }).$promise.then(function(galleryData) {
-      console.log("galleryData:", galleryData);
       vm.gallery = galleryData;
       vm.photos = galleryData.photo_ids; // holds just the photo IDs for now
 

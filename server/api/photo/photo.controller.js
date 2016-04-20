@@ -161,9 +161,8 @@ export function create(req, res) {
         photo.path = dest;
         photo.filename = filename;
 
-        if (photo.position === 0) {
-          createPreviewImage(photo.gallery_id);
-        }
+        // TODO: promise?
+        createThumbnail(photo);
 
         // push current photo id to gallery
         Gallery.findById(photo.gallery_id).exec()
@@ -185,9 +184,7 @@ export function create(req, res) {
     clientPhotoData.path = dest;
     clientPhotoData.filename = md5 + ".jpg";
 
-    if (clientPhotoData.position === 0) {
-      createPreviewImage(clientPhotoData.gallery_id);
-    }
+    createThumbnail(clientPhotoData, true);
 
     // push current photo id to gallery
     Gallery.findById(clientPhotoData.gallery_id).exec()
@@ -202,20 +199,47 @@ export function create(req, res) {
       .catch(handleError(res));
   }
 
-  function createPreviewImage(galleryId) {
+  function createThumbnail(photo, alreadyExisiting = false) {
+    // console.log("photo:", photo);
     fs.stat(dest + filename, function(err, stats) {
       if (stats !== undefined) {
-        mkdirp.sync("uploads/preview/");
-        sharp(dest + filename)
-        // .resize(196, null)
-        .resize(204, 153) // 4:3
-        .toFile('uploads/preview/gallery_' + galleryId + '.jpg')
-        .then(info => {
-          // console.log("info:", info);
-        })
-        .catch(err => {
-          console.error("err:", err);
-        });
+        let image = sharp(dest + filename);
+
+        mkdirp.sync("./uploads/thumbnails/");
+
+        image
+          .metadata()
+          .then(function(metadata) {
+            // console.log("metadata:", metadata);
+            return image;
+          })
+          .then(data => {
+            if (!alreadyExisiting) {
+              return image
+                .resize(204, 204)
+                .max()
+                .toFile('./uploads/thumbnails/thumb_' + photo.md5 + '.jpg')
+            } else {
+              return image;
+            }
+
+          })
+          .then(data => {
+            if (photo.position === 0) {
+              return image
+                .resize(204, 204)
+                .max()
+                .toFile('./uploads/thumbnails/gallery_' + photo.gallery_id + '.jpg');
+            }
+
+          })
+          .then(info => {
+            // console.log("info:", info);
+          })
+          .catch(err => {
+            console.error("err:", err);
+          });
+
       }
     });
   }
