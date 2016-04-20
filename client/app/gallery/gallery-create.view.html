@@ -6,7 +6,6 @@
       <div class="column is-half">
 
         <div class="control">
-          <!-- TODO: add validation, guess country by IP service? -->
           <input id="location" class="input" name="location" type="text" placeholder="{{vm.locationPlaceholder}}"
             ng-model="vm.location"
             required
@@ -44,6 +43,13 @@
             flabel="Description" />
         </div>
 
+        <div class="control">
+          <button type="submit" class="button is-primary"
+            ng-class="{ 'is-disabled': (vm.form.$invalid && vm.form.$submitted) || vm.Upload.isUploadInProgress()}">
+            Create
+          </button>
+        </div>
+
       </div>
 
       <div class="column is-half">
@@ -57,13 +63,6 @@
         <h2 class="title is-2">Upload List</h2>
         <upload-list></upload-list>
       </div>
-    </div>
-
-    <div class="control">
-      <button type="submit" class="button is-primary"
-        ng-class="{ 'is-disabled': (vm.form.$invalid && vm.form.$submitted) || vm.Upload.isUploadInProgress()}">
-        Create
-      </button>
     </div>
 
   </form>

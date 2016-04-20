@@ -40,6 +40,7 @@ angular.module('photoboxApp')
       }
       $scope.queueInvalidLength = fileErrors;
 
+      // check if browser can calc md5
       if (window.FileReader && window.FileReader.prototype.readAsArrayBuffer) {
         var md5Promises = [];
         var diffArr = _.difference(newVal, oldVal);
@@ -60,15 +61,14 @@ angular.module('photoboxApp')
       else {
         console.info('The FileReader readAsArrayBuffer API is not supported');
       }
-      // console.log("vm.files:", vm.files);
     });
 
+    // workaround: ngFileUpload elements will not be valid after dropping invalid files
     $scope.$watch('queueInvalidLength', function(newVal, oldVal) {
       setValid( [vm.form.fileDropArea, vm.form.fileSelectInput] );
     });
 
     vm.submit = function(form) {
-      // console.log("form:", form);
       if (form.$valid && vm.files.length > $scope.queueInvalidLength) {
         var gallery = {};
         gallery.location = vm.location;
@@ -78,14 +78,13 @@ angular.module('photoboxApp')
 
         $http.post("/api/gallery", gallery).then(response => {
           var galleryId = response.data._id,
-          validUploads = [],
           uploadPromises = [],
           i, pos = 0;
 
           for (i = 0; i < vm.files.length; i++) {
-            if(vm.files[i].$error === undefined) {
+            if (vm.files[i].$error === undefined) {
               vm.files[i].position = pos++;
-              validUploads.push(upload(vm.files[i], galleryId));
+              uploadPromises.push(upload(vm.files[i], galleryId));
             }
           }
 
