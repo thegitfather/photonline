@@ -1,9 +1,18 @@
-<h1 class="state title is-1">Gallery</h1>
-
 <section class="gallery-show">
-  <div class="container">
+  <h1 class="state title is-1">{{vm.gallery.location}}</h1>
+  <p class="timeframe">
+    <span>{{vm.gallery.timeframeFrom | date:'mediumDate'}}</span>
+    <span ng-if="vm.gallery.timeframeFrom !== vm.gallery.timeframeTo">
+      &nbsp;-&nbsp;
+      {{vm.gallery.timeframeTo | date:'mediumDate'}}
+    </span>
+  </p>
+  <p class="description">{{vm.gallery.description}}</p>
 
-    <gallery-item ng-repeat="photo in vm.photos" id="gallery-item-{{$index}}"></gallery-item>
+  <div class="container">
+    <gallery-item id="gallery-item-{{$index}}"
+      ng-repeat="photo in vm.photos | orderBy: 'position'">
+    </gallery-item>
 
     <article class="gallery-item placeholder"
       ng-repeat="placeholder in [1,2,3]">
