@@ -45,7 +45,8 @@
 
         <div class="control">
           <button type="submit" class="button is-primary"
-            ng-class="{ 'is-disabled': (vm.form.$invalid && vm.form.$submitted) || vm.Upload.isUploadInProgress()}">
+            ng-class="{ 'is-disabled': (vm.form.$invalid && vm.form.$submitted) || vm.Upload.isUploadInProgress() || vm.busy,
+                        'is-loading': vm.busy }">
             Create
           </button>
         </div>

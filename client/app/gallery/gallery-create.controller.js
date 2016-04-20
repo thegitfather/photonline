@@ -32,6 +32,7 @@ angular.module('photoboxApp')
 
     $scope.$watchCollection('vm.files', function(newVal, oldVal) {
       // console.log("newVal:", newVal);
+      vm.busy = true;
       var fileErrors = 0;
       for (var i = 0; i < newVal.length; i++) {
         if (newVal[i].dimensions === undefined) {
@@ -59,6 +60,7 @@ angular.module('photoboxApp')
           md5Arr = _.union(values, md5Arr);
           removeDuplicates(md5Arr);
           markServerDuplicates();
+          vm.busy = false;
         });
       }
       else {
@@ -83,6 +85,8 @@ angular.module('photoboxApp')
           var galleryId = response.data._id,
           uploadPromises = [],
           i, pos = 0;
+
+          vm.busy = true;
 
           for (i = 0; i < vm.files.length; i++) {
             if (vm.files[i].$error === undefined) {
@@ -150,14 +154,20 @@ angular.module('photoboxApp')
     }
 
     function markServerDuplicates() {
+      var checkPhotoPromises = [];
+      vm.busy = true;
       for (var i = 0; i < vm.files.length; i++) {
         if (vm.files[i].md5 !== undefined) {
-          markFile(vm.files[i]);
+          checkPhotoPromises.push( checkPhoto(vm.files[i]) );
         }
       }
 
-      function markFile(file) {
-        $http({
+      $q.all(checkPhotoPromises).then(function() {
+        vm.busy = false;
+      });
+
+      function checkPhoto(file) {
+        return $http({
           method: 'GET',
           url: '/api/photo/check/' + file.md5
         }).then(function(res) {
@@ -203,12 +213,10 @@ angular.module('photoboxApp')
       }
 
       if (file.fileAlreadyExists) {
-        $http({
+        return $http({
           method: 'POST',
           url: '/api/photo/' + file.md5,
           data: uploadData
-        }).then(function(res) {
-          // console.log("res:", res);
         });
       }
 
