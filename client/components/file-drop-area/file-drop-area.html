@@ -2,6 +2,8 @@
   files="vm.files"
   form="vm.form"
   queue-invalid-length="{{queueInvalidLength}}"
+  busy="{{vm.busy}}"
+  ngf-drop-disabled="{{busy}}"
   ngf-drop
   ng-model="files"
   ng-class="{ invalid: (form.queueLength.$invalid && form.$submitted) }">
@@ -15,7 +17,7 @@
   </div>
   <span class="queueLength">{{ files.length - queueInvalidLength }}</span>
   <span class="queueLength invalid" ng-show="queueInvalidLength > 0">-{{ queueInvalidLength }}</span>
-  <input type="file" name="fileSelectInput" ngf-select ng-model="files" />
+  <input type="file" name="fileSelectInput" ngf-select ng-model="files" ngf-select-disabled="{{busy}}" />
   <input type="number" name="queueLength" ng-model="files.length" min="1" />
   <div class="notification is-danger"
     ng-class="{ visible: (form.queueLength.$error.min && form.$submitted) }">

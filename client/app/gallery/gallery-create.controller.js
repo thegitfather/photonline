@@ -7,6 +7,7 @@ angular.module('photoboxApp')
     vm.Upload = Upload;
 
     vm.files = [];
+    vm.busy = false;
     $scope.queueInvalidLength = 0;
 
     Upload.setDefaults({
@@ -36,6 +37,7 @@ angular.module('photoboxApp')
       var fileErrors = 0;
       for (var i = 0; i < newVal.length; i++) {
         if (newVal[i].dimensions === undefined) {
+          // TODO: https://github.com/danialfarid/ng-file-upload/issues/1490
           // appendDimensions(newVal[i]);
         }
         if (newVal[i].$error !== undefined) {
@@ -72,6 +74,9 @@ angular.module('photoboxApp')
     $scope.$watch('queueInvalidLength', function(newVal, oldVal) {
       setValid( [vm.form.fileDropArea, vm.form.fileSelectInput] );
     });
+
+    // TODO: window.onbeforeunload = "Are you sure you want to leave?";
+    // window.onbeforeunload = null;
 
     vm.submit = function(form) {
       if (form.$valid && vm.files.length > $scope.queueInvalidLength) {

@@ -9,14 +9,17 @@ angular.module('photoboxApp')
       scope: {
         'files': '=',
         'form': '=',
-        'queueInvalidLength': '@'
+        'queueInvalidLength': '@',
+        'busy': '@',
       },
       link: function(scope, $element, attrs) {
         var $fileInput = $element.find("input");
         $fileInput.css("display", "none");
 
         $element.on("click", function(e) {
-          $fileInput[0].click();
+          if (attrs.busy !== "true") {
+            $fileInput[0].click();
+          }
         });
       }
     };

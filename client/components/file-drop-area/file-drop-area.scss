@@ -18,9 +18,16 @@
     border-color: $green;
     background-color: #fff;
   }
+  &[ngf-drop-disabled='true'] {
+    cursor: default;
+  }
+  &[ngf-drop-disabled='true'] .text-wrapper {
+    opacity: 0.33;
+  }
   .text-wrapper {
     margin: 0 auto;
     pointer-events: none;
+    @include transition-opacity($speed: 100ms, $func: linear);
   }
   .queueLength {
     position: absolute;
