@@ -28,8 +28,8 @@ router.get('/:id', photoCtrl.show);
 router.get('/check/:checksum', photoCtrl.check);
 router.post('/:checksum', auth.isAuthenticated(), photoCtrl.create);
 router.put('/edit/:id', auth.isAuthenticated(), photoCtrl.update);
-// router.patch('/:id', auth.isAuthenticated(), galleryCtrl.update);
-// router.delete('/delete/:id', auth.isAuthenticated(), galleryCtrl.destroy);
+// router.patch('/:id', auth.isAuthenticated(), photoCtrl.update);
+router.delete('/:id', auth.isAuthenticated(), photoCtrl.destroy);
 
 
 export default router;

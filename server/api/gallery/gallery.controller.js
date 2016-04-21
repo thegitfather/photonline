@@ -11,6 +11,7 @@
 
 import _ from 'lodash';
 import Gallery from './gallery.model';
+import Photo from '../photo/photo.model'
 
 
 function respondWithResult(res, statusCode) {
@@ -99,8 +100,21 @@ export function update(req, res) {
 
 // Deletes a Gallery from the DB
 export function destroy(req, res) {
+  Gallery.findById(req.params.id).exec().then(gallery => {
+    console.log("gallery:", gallery);
+    let photoIds = gallery.photo_ids;
+    photoIds.forEach(function(photoId) {
+      Photo.findById(photoId).exec()
+        .then(handleEntityNotFound(res))
+        .then(removeEntity(res))
+        .then(respondWithResult(res))
+        .catch(handleError(res));
+    });
+  });
+
   return Gallery.findById(req.params.id).exec()
     .then(handleEntityNotFound(res))
     .then(removeEntity(res))
+    .then(respondWithResult(res))
     .catch(handleError(res));
 }

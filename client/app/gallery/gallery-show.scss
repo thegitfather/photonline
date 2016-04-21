@@ -1,6 +1,12 @@
 .gallery-show {
   @extend %box;
+  position: relative;
   p { margin-bottom: 1em; }
+  .user-actions {
+    position: absolute;
+    top: 1em;
+    right: 1em;
+  }
   .container {
     display: flex;
     flex-wrap: wrap;
