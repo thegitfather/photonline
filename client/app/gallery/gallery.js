@@ -32,6 +32,15 @@ angular.module('photoboxApp')
     templateUrl: 'app/gallery/gallery-show.view.html',
     controller: 'GalleryShowController',
     controllerAs: 'vm'
+  })
+  .state('gallery.show-photo', {
+    url: '/:id/:position',
+    template: '<div>TODO: gallery.show-photo</div>',
+    controller: 'GalleryShowPhotoController',
+    controllerAs: 'vm',
+    params: {
+      position: "0" // default
+    }
   });
 
   // $urlRouterProvider.otherwise('/gallery/create');
