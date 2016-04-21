@@ -9,10 +9,9 @@
 	],
 	"uploadLimits": {
 		"minFileSize": 10240,
-		"maxFileSize": 8388608,
+		"maxFileSize": 6291456,
 		"queueLimit": 100
-	},
-	"poolPath": "./uploads/pool/"
+	}
 })
 
 ;
