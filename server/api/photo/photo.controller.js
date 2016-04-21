@@ -13,9 +13,9 @@ import _ from 'lodash';
 import Photo from './photo.model';
 import Gallery from '../gallery/gallery.model';
 import multer from 'multer';
-import mkdirp from 'mkdirp';
 import sharp from 'sharp';
-import fs from 'fs';
+import fileExists from 'file-exists';
+import config from '../../config/environment';
 import sharedConfig from '../../config/environment/shared';
 
 
@@ -82,17 +82,9 @@ export function show(req, res) {
 }
 
 export function check(req, res) {
-  console.log("check() - req.params.checksum:", req.params.checksum);
-  Photo.findOne({ md5: req.params.checksum }).exec().then(data => {
-    // console.log("data:", data);
-    if (data) {
-      console.log("fileAlreadyExists: true");
-      res.send({fileAlreadyExists: true}).end();
-    } else {
-      console.log("fileAlreadyExists: false");
-      res.send({fileAlreadyExists: false}).end();
-    }
-  }).catch(handleError(res));
+  let fileDoesExist = fileExists(config.poolPath + req.params.checksum + ".jpg");
+  console.log("check() if file exists:", fileDoesExist);
+  res.send({fileAlreadyExists: fileDoesExist}).end();
 }
 
 // Creates a new Photo in the DB
@@ -106,24 +98,18 @@ export function create(req, res) {
   let photo;
   let md5 = req.params.checksum;
   let filename = md5 + ".jpg";
+  let fileDoesExist = fileExists(config.poolPath + req.params.checksum + ".jpg");
 
-  // prevent upload if md5 already in db
-  Photo.findOne({ md5: md5 }).exec().then(existingPhoto => {
-    // console.log("data:", data);
-    if (existingPhoto) {
-      console.log("serverCheck fileAlreadyExists: true (gonna skip upload...)");
-      skipUpload(existingPhoto);
-    } else {
-      console.log("serverCheck fileAlreadyExists: false (gonna upload...)");
-      upload();
-    }
-  }).catch(handleError(res));
+  if (fileDoesExist) {
+    skipUpload();
+  } else {
+    upload();
+  }
 
   function upload() {
     let storage = multer.diskStorage({
       destination: function (req, file, cb) {
-        mkdirp.sync(sharedConfig.poolPath);
-        cb(null, sharedConfig.poolPath);
+        cb(null, config.poolPath);
       },
       filename: function (req, file, cb) {
         // console.log("file:", file);
@@ -155,7 +141,7 @@ export function create(req, res) {
         });
       } else {
         photo = new Photo(req.body);
-        photo.path = sharedConfig.poolPath;
+        photo.path = config.poolPath;
         photo.filename = filename;
 
         // TODO: promise?
@@ -176,12 +162,12 @@ export function create(req, res) {
     })
   }
 
-  function skipUpload(existingPhoto) {
+  function skipUpload() {
     let clientPhotoData = new Photo(req.body);
-    clientPhotoData.path = sharedConfig.poolPath;
-    clientPhotoData.filename = md5 + ".jpg";
+    clientPhotoData.path = config.poolPath;
+    clientPhotoData.filename = clientPhotoData.md5 + ".jpg";
 
-    createThumbnail(clientPhotoData, true);
+    createThumbnail(clientPhotoData);
 
     // push current photo id to gallery
     Gallery.findById(clientPhotoData.gallery_id).exec()
@@ -196,49 +182,40 @@ export function create(req, res) {
       .catch(handleError(res));
   }
 
-  function createThumbnail(photo, alreadyExisiting = false) {
+  function createThumbnail(photo) {
     // console.log("photo:", photo);
-    fs.stat(sharedConfig.poolPath + filename, function(err, stats) {
-      if (stats !== undefined) {
-        let image = sharp(sharedConfig.poolPath + filename);
+    let image = sharp(config.poolPath + filename);
 
-        mkdirp.sync("./uploads/thumbnails/");
+    image
+      .metadata()
+      .then(function(metadata) {
+        // console.log("metadata:", metadata);
+        return image;
+      })
+      .then(data => {
+        if (!fileDoesExist) {
+          return image
+            .resize(204, 204)
+            .max()
+            .toFile('./uploads/thumbnails/thumb_' + photo.md5 + '.jpg')
+        }
+      })
+      .then(data => {
+        // create gallery preview image for gallery list view
+        if (photo.position === 0) {
+          return image
+            .resize(204, 204)
+            .max()
+            .toFile('./uploads/thumbnails/gallery_' + photo.gallery_id + '.jpg');
+        }
+      })
+      .then(info => {
+        // console.log("info:", info);
+      })
+      .catch(err => {
+        console.error("err:", err);
+      });
 
-        image
-          .metadata()
-          .then(function(metadata) {
-            // console.log("metadata:", metadata);
-            return image;
-          })
-          .then(data => {
-            if (!alreadyExisiting) {
-              return image
-                .resize(204, 204)
-                .max()
-                .toFile('./uploads/thumbnails/thumb_' + photo.md5 + '.jpg')
-            } else {
-              return image;
-            }
-
-          })
-          .then(data => {
-            if (photo.position === 0) {
-              return image
-                .resize(204, 204)
-                .max()
-                .toFile('./uploads/thumbnails/gallery_' + photo.gallery_id + '.jpg');
-            }
-
-          })
-          .then(info => {
-            // console.log("info:", info);
-          })
-          .catch(err => {
-            console.error("err:", err);
-          });
-
-      }
-    });
   }
 
   function getRandomHash(count) {

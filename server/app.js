@@ -9,6 +9,7 @@ import mongoose from 'mongoose';
 mongoose.Promise = require('bluebird');
 import config from './config/environment';
 import http from 'http';
+import mkdirp from 'mkdirp';
 
 // Connect to MongoDB
 mongoose.connect(config.mongo.uri, config.mongo.options);
@@ -25,6 +26,10 @@ var app = express();
 var server = http.createServer(app);
 require('./config/express').default(app);
 require('./routes').default(app);
+
+// Create upload directories
+mkdirp.sync(config.poolPath);
+mkdirp.sync(config.thumbnailPath);
 
 // Start server
 function startServer() {

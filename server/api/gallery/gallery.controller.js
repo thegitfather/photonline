@@ -101,7 +101,7 @@ export function update(req, res) {
 // Deletes a Gallery from the DB
 export function destroy(req, res) {
   Gallery.findById(req.params.id).exec().then(gallery => {
-    console.log("gallery:", gallery);
+    // console.log("gallery:", gallery);
     let photoIds = gallery.photo_ids;
     photoIds.forEach(function(photoId) {
       Photo.findById(photoId).exec()

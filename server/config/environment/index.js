@@ -18,6 +18,9 @@ var all = {
   // Root path of server
   root: path.normalize(__dirname + '/../../..'),
 
+  poolPath: './uploads/pool/',
+  thumbnailPath: './uploads/thumbnails/',
+
   // Server port
   port: process.env.PORT || 9000,
 
