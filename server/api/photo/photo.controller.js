@@ -103,8 +103,6 @@ export function check(req, res) {
 // }
 
 export function create(req, res) {
-  const dest = './uploads/pool/';
-
   let photo;
   let md5 = req.params.checksum;
   let filename = md5 + ".jpg";
@@ -123,10 +121,9 @@ export function create(req, res) {
 
   function upload() {
     let storage = multer.diskStorage({
-      // destination: './uploads/'+ req.user.name,
       destination: function (req, file, cb) {
-        mkdirp.sync(dest);
-        cb(null, dest);
+        mkdirp.sync(sharedConfig.poolPath);
+        cb(null, sharedConfig.poolPath);
       },
       filename: function (req, file, cb) {
         // console.log("file:", file);
@@ -158,7 +155,7 @@ export function create(req, res) {
         });
       } else {
         photo = new Photo(req.body);
-        photo.path = dest;
+        photo.path = sharedConfig.poolPath;
         photo.filename = filename;
 
         // TODO: promise?
@@ -181,7 +178,7 @@ export function create(req, res) {
 
   function skipUpload(existingPhoto) {
     let clientPhotoData = new Photo(req.body);
-    clientPhotoData.path = dest;
+    clientPhotoData.path = sharedConfig.poolPath;
     clientPhotoData.filename = md5 + ".jpg";
 
     createThumbnail(clientPhotoData, true);
@@ -201,9 +198,9 @@ export function create(req, res) {
 
   function createThumbnail(photo, alreadyExisiting = false) {
     // console.log("photo:", photo);
-    fs.stat(dest + filename, function(err, stats) {
+    fs.stat(sharedConfig.poolPath + filename, function(err, stats) {
       if (stats !== undefined) {
-        let image = sharp(dest + filename);
+        let image = sharp(sharedConfig.poolPath + filename);
 
         mkdirp.sync("./uploads/thumbnails/");
 

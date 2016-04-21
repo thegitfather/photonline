@@ -11,7 +11,8 @@
 		"minFileSize": 10240,
 		"maxFileSize": 8388608,
 		"queueLimit": 100
-	}
+	},
+	"poolPath": "./uploads/pool/"
 })
 
 ;
