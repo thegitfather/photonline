@@ -18,8 +18,8 @@ var all = {
   // Root path of server
   root: path.normalize(__dirname + '/../../..'),
 
-  poolPath: './uploads/pool/',
-  thumbnailPath: './uploads/thumbnails/',
+  poolPath: './public/uploads/pool/',
+  thumbnailPath: './public/uploads/thumbnails/',
 
   // Server port
   port: process.env.PORT || 9000,
@@ -62,6 +62,9 @@ var all = {
     callbackURL:  (process.env.DOMAIN || '') + '/auth/google/callback'
   }
 };
+
+console.log("all.facebook:", all.facebook);
+console.log("all.twitter:", all.twitter);
 
 // Export the config object based on the NODE_ENV
 // ==============================================

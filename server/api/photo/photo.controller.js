@@ -197,7 +197,7 @@ export function create(req, res) {
           return image
             .resize(204, 204)
             .max()
-            .toFile('./uploads/thumbnails/thumb_' + photo.md5 + '.jpg')
+            .toFile('./public/uploads/thumbnails/thumb_' + photo.md5 + '.jpg')
         }
       })
       .then(data => {
@@ -206,7 +206,7 @@ export function create(req, res) {
           return image
             .resize(204, 204)
             .max()
-            .toFile('./uploads/thumbnails/gallery_' + photo.gallery_id + '.jpg');
+            .toFile('./public/uploads/thumbnails/gallery_' + photo.gallery_id + '.jpg');
         }
       })
       .then(info => {

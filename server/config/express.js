@@ -68,6 +68,8 @@ export default function(app) {
 
   app.set('appPath', path.join(config.root, 'client'));
 
+  app.use('/public', express.static(path.join(config.root, 'public')));
+
   if ('production' === env) {
     app.use(favicon(path.join(config.root, 'client', 'favicon.ico')));
     app.use(express.static(app.get('appPath')));
@@ -81,7 +83,6 @@ export default function(app) {
   if ('development' === env || 'test' === env) {
     app.use(express.static(path.join(config.root, '.tmp')));
     app.use(express.static(app.get('appPath')));
-    app.use('/uploads', express.static(path.join(config.root, 'uploads')));
     app.use(morgan('dev'));
     app.use(errorHandler()); // Error handler - has to be last
   }
