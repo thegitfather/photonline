@@ -1,4 +1,8 @@
-<article class="upload-list" upload="vm.Upload" files="vm.files">
+<article class="upload-list"
+  upload="vm.Upload"
+  files="vm.files"
+  ng-show="files.length"
+  ng-class="{visible: files.length}">
   <div class="pseudo-table">
     <div class="row head">
       <div class="cell name">Filename</div>

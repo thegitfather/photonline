@@ -1,4 +1,6 @@
 .upload-list {
+  @include transition-opacity($init-opacity: 0);
+  &.visible { opacity: 1; }
 
   .row.body {
     .cell {
