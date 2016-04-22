@@ -19,3 +19,12 @@
 .button.is-loading.is-disabled {
   color: transparent;
 }
+
+.header-tab {
+  &:not(.is-active) {
+    &:hover, &:focus {
+      border-bottom: 1px solid $link;
+      color: $grey-darker;
+    }
+  }
+}

@@ -37,16 +37,6 @@ form {
 
   ::-webkit-input-placeholder { color: $grey;}
 
-  .pickadate-modal {
-    top: auto!important;
-    left: auto!important;
-  }
-
-  .pickadate-cell .pickadate-active {
-    background-color: $primary;
-  }
-
-
   .server-responses {
     border-top: 1px solid $grey-light;
     margin-bottom: 10px;

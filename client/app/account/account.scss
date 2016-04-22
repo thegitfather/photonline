@@ -1,0 +1,5 @@
+section {
+  &.login, &.settings, &.signup {
+    @extend %box;
+  }
+}

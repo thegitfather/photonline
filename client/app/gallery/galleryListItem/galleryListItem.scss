@@ -8,13 +8,6 @@ article.gallery-list-item {
 
   .preview-image {
     position: relative;
-    img {
-      display: block;
-      padding: 1px;
-      margin-bottom: 1em;
-      background: #fff;
-      box-shadow: 0 0 4px rgba(0, 0, 0, 0.8);
-    }
     span.tag {
       position: absolute;
       box-shadow: 0 0 6px rgba(0, 0, 0, 0.33);

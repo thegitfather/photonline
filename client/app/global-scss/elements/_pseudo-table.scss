@@ -1,0 +1,33 @@
+.pseudo-table {
+  display: table;
+  width: 100%;
+  border: 1px solid $grey-light;
+  border-collapse: collapse;
+  background-color: #fff;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
+  .row {
+    display: table-row;
+    border-bottom: 1px solid $grey-light;
+    &:last-child { border-bottom-width: 0; }
+    &:nth-child(odd) {
+      background-color: #fff;
+    }
+    &:nth-child(even) {
+      background-color: $grey-lighter;
+    }
+  }
+  .row.head {
+    border-bottom-width: 1px;
+    .cell {
+      font-weight: bold;
+    }
+  }
+  .cell {
+    display: table-cell;
+    padding: 0.5em 1em;
+    text-align: left;
+    vertical-align: middle;
+    &.align-center { text-align: center; }
+    &.align-right { text-align: right; }
+  }
+}

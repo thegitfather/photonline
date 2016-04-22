@@ -1,5 +1,6 @@
 <section class="gallery-show">
   <h1 class="state title is-1">{{vm.gallery.location}}</h1>
+
   <p class="timeframe">
     <span>{{vm.gallery.timeframeFrom | date:'mediumDate'}}</span>
     <span ng-if="vm.gallery.timeframeFrom !== vm.gallery.timeframeTo">
@@ -7,6 +8,7 @@
       {{vm.gallery.timeframeTo | date:'mediumDate'}}
     </span>
   </p>
+
   <p class="description" ng-show="vm.gallery.description">{{vm.gallery.description}}</p>
 
   <div class="user-actions">
@@ -16,8 +18,6 @@
       <i class="fa fa-trash-o fa-2x" aria-hidden="true"></i>
     </a>
   </div>
-
-  <hr>
 
   <div class="container">
     <gallery-item id="gallery-item-{{$index}}"

@@ -1,17 +1,26 @@
-<section class="login">
-
+<section class="admin-user-list">
   <header>
-    <h1 class="title">Manage Users</h1>
+    <h1 class="state title is-1">Manage Users</h1>
   </header>
 
-  <ul class="list-group user-list">
-    <li class="list-group-item" ng-repeat="user in admin.users">
-      <div class="user-info">
-        <strong>{{user.name}}</strong><br>
-        <span class="text-muted">{{user.email}}</span>
+  <div class="columns">
+    <div class="column is-half">
+      <div class="pseudo-table">
+        <div class="row head">
+          <div class="cell user">User</div>
+          <div class="cell actions"></div>
+        </div>
+        <div class="row body" ng-repeat="user in admin.users">
+          <div class="cell user">
+            <strong>{{user.name}}</strong><br>
+            <span>{{user.email}}</span>
+          </div>
+          <div class="cell actions">
+            <a ng-click="admin.delete(user)" class="trash is-danger"><span class="fa fa-trash"></span></a>
+          </div>
+        </div>
       </div>
-      <a ng-click="admin.delete(user)" class="trash"><span class="fa fa-trash"></span></a>
-    </li>
-  </ul>
+    </div>
+  </div>
 
 </section>

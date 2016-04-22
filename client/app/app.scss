@@ -3,20 +3,26 @@
 @import 'global-scss/vars';
 @import 'global-scss/mixins';
 @import 'global-scss/extends';
-@import 'global-scss/fonts';
-@import 'global-scss/layout';
-@import 'global-scss/form';
-@import 'global-scss/links';
 
 @import '../bower_components/bulma/bulma';
 @import 'global-scss/bulma-overwrites';
 @import 'global-scss/bulma-additions';
-@import 'global-scss/_ngdialog-theme-photobox';
+@import 'global-scss/ngdialog-theme-photobox';
+@import 'global-scss/pickadate-overwrites';
 
+@import 'global-scss/fonts';
+@import 'global-scss/layout';
+@import 'global-scss/form';
+@import 'global-scss/links';
+@import 'global-scss/headings';
+@import 'global-scss/elements/pseudo-table';
+@import 'global-scss/elements/preview-image';
 
 
 // Component styles are injected through grunt injector
+@import 'account/account';
 @import 'admin/admin';
+@import 'gallery/gallery-create';
 @import 'gallery/gallery-list';
 @import 'gallery/gallery-show';
 @import 'gallery/galleryListItem/galleryListItem';

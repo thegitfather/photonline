@@ -1,3 +1,8 @@
-a:focus {
-  outline: 1px dotted $primary;
+a {
+  &:not(.is-active) {
+    &:focus, &:active {
+      outline: 1px dotted $primary;
+      color: $grey-darker;
+    }
+  }
 }

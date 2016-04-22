@@ -1,6 +1,6 @@
-.gallery-show {
-  @extend %box;
+section.gallery-show {
   position: relative;
+  @extend %box;
   p { margin-bottom: 1em; }
   .user-actions {
     position: absolute;
