@@ -11,7 +11,6 @@ var PhotoSchema = new mongoose.Schema(
     },
     path: {
       type: String,
-      // default: './public/uploads/pool/',
       trim: true
     },
     originalFilename: {

@@ -28,8 +28,9 @@ require('./config/express').default(app);
 require('./routes').default(app);
 
 // Create upload directories
-mkdirp.sync(config.poolPath);
-mkdirp.sync(config.thumbnailPath);
+mkdirp.sync(config.photoPoolPath);
+mkdirp.sync(config.photoThumbsPath);
+mkdirp.sync(config.galleryThumbsPath);
 
 // Start server
 function startServer() {

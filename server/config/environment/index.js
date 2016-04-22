@@ -18,21 +18,23 @@ var all = {
   // Root path of server
   root: path.normalize(__dirname + '/../../..'),
 
-  poolPath: './public/uploads/pool/',
-  thumbnailPath: './public/uploads/thumbnails/',
+  publicPath: process.env.PUBLIC_PATH || 'public',
+  photoPoolPath: (process.env.PUBLIC_PATH || 'public') + '/photo_pool/',
+  photoThumbsPath: (process.env.PUBLIC_PATH || 'public') + '/photo_thumbs/',
+  galleryThumbsPath: (process.env.PUBLIC_PATH || 'public') + '/gallery_thumbs/',
 
   // Server port
   port: process.env.PORT || 9000,
 
   // Server IP
-  ip: process.env.IP || '0.0.0.0',
+  ip: process.env.IP || '127.0.0.1',
 
   // Should we populate the DB with sample data?
   seedDB: false,
 
   // Secret for session, you will want to change this and make it an environment variable
   secrets: {
-    session: 'photobox-secret'
+    session: process.env.SESSION_SECRET || 'n3a9sdf92yaz21'
   },
 
   // MongoDB connection options

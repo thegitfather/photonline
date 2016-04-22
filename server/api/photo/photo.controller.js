@@ -82,7 +82,7 @@ export function show(req, res) {
 }
 
 export function check(req, res) {
-  let fileDoesExist = fileExists(config.poolPath + req.params.checksum + ".jpg");
+  let fileDoesExist = fileExists(config.photoPoolPath + req.params.checksum + ".jpg");
   console.log("check() if file exists:", fileDoesExist);
   res.send({fileAlreadyExists: fileDoesExist}).end();
 }
@@ -98,7 +98,7 @@ export function create(req, res) {
   let photo;
   let md5 = req.params.checksum;
   let filename = md5 + ".jpg";
-  let fileDoesExist = fileExists(config.poolPath + req.params.checksum + ".jpg");
+  let fileDoesExist = fileExists(config.photoPoolPath + req.params.checksum + ".jpg");
 
   if (fileDoesExist) {
     skipUpload();
@@ -109,7 +109,7 @@ export function create(req, res) {
   function upload() {
     let storage = multer.diskStorage({
       destination: function (req, file, cb) {
-        cb(null, config.poolPath);
+        cb(null, config.photoPoolPath);
       },
       filename: function (req, file, cb) {
         // console.log("file:", file);
@@ -141,7 +141,7 @@ export function create(req, res) {
         });
       } else {
         photo = new Photo(req.body);
-        photo.path = config.poolPath;
+        photo.path = '/public/photo_pool/';
         photo.filename = filename;
 
         // TODO: promise?
@@ -164,7 +164,7 @@ export function create(req, res) {
 
   function skipUpload() {
     let clientPhotoData = new Photo(req.body);
-    clientPhotoData.path = config.poolPath;
+    clientPhotoData.path = '/public/photo_pool/';
     clientPhotoData.filename = clientPhotoData.md5 + ".jpg";
 
     createThumbnail(clientPhotoData);
@@ -184,7 +184,7 @@ export function create(req, res) {
 
   function createThumbnail(photo) {
     // console.log("photo:", photo);
-    let image = sharp(config.poolPath + filename);
+    let image = sharp(config.photoPoolPath + filename);
 
     image
       .metadata()
@@ -197,7 +197,7 @@ export function create(req, res) {
           return image
             .resize(204, 204)
             .max()
-            .toFile('./public/uploads/thumbnails/thumb_' + photo.md5 + '.jpg')
+            .toFile(config.photoThumbsPath + 'thumb_' + photo.md5 + '.jpg')
         }
       })
       .then(data => {
@@ -206,7 +206,7 @@ export function create(req, res) {
           return image
             .resize(204, 204)
             .max()
-            .toFile('./public/uploads/thumbnails/gallery_' + photo.gallery_id + '.jpg');
+            .toFile(config.galleryThumbsPath + 'thumb_' + photo.gallery_id + '.jpg');
         }
       })
       .then(info => {

@@ -15,7 +15,6 @@ import {Server as KarmaServer} from 'karma';
 import runSequence from 'run-sequence';
 import {protractor, webdriver_update} from 'gulp-protractor';
 import {Instrumenter} from 'isparta';
-import vfs from 'vinyl-fs';
 
 var plugins = gulpLoadPlugins();
 var config;
@@ -458,8 +457,7 @@ gulp.task('serve:dist', cb => {
         'copy:assets',
         'copy:server',
         'transpile:server',
-        'build:client',
-        'symlink:public'
+        'build:client'
       ],
       cb);
     }
@@ -597,11 +595,6 @@ gulp.task('serve:dist', cb => {
     'coverage:unit',
     'coverage:integration',
     cb);
-  });
-
-  gulp.task('symlink:public', () => {
-    return vfs.src('public', { followSymlinks: false })
-    .pipe(vfs.symlink(`${paths.dist}`));
   });
 
   // Downloads the selenium webdriver
