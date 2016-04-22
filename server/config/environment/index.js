@@ -63,9 +63,6 @@ var all = {
   }
 };
 
-console.log("all.facebook:", all.facebook);
-console.log("all.twitter:", all.twitter);
-
 // Export the config object based on the NODE_ENV
 // ==============================================
 module.exports = _.merge(
