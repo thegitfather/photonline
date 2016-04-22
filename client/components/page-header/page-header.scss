@@ -2,7 +2,7 @@ header.page-header {
   position: fixed;
   top: 0;
   width: 100%;
-  height: auto;
+  height: 50px;
   border-bottom: 1px solid $grey-light;
   box-shadow: 0 0 12px rgba(0, 0, 0, 0.25);
 
@@ -13,6 +13,9 @@ header.page-header {
     &:active {
       outline: 0px dotted transparent;
     }
+    &.is-active {
+      color: $link;
+    }
   }
 
   .header-left {
@@ -22,4 +25,49 @@ header.page-header {
       font-weight: bold;
     }
   }
+
+  .header-right {
+    position: relative;
+  }
+
+  .header-item.greeting {
+    position: absolute;
+    top: 48px;
+    right: 10px;
+    display: inline-block;
+    padding: 2px 6px;
+    background-color: #fff;
+    font-size: 11px;
+    line-height: 1em;
+    box-shadow: -1px 4px 8px rgba(0, 0, 0, 0.15);
+    border: 1px solid $grey-light;
+    border-top-width: 0;
+    border-right-width: 0;
+  }
+}
+
+
+@include mobile {
+  header.page-header {
+    .header-left {
+      & > a:first-child {
+        position: fixed;
+        top: 0;
+        left: 50%;
+        padding-top: 2px;
+        margin-left: -55px;
+      }
+
+      .header-tab {
+        padding: 5px 5px 0px;
+        margin-top: 18px;
+      }
+    }
+    .greeting { display: none; }
+    a.logout span { display: none; }
+  }
+}
+
+@include touch {
+  header.page-header .header-item.greeting { right: 0; }
 }

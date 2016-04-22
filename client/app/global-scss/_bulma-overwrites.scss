@@ -25,11 +25,25 @@ html {
   padding: 4px 8px;
 }
 
+.fa {
+  vertical-align: baseline;
+}
 
-@media screen and (max-width: 768px) {
+.header-left {
+  height: auto;
+  overflow: visible;
+  overflow-x: visible;
+}
 
+.header-tab {
+  height: auto;
+}
+
+
+
+@include mobile {
   .header .container {
-    flex-direction: inherit;
+    flex-direction: row;
   }
 
   .header-menu {
@@ -40,5 +54,4 @@ html {
   .header-menu .header-item {
     border-top-width: 0;
   }
-
 }

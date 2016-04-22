@@ -15,6 +15,6 @@ main#main {
 }
 
 
-@media (max-width: 1020px) {
-
+@include touch {
+  main#main { margin: 0 1em; }
 }

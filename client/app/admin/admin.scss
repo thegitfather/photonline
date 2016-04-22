@@ -2,5 +2,8 @@ section.admin-user-list {
 	@extend %box;
 	.cell.actions {
 		width: 50px;
+		a {
+			font-size: 21px;
+		}
 	}
 }

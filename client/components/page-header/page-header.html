@@ -19,13 +19,19 @@
     <div class="header-right header-menu">
       <!-- TODO: refactor to directive? -->
       <a ng-hide="nav.isLoggedIn()" ui-sref="signup" ui-sref-active="is-active" class="header-item">Sign up</a>
-      <a ng-hide="nav.isLoggedIn()" ui-sref="login" ui-sref-active="is-active" class="header-item"><i class="fa fa-sign-in"></i>&nbsp;Login</a>
-      <span ng-show="nav.isLoggedIn()" class="header-item greeting">Hello {{ nav.getCurrentUser().name }}</span>
-      <a ng-show="nav.isAdmin()" ui-sref="admin" ui-sref-active="is-active" class="header-item">Admin</a>
-      <a ng-show="nav.isLoggedIn()" ui-sref="settings" ui-sref-active="is-active" class="header-item">
-        <i class="fa fa-cog"></i>
+      <a ng-hide="nav.isLoggedIn()" ui-sref="login" ui-sref-active="is-active" class="header-item">
+        <i class="fa fa-sign-in" aria-hidden="true"></i>&nbsp;Login
       </a>
-      <a ng-show="nav.isLoggedIn()" ui-sref="logout" ui-sref-active="active" class="header-item">Logout&nbsp;<i class="fa fa-sign-out"></i></a>
+      <span ng-show="nav.isLoggedIn()" class="header-item greeting">{{ nav.getCurrentUser().name }}</span>
+      <a ng-show="nav.isAdmin()" ui-sref="admin" ui-sref-active="is-active" class="header-item" title="admin">
+        <i class="fa fa-users" aria-hidden="true"></i>
+      </a>
+      <a ng-show="nav.isLoggedIn()" ui-sref="settings" ui-sref-active="is-active" class="header-item" title="settings">
+        <i class="fa fa-cog" aria-hidden="true"></i>
+      </a>
+      <a ng-show="nav.isLoggedIn()" ui-sref="logout" ui-sref-active="active" class="header-item logout">
+        <span>Logout&nbsp;</span><i class="fa fa-sign-out" aria-hidden="true"></i>
+      </a>
     </div>
   </div>
 
