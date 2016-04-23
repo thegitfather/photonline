@@ -10,6 +10,15 @@ function requiredProcessEnv(name) {
   return process.env[name];
 }
 
+if (process.env.PUBLIC_PATH.length) {
+  if (path.isAbsolute(process.env.PUBLIC_PATH)) {
+    var publicPath = process.env.PUBLIC_PATH;
+  }
+  else {
+    console.log("process.env.PUBLIC_PATH must be absolute:", process.env.PUBLIC_PATH);
+  }
+}
+
 // All configurations will extend these options
 // ============================================
 var all = {
@@ -18,10 +27,7 @@ var all = {
   // Root path of server
   root: path.normalize(__dirname + '/../../..'),
 
-  publicPath: process.env.PUBLIC_PATH || 'public',
-  photoPoolPath: (process.env.PUBLIC_PATH || 'public') + '/photo_pool/',
-  photoThumbsPath: (process.env.PUBLIC_PATH || 'public') + '/photo_thumbs/',
-  galleryThumbsPath: (process.env.PUBLIC_PATH || 'public') + '/gallery_thumbs/',
+  publicPath: publicPath || path.normalize(__dirname + '/../../../public'),
 
   // Server port
   port: process.env.PORT || 9000,

@@ -10,6 +10,7 @@ mongoose.Promise = require('bluebird');
 import config from './config/environment';
 import http from 'http';
 import mkdirp from 'mkdirp';
+import path from 'path';
 
 // Connect to MongoDB
 mongoose.connect(config.mongo.uri, config.mongo.options);
@@ -27,10 +28,12 @@ var server = http.createServer(app);
 require('./config/express').default(app);
 require('./routes').default(app);
 
+console.log("config.publicPath:", config.publicPath);
+
 // Create upload directories
-mkdirp.sync(config.photoPoolPath);
-mkdirp.sync(config.photoThumbsPath);
-mkdirp.sync(config.galleryThumbsPath);
+mkdirp.sync( config.publicPath + '/photo_pool' );
+mkdirp.sync( config.publicPath + '/photo_thumbs' );
+mkdirp.sync( config.publicPath + '/gallery_thumbs' );
 
 // Start server
 function startServer() {
