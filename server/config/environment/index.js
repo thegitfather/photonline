@@ -10,7 +10,7 @@ function requiredProcessEnv(name) {
   return process.env[name];
 }
 
-if (process.env.PUBLIC_PATH.length) {
+if (process.env.PUBLIC_PATH !== undefined) {
   if (path.isAbsolute(process.env.PUBLIC_PATH)) {
     var publicPath = process.env.PUBLIC_PATH;
   }
