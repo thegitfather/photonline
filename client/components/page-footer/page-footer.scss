@@ -7,4 +7,8 @@ footer.page-footer {
   width: 100%;
   background: #fff;
   box-shadow: 0 0 12px rgba(0, 0, 0, 0.25);
+  .container > span {
+    display: inline-block;
+    margin: 0 0.25em;
+  }
 }
