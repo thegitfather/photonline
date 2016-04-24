@@ -29,6 +29,9 @@ require('./config/express').default(app);
 require('./routes').default(app);
 
 console.log("config.publicPath:", config.publicPath);
+console.log("config.ip:", config.ip);
+console.log("config.port:", config.port);
+console.log("config.mongo.uri:", config.mongo.uri);
 
 // Create upload directories
 mkdirp.sync( config.publicPath + '/photo_pool' );

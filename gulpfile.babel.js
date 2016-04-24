@@ -65,7 +65,7 @@ function onServerLog(log) {
 
 function checkAppReady(cb) {
   var options = {
-    host: 'localhost',
+    host: '127.0.0.1',
     port: config.port
   };
   http
@@ -303,7 +303,7 @@ gulp.task('clean:tmp', () => del(['.tmp/**/*'], {dot: true}));
 
 gulp.task('start:client', cb => {
   whenServerReady(() => {
-    // open('http://localhost:' + config.port);
+    // open('http://127.0.0.1:' + config.port);
     cb();
   });
 });
