@@ -1,3 +1,3 @@
 'use strict';
 
-angular.module('photoboxApp.util', []);
+angular.module('photonlineApp.util', []);

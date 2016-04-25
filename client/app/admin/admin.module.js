@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('photoboxApp.admin', [
-  'photoboxApp.auth',
+angular.module('photonlineApp.admin', [
+  'photonlineApp.auth',
   'ui.router'
 ]);

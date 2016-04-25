@@ -6,7 +6,7 @@
     return $resource('/api/gallery/:id');
   }
 
-  angular.module('photoboxApp')
+  angular.module('photonlineApp')
     .service('Gallery', GalleryResource);
 
 })();

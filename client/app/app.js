@@ -1,9 +1,9 @@
 'use strict';
 
-angular.module('photoboxApp', [
-  'photoboxApp.auth',
-  'photoboxApp.admin',
-  'photoboxApp.constants',
+angular.module('photonlineApp', [
+  'photonlineApp.auth',
+  'photonlineApp.admin',
+  'photonlineApp.constants',
   'ngCookies',
   'ngResource',
   'ngSanitize',

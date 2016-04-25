@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('photoboxApp')
+angular.module('photonlineApp')
   .controller('OauthButtonsCtrl', function($window) {
     this.loginOauth = function(provider) {
       $window.location.href = '/auth/' + provider;

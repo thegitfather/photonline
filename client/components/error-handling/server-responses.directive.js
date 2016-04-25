@@ -4,7 +4,7 @@
  * Display server responses
  */
 
-angular.module('photoboxApp')
+angular.module('photonlineApp')
   .directive('serverResponses', function() {
     return {
       restrict: 'C',

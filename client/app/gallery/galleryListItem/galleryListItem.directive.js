@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('photoboxApp')
+angular.module('photonlineApp')
   .directive('galleryListItem', function () {
     return {
       templateUrl: 'app/gallery/galleryListItem/galleryListItem.html',

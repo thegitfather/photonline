@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('photoboxApp')
+angular.module('photonlineApp')
   .controller('GalleryCreateController', ['$scope', '$state', 'Upload', '$http', '$q', 'appConfig', 'fileMd5Service', '_', 'location',
   function ($scope, $state, Upload, $http, $q, appConfig, fileMd5Service, _, location) {
     var vm = this;

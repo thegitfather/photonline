@@ -44,5 +44,5 @@ class SignupController {
 
 }
 
-angular.module('photoboxApp')
+angular.module('photonlineApp')
   .controller('SignupController', SignupController);

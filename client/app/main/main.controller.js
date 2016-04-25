@@ -27,7 +27,7 @@ class MainController {
   }
 }
 
-angular.module('photoboxApp')
+angular.module('photonlineApp')
   .controller('MainController', MainController);
 
 })();

@@ -20,6 +20,6 @@ module.exports = {
           process.env.OPENSHIFT_MONGODB_DB_URL +
           process.env.OPENSHIFT_APP_NAME ||
           process.env.MONGODB ||
-          'mongodb://127.0.0.1:27017/photobox'
+          'mongodb://127.0.0.1:27017/photonline'
   }
 };

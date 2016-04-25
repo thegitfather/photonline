@@ -1,8 +1,8 @@
 'use strict';
 
-angular.module('photoboxApp.auth', [
-  'photoboxApp.constants',
-  'photoboxApp.util',
+angular.module('photonlineApp.auth', [
+  'photonlineApp.constants',
+  'photonlineApp.util',
   'ngCookies',
   'ui.router'
 ])

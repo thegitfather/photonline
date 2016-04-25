@@ -21,7 +21,7 @@ function UserResource($resource) {
   });
 }
 
-angular.module('photoboxApp.auth')
+angular.module('photonlineApp.auth')
   .factory('User', UserResource);
 
 })();

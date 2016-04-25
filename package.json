@@ -1,5 +1,5 @@
 {
-  "name": "photobox",
+  "name": "photonline",
   "version": "0.0.1",
   "main": "server/app.js",
   "dependencies": {

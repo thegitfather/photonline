@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('photoboxApp').service('geoLocation', function($q, $http) {
+angular.module('photonlineApp').service('geoLocation', function($q, $http) {
 
   var config = { responseType: "json", cache: true, timeout: 500 };
 

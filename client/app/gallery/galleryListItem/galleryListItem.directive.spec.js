@@ -3,7 +3,7 @@
 describe('Directive: galleryListItem', function () {
 
   // load the directive's module and view
-  beforeEach(module('photoboxApp'));
+  beforeEach(module('photonlineApp'));
   beforeEach(module('app/gallery/galleryListItem/galleryListItem.html'));
 
   var element, scope;

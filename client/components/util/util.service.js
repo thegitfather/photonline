@@ -59,7 +59,7 @@ function UtilService($window) {
   return Util;
 }
 
-angular.module('photoboxApp.util')
+angular.module('photonlineApp.util')
   .factory('Util', UtilService);
 
 })();

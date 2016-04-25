@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('photoboxApp')
+angular.module('photonlineApp')
   .config(function($stateProvider) {
     $stateProvider
       .state('main', {

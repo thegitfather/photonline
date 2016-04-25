@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('photoboxApp')
+angular.module('photonlineApp')
   .directive('fileDropArea', function() {
     return {
       restrict: 'E',

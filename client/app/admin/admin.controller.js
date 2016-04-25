@@ -14,7 +14,7 @@ class AdminController {
   }
 }
 
-angular.module('photoboxApp.admin')
+angular.module('photonlineApp.admin')
   .controller('AdminController', AdminController);
 
 })();

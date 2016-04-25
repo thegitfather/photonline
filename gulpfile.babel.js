@@ -499,7 +499,7 @@ gulp.task('serve:dist', cb => {
   gulp.task('html', function() {
     return gulp.src(`${clientPath}/{app,components}/**/*.html`)
     .pipe(plugins.angularTemplatecache({
-      module: 'photoboxApp'
+      module: 'photonlineApp'
     }))
     .pipe(gulp.dest('.tmp'));
   });
@@ -507,7 +507,7 @@ gulp.task('serve:dist', cb => {
   gulp.task('constant', function() {
     let sharedConfig = require(`./${serverPath}/config/environment/shared`);
     return plugins.ngConstant({
-      name: 'photoboxApp.constants',
+      name: 'photonlineApp.constants',
       deps: [],
       wrap: true,
       stream: true,

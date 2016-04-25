@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('photoboxApp')
+angular.module('photonlineApp')
   .controller('GalleryShowController', ['$scope', '$stateParams', '$state', 'Auth', 'Gallery', 'Photo', 'ngDialog',
   function ($scope, $stateParams, $state, Auth, Gallery, Photo, ngDialog) {
     var vm = this;

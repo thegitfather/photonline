@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('photoboxApp.admin')
+angular.module('photonlineApp.admin')
   .config(function($stateProvider) {
     $stateProvider
       .state('admin', {

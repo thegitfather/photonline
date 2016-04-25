@@ -24,5 +24,5 @@ class SettingsController {
   }
 }
 
-angular.module('photoboxApp')
+angular.module('photonlineApp')
   .controller('SettingsController', SettingsController);

@@ -26,7 +26,7 @@ function authInterceptor($rootScope, $q, $cookies, $injector, Util) {
   };
 }
 
-angular.module('photoboxApp.auth')
+angular.module('photonlineApp.auth')
   .factory('authInterceptor', authInterceptor);
 
 })();

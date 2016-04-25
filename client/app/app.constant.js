@@ -1,5 +1,5 @@
 (function(angular, undefined) {
-  angular.module("photoboxApp.constants", [])
+  angular.module("photonlineApp.constants", [])
 
 .constant("appConfig", {
 	"userRoles": [

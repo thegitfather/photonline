@@ -7,7 +7,7 @@
 
 module.exports = {
   DOMAIN:           'http://127.0.0.1:9000',
-  SESSION_SECRET:   'photobox-secret',
+  SESSION_SECRET:   'photonline-secret',
 
   FACEBOOK_ID:      'app-id',
   FACEBOOK_SECRET:  'secret',

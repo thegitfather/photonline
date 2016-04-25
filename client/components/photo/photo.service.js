@@ -6,7 +6,7 @@
     return $resource('/api/photo/:id');
   }
 
-  angular.module('photoboxApp')
+  angular.module('photonlineApp')
     .service('Photo', PhotoResource);
 
 })();

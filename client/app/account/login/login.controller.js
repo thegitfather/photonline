@@ -37,5 +37,5 @@ class LoginController {
 
 }
 
-angular.module('photoboxApp')
+angular.module('photonlineApp')
   .controller('LoginController', LoginController);

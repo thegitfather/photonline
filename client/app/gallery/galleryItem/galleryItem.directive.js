@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('photoboxApp')
+angular.module('photonlineApp')
   .directive('galleryItem', function() {
     return {
       templateUrl: 'app/gallery/galleryItem/galleryItem.html',
@@ -23,7 +23,7 @@ angular.module('photoboxApp')
           ngDialog.open({
             template: 'app/gallery/galleryItem/photo.template.html',
             scope: scope,
-            className: 'ngdialog-theme-photobox'
+            className: 'ngdialog-theme-photonline'
           });
         });
 

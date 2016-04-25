@@ -183,7 +183,7 @@ function AuthService($location, $http, $cookies, $q, appConfig, Util, User) {
   return Auth;
 }
 
-angular.module('photoboxApp.auth')
+angular.module('photonlineApp.auth')
   .factory('Auth', AuthService);
 
 })();

@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('photoboxApp')
+angular.module('photonlineApp')
   .controller('PageHeaderController', ['Auth', function (Auth) {
 
     this.isCollapsed = true;

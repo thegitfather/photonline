@@ -3,7 +3,7 @@
 describe('Component: mainComponent', function() {
 
   // load the controller's module
-  beforeEach(module('photoboxApp'));
+  beforeEach(module('photonlineApp'));
   beforeEach(module('stateMock'));
 
   var scope;

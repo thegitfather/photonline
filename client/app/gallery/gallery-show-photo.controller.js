@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('photoboxApp')
+angular.module('photonlineApp')
   .controller('GalleryShowPhotoController', ['$scope', '$stateParams', '$state', 'Gallery', 'Photo',
   function ($scope, $stateParams, $state, Gallery, Photo) {
     var vm = this;

@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('photoboxApp').directive('pageFooter', function() {
+angular.module('photonlineApp').directive('pageFooter', function() {
   return {
     templateUrl: 'components/page-footer/page-footer.html',
     restrict: 'E',
