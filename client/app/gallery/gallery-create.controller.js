@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('photonlineApp')
-  .controller('GalleryCreateController', ['$scope', '$state', 'Upload', '$http', '$q', 'appConfig', 'fileMd5Service', '_', 'location',
-  function ($scope, $state, Upload, $http, $q, appConfig, fileMd5Service, _, location) {
+  .controller('GalleryCreateController', ['$scope', '$state', 'Upload', '$http', '$q', 'appConfig', 'fileMd5Service', '_',
+  function ($scope, $state, Upload, $http, $q, appConfig, fileMd5Service, _) {
     var vm = this;
     vm.Upload = Upload;
 
@@ -25,8 +25,8 @@ angular.module('photonlineApp')
       ngModelOptions: { allowInvalid: true }
     });
 
-    if (location !== undefined && location.hasOwnProperty("country")) {
-      vm.locationPlaceholder = location.country + ", " + location.city;
+    if (appConfig.geoLocation !== undefined && appConfig.geoLocation.hasOwnProperty("country")) {
+      vm.locationPlaceholder = appConfig.geoLocation.country + ", " + appConfig.geoLocation.city;
     } else {
       vm.locationPlaceholder = "USA, New York";
     }
