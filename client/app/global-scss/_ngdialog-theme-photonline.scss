@@ -120,6 +120,13 @@
   outline: none;
 }
 
+
+/* ngDIalog overwrites */
+html.ngdialog-open, body.ngdialog-open {
+  overflow: initial;
+}
+
+
 @media (max-width: 568px) {
   .ngdialog.ngdialog-theme-photonline .ngdialog-button:focus {
     -webkit-animation: none;
