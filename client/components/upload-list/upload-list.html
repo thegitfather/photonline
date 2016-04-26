@@ -9,7 +9,7 @@
       <!-- <div class="cell image-dims">Dimensions</div> -->
       <div class="cell size">Size</div>
       <div class="cell upload-progress">Upload progress</div>
-      <div class="cell preview-thumb">Preview</div>
+      <!-- <div class="cell preview-thumb">Preview</div> -->
       <div class="cell actions"></div>
     </div>
     <div class="row body" ng-repeat="file in files track by $index" ng-class="{ 'has-error': file.$error }">
@@ -40,9 +40,10 @@
         </div>
 
       </div>
-      <div class="cell preview-thumb">
+      <!-- thumbnail generation for many images is pretty slow :/ -->
+      <!-- <div class="cell preview-thumb">
         <img ngf-thumbnail="!file.$error && file" ngf-size="{width: 80, quality: 0.9}"/>
-      </div>
+      </div> -->
       <div class="cell actions">
         <a href="" class="remove is-danger"
           ng-click="removeFile($index)"
