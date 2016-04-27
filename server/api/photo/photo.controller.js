@@ -82,7 +82,7 @@ export function show(req, res) {
 }
 
 export function check(req, res) {
-  let fileDoesExist = fileExists(config.publicPath + '/photo_pool/' + req.params.checksum + ".jpg");
+  let fileDoesExist = fileExists(config.photoPoolPath + '/' + req.params.checksum + ".jpg");
   console.log("check() if file exists:", fileDoesExist);
   res.send({fileAlreadyExists: fileDoesExist}).end();
 }
@@ -98,7 +98,7 @@ export function create(req, res) {
   let photo;
   let md5 = req.params.checksum;
   let filename = md5 + ".jpg";
-  let fileDoesExist = fileExists(config.publicPath + '/photo_pool/' + req.params.checksum + ".jpg");
+  let fileDoesExist = fileExists(config.photoPoolPath + '/' + req.params.checksum + ".jpg");
 
   if (fileDoesExist) {
     skipUpload();
@@ -148,6 +148,7 @@ export function create(req, res) {
         createThumbnail(photo);
 
         // push current photo id to gallery
+        console.log("photo.gallery_id:", photo.gallery_id);
         Gallery.findById(photo.gallery_id).exec()
           .then(function(res) {
             res.photo_ids.push(photo._id);
@@ -184,7 +185,7 @@ export function create(req, res) {
 
   function createThumbnail(photo) {
     // console.log("photo:", photo);
-    let image = sharp(config.publicPath + '/photo_pool/' + filename);
+    let image = sharp(config.photoPoolPath + '/' + filename);
 
     image
       .metadata()
@@ -197,7 +198,7 @@ export function create(req, res) {
           return image
             .resize(204, 204)
             .max()
-            .toFile(config.publicPath + '/photo_thumbs/thumb_' + photo.md5 + '.jpg')
+            .toFile(config.photoThumbsPath + '/thumb_' + photo.md5 + '.jpg')
         }
       })
       .then(data => {
@@ -206,7 +207,7 @@ export function create(req, res) {
           return image
             .resize(204, 204)
             .max()
-            .toFile(config.publicPath + '/gallery_thumbs/thumb_' + photo.gallery_id + '.jpg');
+            .toFile(config.galleryThumbsPath + '/thumb_' + photo.gallery_id + '.jpg');
         }
       })
       .then(info => {

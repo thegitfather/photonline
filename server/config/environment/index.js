@@ -19,6 +19,8 @@ if (process.env.PUBLIC_PATH !== undefined) {
   }
 }
 
+var publicPathTemp = publicPath || path.normalize(__dirname + '/../../../public');
+
 // All configurations will extend these options
 // ============================================
 var all = {
@@ -27,7 +29,10 @@ var all = {
   // Root path of server
   root: path.normalize(__dirname + '/../../..'),
 
-  publicPath: publicPath || path.normalize(__dirname + '/../../../public'),
+  publicPath: publicPathTemp,
+  photoPoolPath: publicPathTemp + '/photo_pool',
+  photoThumbsPath: publicPathTemp + '/photo_thumbs',
+  galleryThumbsPath: publicPathTemp + '/gallery_thumbs',
 
   // Server port
   port: process.env.PORT || 9000,

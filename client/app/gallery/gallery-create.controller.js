@@ -172,6 +172,7 @@ angular.module('photonlineApp')
       });
 
       function checkPhoto(file) {
+        // TODO: refactor REST calls to service
         return $http({
           method: 'GET',
           url: '/api/photo/check/' + file.md5
