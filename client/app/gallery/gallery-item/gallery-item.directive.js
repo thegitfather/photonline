@@ -3,7 +3,7 @@
 angular.module('photonlineApp')
   .directive('galleryItem', function() {
     return {
-      templateUrl: 'app/gallery/galleryItem/galleryItem.html',
+      templateUrl: 'app/gallery/gallery-item/gallery-item.html',
       restrict: 'E',
       replace: true,
       // scope: {
@@ -21,7 +21,7 @@ angular.module('photonlineApp')
           scope.prevElement = document.getElementById( "gallery-item-" + parseInt(scope.$index - 1) );
 
           ngDialog.open({
-            template: 'app/gallery/galleryItem/photo.template.html',
+            template: 'app/gallery/gallery-item/photo.template.html',
             scope: scope,
             className: 'ngdialog-theme-photonline'
           });

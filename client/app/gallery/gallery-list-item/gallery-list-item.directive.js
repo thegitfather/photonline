@@ -3,7 +3,7 @@
 angular.module('photonlineApp')
   .directive('galleryListItem', function () {
     return {
-      templateUrl: 'app/gallery/galleryListItem/galleryListItem.html',
+      templateUrl: 'app/gallery/gallery-list-item/gallery-list-item.html',
       restrict: 'E',
       replace: true,
       scope: {
