@@ -34,6 +34,9 @@ var all = {
   photoThumbsPath: publicPathTemp + '/photo_thumbs',
   galleryThumbsPath: publicPathTemp + '/gallery_thumbs',
 
+  // clean public folder (removes files with no db reference)
+  cronPatternCleanDB: '0 59 23 * * *', // every day at 23:59
+
   // Server port
   port: process.env.PORT || 9000,
 

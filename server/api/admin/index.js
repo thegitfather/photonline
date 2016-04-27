@@ -1,16 +1,11 @@
 'use strict';
 
-var express = require('express');
-var controller = require('./admin.controller');
-var auth = require('../../auth/auth.service');
+import {Router} from 'express';
+import * as controller from './admin.controller';
+import * as auth from '../../auth/auth.service';
 
-var router = express.Router();
+var router = new Router();
 
 router.post('/cleanDB', auth.hasRole('admin'), controller.cleanDB);
-// router.get('/:id', controller.show);
-// router.post('/', controller.create);
-// router.put('/:id', controller.update);
-// router.patch('/:id', controller.update);
-// router.delete('/:id', controller.destroy);
 
-module.exports = router;
+export default router;

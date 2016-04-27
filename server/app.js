@@ -11,6 +11,8 @@ import config from './config/environment';
 import http from 'http';
 import mkdirp from 'mkdirp';
 import path from 'path';
+import createCronJob from './cron/job';
+import {cleanDB} from './api/admin/admin.controller.js';
 
 // Connect to MongoDB
 mongoose.connect(config.mongo.uri, config.mongo.options);
@@ -37,6 +39,9 @@ console.log("config.mongo.uri:", config.mongo.uri);
 mkdirp.sync( config.publicPath + '/photo_pool' );
 mkdirp.sync( config.publicPath + '/photo_thumbs' );
 mkdirp.sync( config.publicPath + '/gallery_thumbs' );
+
+// Start cron job to remove files that have no db ref
+var jobCleanDB = createCronJob(config.cronPatternCleanDB, cleanDB);
 
 // Start server
 function startServer() {
