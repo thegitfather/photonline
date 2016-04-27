@@ -39,6 +39,33 @@ angular.module('photonlineApp')
           }
         };
 
+        scope.onImgLoad = function(event) {
+          // console.log("event:", event);
+          var $img = angular.element(event.target);
+          var $ngContent = $img.parent().parent();
+          var ratio = $img[0].naturalWidth / $img[0].naturalHeight;
+          var temp;
+
+          // console.log("$img:", $img);
+          // console.log("ratio:", ratio);
+
+          $img.css("opacity", "1");
+
+          // TODO: fix calculation
+          if (ratio < 1 || ratio >= 1) {
+            $ngContent.css("height", "auto");
+            temp = document.documentElement.clientHeight / $ngContent[0].clientHeight;
+            temp = temp * $ngContent[0].clientWidth;
+            if ($img[0].naturalWidth > temp) {
+              $ngContent.css("width", temp + "px");
+            } else {
+              $ngContent.css("width", $img[0].naturalWidth + "px");
+            }
+          }
+
+          scope.imgReady = true;
+        };
+
       }
     };
   });

@@ -25,6 +25,10 @@
   text-align: left;
   align-self: center;
   margin: 0 auto;
+
+  transition: width $animation-speed*2 ease-out;
+  width: 200px;
+  height: 200px;
 }
 
 .ngdialog.ngdialog-theme-photonline .ngdialog-close {

@@ -1,7 +1,16 @@
-<div class="wrapper">
+<div class="gallery-item-wrapper">
   <h1>{{photo.originalFilename}}</h1>
-  <img ng-src="{{photo.path}}{{photo.filename}}" style="max-height: {{windowHeight-100}}px;">
-  <div class="controls">
+
+  <div class="loading" ng-hide="imgReady">
+    <i class="fa fa-spinner fa-spin fa-3x fa-fw margin-bottom"></i>
+    <span class="sr-only">Loading...</span>
+  </div>
+
+  <img
+    ng-src="{{photo.path}}{{photo.filename}}"
+    po-on-load="onImgLoad($event)">
+
+  <div class="controls" ng-show="imgReady">
     <div class="click-area next" ng-show="!($last)" ng-click="openNext()"></div>
     <a href="" class="next" title="next" ng-show="!($last)" ng-click="openNext()">
       <i class="fa fa-arrow-circle-right" aria-hidden="true"></i>
