@@ -39,7 +39,11 @@ angular.module('photonlineApp')
           }
         };
 
-        scope.onImgLoad = function(event) {
+        scope.onThumbImgLoad = function(event) {
+          scope.thumbImgReady = true;
+        };
+
+        scope.onPoolImgLoad = function(event) {
           // console.log("event:", event);
           var $img = angular.element(event.target);
           var $ngContent = $img.parent().parent();
@@ -48,8 +52,6 @@ angular.module('photonlineApp')
 
           // console.log("$img:", $img);
           // console.log("ratio:", ratio);
-
-          $img.css("opacity", "1");
 
           // TODO: fix calculation
           if (ratio < 1 || ratio >= 1) {
@@ -63,7 +65,7 @@ angular.module('photonlineApp')
             }
           }
 
-          scope.imgReady = true;
+          scope.poolImgReady = true;
         };
 
       }

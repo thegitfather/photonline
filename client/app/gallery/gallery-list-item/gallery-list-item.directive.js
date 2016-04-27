@@ -11,7 +11,9 @@ angular.module('photonlineApp')
       },
 
       link: function (scope, element, attrs) {
-
+        scope.onImgLoad = function(event) {
+          scope.imgReady = true;
+        };
       }
     };
   });

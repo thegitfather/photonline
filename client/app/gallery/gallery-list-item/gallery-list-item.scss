@@ -2,6 +2,7 @@ article.gallery-list-item {
   position: relative; // -> footer is absolute
   width: 218px;
   padding: 10px 10px 20px 10px;
+  @include transition-ng-show;
 
   h2.title { margin-bottom: 0.25em; }
   p { margin-bottom: 1em; }

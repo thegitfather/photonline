@@ -27,7 +27,7 @@
   .text-wrapper {
     margin: 0 auto;
     pointer-events: none;
-    @include transition-opacity($speed: 100ms, $func: linear);
+    transition: opacity 100ms linear;
   }
   .queueLength {
     position: absolute;

@@ -1,15 +1,16 @@
 <div class="gallery-item-wrapper">
   <h1>{{photo.originalFilename}}</h1>
 
-  <div class="loading" ng-hide="imgReady">
+  <div class="loading" ng-hide="poolImgReady">
     <i class="fa fa-spinner fa-spin fa-3x fa-fw margin-bottom"></i>
     <span class="sr-only">Loading...</span>
   </div>
 
   <img ng-src="{{photo.path}}{{photo.filename}}"
-    po-on-load="onImgLoad($event)">
+    po-on-load="onPoolImgLoad($event)"
+    ng-show="poolImgReady">
 
-  <div class="controls" ng-show="imgReady">
+  <div class="controls" ng-show="poolImgReady">
     <div class="click-area next" ng-show="!($last)" ng-click="openNext()"></div>
     <a href="" class="next" title="next" ng-show="!($last)" ng-click="openNext()">
       <i class="fa fa-arrow-circle-right" aria-hidden="true"></i>

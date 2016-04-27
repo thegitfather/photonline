@@ -1,0 +1,6 @@
+@mixin transition-ng-show($speed: $animation-speed, $func: linear) {
+  &.ng-hide, &.ng-hide-add { opacity: 0; }
+  &.ng-hide-remove {
+    transition: opacity $speed $func;
+  }
+}

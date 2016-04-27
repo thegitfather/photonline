@@ -29,6 +29,7 @@
   transition: width $animation-speed*2 ease-out;
   width: 200px;
   height: 200px;
+  box-shadow: 0 0 32px rgba(255, 255, 255, 0.25);
 }
 
 .ngdialog.ngdialog-theme-photonline .ngdialog-close {

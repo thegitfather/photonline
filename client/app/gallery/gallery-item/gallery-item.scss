@@ -1,6 +1,7 @@
 article.gallery-item {
   width: 24%;
   align-self: center;
+  @include transition-ng-show;
 
   &.placeholder {
     width: 24%;
@@ -9,10 +10,12 @@ article.gallery-item {
     margin: 0;
     visibility: hidden;
   }
-
 }
 
 .gallery-item-wrapper {
+  & > img {
+    @include transition-ng-show($speed: 400ms);
+  }
   .loading {
     position: absolute;
     top: 50%;
@@ -20,11 +23,12 @@ article.gallery-item {
     margin-top: -25px;
     margin-left: -20px;
     color: $grey;
-    span { display: block; }
+    span {
+      display: block;
+      padding-top: 0.5em;
+    }
   }
-  & > img {
-    @include transition-opacity($init-opacity: 0, $speed: $animation-speed*2, $func: linear);
-  }
+
   .controls {
     & > a {
       position: absolute;

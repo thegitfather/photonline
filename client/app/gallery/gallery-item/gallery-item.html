@@ -1,7 +1,8 @@
-<article class="gallery-item">
+<article class="gallery-item" ng-show="thumbImgReady">
   <div class="preview-image">
     <a href="" class="wrapper">
-      <img ng-src="./public/photo_thumbs/thumb_{{photo.filename}}">
+      <img ng-src="./public/photo_thumbs/thumb_{{photo.filename}}"
+        po-on-load="onThumbImgLoad($event)">
     </a>
   </div>
 </article>
