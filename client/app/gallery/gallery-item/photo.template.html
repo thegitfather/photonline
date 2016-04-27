@@ -6,8 +6,7 @@
     <span class="sr-only">Loading...</span>
   </div>
 
-  <img
-    ng-src="{{photo.path}}{{photo.filename}}"
+  <img ng-src="{{photo.path}}{{photo.filename}}"
     po-on-load="onImgLoad($event)">
 
   <div class="controls" ng-show="imgReady">
