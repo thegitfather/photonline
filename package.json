@@ -1,6 +1,6 @@
 {
   "name": "photonline",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "main": "server/app.js",
   "dependencies": {
     "babel-polyfill": "^6.7.2",
