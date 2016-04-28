@@ -8,10 +8,6 @@ This project was created with an educational aim towards learning AngularJS and 
 - modern/lightweight CSS framework which is based on [Flexbox](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Flexible_Box_Layout/Using_CSS_flexible_boxes)
 - Dockerized for easy/isolated deployment
 
-## Demo
-
-A running demo instance can be found [here](https://photonline.joinpoint.org/).
-
 ## Screenshots
 
 <img src="/screenshots/scr_create-gallery.png" width="250">
