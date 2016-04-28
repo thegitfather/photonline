@@ -8,6 +8,6 @@ exports = module.exports = {
   uploadLimits: {
     "minFileSize": 10240, // 10 KB
     "maxFileSize": 6291456, // 6 MB
-    "queueLimit": 100
+    "queueLimit": 200
   }
 };
