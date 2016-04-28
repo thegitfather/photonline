@@ -70,7 +70,7 @@ export function cleanDB(req, res) {
         console.log(removedFilePaths);
       });
     } else {
-      console.log("cleanDB() datebase already clean - doing nothing...");
+      console.log("cleanDB() datebase already clean - nothing to do");
     }
 
     // if function call from request then send response (otherwise its the cron job)
