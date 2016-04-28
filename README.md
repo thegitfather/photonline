@@ -14,12 +14,9 @@ A running demo instance can be found [here](https://photonline.joinpoint.org/).
 
 ## Screenshots
 
-![upload](https://raw.githubusercontent.com/thegitfather/zzz_assets/master/photonline/scr_create-gallery.png =250x)
-
-![gallery list](https://raw.githubusercontent.com/thegitfather/zzz_assets/master/photonline/scr_gallery-list.jpg =250x)
-
-![photo](https://raw.githubusercontent.com/thegitfather/zzz_assets/master/photonline/scr_photo.jpg =250x)
-
+<img src="/screenshots/scr_create-gallery.png" width="250">
+<img src="/screenshots/scr_gallery-list.png" width="250">
+<img src="/screenshots/scr_photo.jpg" width="250">
 
 ## Used Libs
 
@@ -42,7 +39,6 @@ A running demo instance can be found [here](https://photonline.joinpoint.org/).
 - angular-flabel (custom directive for floating labels)
 - Bulma (CSS3 framework)
 - Font-Awesome icons
-
 
 ## Production
 
