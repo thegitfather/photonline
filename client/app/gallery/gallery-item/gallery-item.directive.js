@@ -44,28 +44,24 @@ angular.module('photonlineApp')
         };
 
         scope.onPoolImgLoad = function(event) {
-          // console.log("event:", event);
+          scope.poolImgReady = true;
           var $img = angular.element(event.target);
           var $ngContent = $img.parent().parent();
           var ratio = $img[0].naturalWidth / $img[0].naturalHeight;
           var temp;
 
-          // console.log("$img:", $img);
-          // console.log("ratio:", ratio);
-
-          // TODO: fix calculation
-          if (ratio < 1 || ratio >= 1) {
+          setTimeout(setWidth, 100);
+          function setWidth() {
             $ngContent.css("height", "auto");
             temp = document.documentElement.clientHeight / $ngContent[0].clientHeight;
             temp = temp * $ngContent[0].clientWidth;
-            if ($img[0].naturalWidth > temp) {
-              $ngContent.css("width", temp + "px");
-            } else {
+            $ngContent.css("width", temp + "px");
+            if (temp > $img[0].naturalWidth) {
               $ngContent.css("width", $img[0].naturalWidth + "px");
+            } else {
+              $ngContent.css("width", temp + "px");
             }
           }
-
-          scope.poolImgReady = true;
         };
 
       }
