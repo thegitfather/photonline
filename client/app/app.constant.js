@@ -10,7 +10,7 @@
 	"uploadLimits": {
 		"minFileSize": 10240,
 		"maxFileSize": 6291456,
-		"queueLimit": 100
+		"queueLimit": 200
 	}
 })
 
