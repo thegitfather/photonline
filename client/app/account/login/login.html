@@ -3,6 +3,10 @@
     <h1 class="state title is-1">Login</h1>
   </header>
 
+  <div class="container" ng-show="vm.demoMode">
+    <p>Demo account: <code>demo_user@example.com</code> / <code>12qw34er</code></p><br>
+  </div>
+
   <form name="form" ng-submit="vm.login(form)" novalidate>
 
     <div class="columns">

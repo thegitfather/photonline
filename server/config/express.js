@@ -70,7 +70,7 @@ export default function(app) {
 
   app.use('/public', express.static(config.publicPath));
 
-  if ('production' === env) {
+  if ('production' === env || 'demo' === env) {
     app.use(favicon(path.join(config.root, 'client', 'favicon.ico')));
     app.use(express.static(app.get('appPath')));
     app.use(morgan('dev'));

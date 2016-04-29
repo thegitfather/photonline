@@ -2,18 +2,18 @@
 
 class LoginController {
 
-  /* class properties (ES7) */
-  //start-non-standard
-  // user = {};
-  // serverResponses = [];
-  // submitted = false;
-  //end-non-standard
-
-  constructor(Auth, $state) {
+  constructor(Auth, $state, ServerConfig) {
     this.Auth = Auth;
     this.$state = $state;
     this.serverResponses = [];
     this.user = {};
+    this.demoMode = false;
+
+    ServerConfig.then(res => {
+      if (res.data.env === 'demo') {
+        this.demoMode = true;
+      }
+    });
   }
 
   login(form) {

@@ -193,6 +193,11 @@ gulp.task('env:prod', () => {
     vars: {NODE_ENV: 'production'}
   });
 });
+gulp.task('env:demo', () => {
+  plugins.env({
+    vars: {NODE_ENV: 'demo'}
+  });
+});
 
 /********************
 * Tasks
@@ -370,243 +375,254 @@ gulp.task('serve:dist', cb => {
     'env:prod',
     ['start:server:prod', 'start:client'],
     cb);
-  });
+  }
+);
 
-  gulp.task('test', cb => {
-    return runSequence('test:server', 'test:client', cb);
-  });
+gulp.task('serve:demo', cb => {
+  runSequence(
+    'build',
+    'env:all',
+    'env:demo',
+    ['start:server:prod', 'start:client'],
+    cb);
+  }
+);
 
-  gulp.task('test:server', cb => {
-    runSequence(
-      'env:all',
-      'env:test',
-      'mocha:unit',
-      'mocha:integration',
-      'mocha:coverage',
-      cb);
-    }
-  );
+gulp.task('test', cb => {
+  return runSequence('test:server', 'test:client', cb);
+});
 
-  gulp.task('mocha:unit', () => {
-    return gulp.src(paths.server.test.unit)
-    .pipe(mocha());
-  });
-
-  gulp.task('mocha:integration', () => {
-    return gulp.src(paths.server.test.integration)
-    .pipe(mocha());
-  });
-
-  gulp.task('test:client', ['wiredep:test', 'constant'], (done) => {
-    new KarmaServer({
-      configFile: `${__dirname}/${paths.karma}`,
-      singleRun: true
-    }, done).start();
-  });
-
-  // inject bower components
-  gulp.task('wiredep:client', () => {
-    return gulp.src(paths.client.mainView)
-    .pipe(wiredep({
-      exclude: [
-        /bootstrap-sass-official/,
-        /bootstrap.js/,
-        /json3/,
-        /es5-shim/,
-        /bootstrap.css/,
-        /font-awesome.css/
-      ],
-      ignorePath: clientPath
-    }))
-    .pipe(gulp.dest(`${clientPath}/`));
-  });
-
-  gulp.task('wiredep:test', () => {
-    return gulp.src(paths.karma)
-    .pipe(wiredep({
-      exclude: [
-        /bootstrap-sass-official/,
-        /bootstrap.js/,
-        '/json3/',
-        '/es5-shim/',
-        /bootstrap.css/,
-        /font-awesome.css/
-      ],
-      devDependencies: true
-    }))
-    .pipe(gulp.dest('./'));
-  });
-
-  /********************
-  * Build
-  ********************/
-
-  //FIXME: looks like font-awesome isn't getting loaded
-  gulp.task('build', cb => {
-    runSequence(
-      [
-        'clean:dist',
-        'clean:tmp'
-      ],
-      'inject',
-      'wiredep:client',
-      [
-        'build:images',
-        'copy:extras',
-        'copy:fonts',
-        'copy:assets',
-        'copy:server',
-        'transpile:server',
-        'build:client'
-      ],
-      cb);
-    }
-  );
-
-  gulp.task('clean:dist', () => del([`${paths.dist}/!(.git*|.openshift|Procfile)**`], {dot: true}));
-
-  gulp.task('build:client', ['transpile:client', 'styles', 'html', 'constant'], () => {
-    var manifest = gulp.src(`${paths.dist}/${clientPath}/assets/rev-manifest.json`);
-
-    var appFilter = plugins.filter('**/app.js', {restore: true});
-    var jsFilter = plugins.filter('**/*.js', {restore: true});
-    var cssFilter = plugins.filter('**/*.css', {restore: true});
-    var htmlBlock = plugins.filter(['**/*.!(html)'], {restore: true});
-
-    return gulp.src(paths.client.mainView)
-    .pipe(plugins.useref())
-    .pipe(appFilter)
-    .pipe(plugins.addSrc.append('.tmp/templates.js'))
-    .pipe(plugins.concat('app/app.js'))
-    .pipe(appFilter.restore)
-    .pipe(jsFilter)
-    .pipe(plugins.ngAnnotate())
-    .pipe(plugins.uglify())
-    .pipe(jsFilter.restore)
-    .pipe(cssFilter)
-    .pipe(plugins.minifyCss({
-      cache: true,
-      processImportFrom: ['!fonts.googleapis.com']
-    }))
-    .pipe(cssFilter.restore)
-    .pipe(htmlBlock)
-    .pipe(plugins.rev())
-    .pipe(htmlBlock.restore)
-    .pipe(plugins.revReplace({manifest}))
-    .pipe(gulp.dest(`${paths.dist}/${clientPath}`));
-  });
-
-  gulp.task('html', function() {
-    return gulp.src(`${clientPath}/{app,components}/**/*.html`)
-    .pipe(plugins.angularTemplatecache({
-      module: 'photonlineApp'
-    }))
-    .pipe(gulp.dest('.tmp'));
-  });
-
-  gulp.task('constant', function() {
-    let sharedConfig = require(`./${serverPath}/config/environment/shared`);
-    return plugins.ngConstant({
-      name: 'photonlineApp.constants',
-      deps: [],
-      wrap: true,
-      stream: true,
-      constants: { appConfig: sharedConfig }
-    })
-    .pipe(plugins.rename({
-      basename: 'app.constant'
-    }))
-    .pipe(gulp.dest(`${clientPath}/app/`))
-  });
-
-  gulp.task('build:images', () => {
-    return gulp.src(paths.client.images)
-    .pipe(plugins.imagemin({
-      optimizationLevel: 5,
-      progressive: true,
-      interlaced: true
-    }))
-    .pipe(plugins.rev())
-    .pipe(gulp.dest(`${paths.dist}/${clientPath}/assets/images`))
-    .pipe(plugins.rev.manifest(`${paths.dist}/${clientPath}/assets/rev-manifest.json`, {
-      base: `${paths.dist}/${clientPath}/assets`,
-      merge: true
-    }))
-    .pipe(gulp.dest(`${paths.dist}/${clientPath}/assets`));
-  });
-
-  gulp.task('copy:extras', () => {
-    return gulp.src([
-      `${clientPath}/favicon.ico`,
-      `${clientPath}/robots.txt`,
-      `${clientPath}/.htaccess`
-    ], { dot: true })
-    .pipe(gulp.dest(`${paths.dist}/${clientPath}`));
-  });
-
-  gulp.task('copy:fonts', () => {
-    return gulp.src(`${clientPath}/bower_components/font-awesome/fonts/**/*`, { dot: true })
-    .pipe(gulp.dest(`${paths.dist}/${clientPath}/bower_components/font-awesome/fonts`));
-  });
-
-  gulp.task('copy:assets', () => {
-    return gulp.src([paths.client.assets, '!' + paths.client.images])
-    .pipe(gulp.dest(`${paths.dist}/${clientPath}/assets`));
-  });
-
-  gulp.task('copy:server', () => {
-    return gulp.src([
-      'package.json',
-      'bower.json',
-      '.bowerrc'
-    ], {cwdbase: true})
-    .pipe(gulp.dest(paths.dist));
-  });
-
-  gulp.task('coverage:pre', () => {
-    return gulp.src(paths.server.scripts)
-    // Covering files
-    .pipe(plugins.istanbul({
-      instrumenter: Instrumenter, // Use the isparta instrumenter (code coverage for ES6)
-      includeUntested: true
-    }))
-    // Force `require` to return covered files
-    .pipe(plugins.istanbul.hookRequire());
-  });
-
-  gulp.task('coverage:unit', () => {
-    return gulp.src(paths.server.test.unit)
-    .pipe(mocha())
-    .pipe(istanbul())
-    // Creating the reports after tests ran
-  });
-
-  gulp.task('coverage:integration', () => {
-    return gulp.src(paths.server.test.integration)
-    .pipe(mocha())
-    .pipe(istanbul())
-    // Creating the reports after tests ran
-  });
-
-  gulp.task('mocha:coverage', cb => {
-    runSequence('coverage:pre',
+gulp.task('test:server', cb => {
+  runSequence(
     'env:all',
     'env:test',
-    'coverage:unit',
-    'coverage:integration',
+    'mocha:unit',
+    'mocha:integration',
+    'mocha:coverage',
     cb);
-  });
+  }
+);
 
-  // Downloads the selenium webdriver
-  gulp.task('webdriver_update', webdriver_update);
+gulp.task('mocha:unit', () => {
+  return gulp.src(paths.server.test.unit)
+  .pipe(mocha());
+});
 
-  gulp.task('test:e2e', ['env:all', 'env:test', 'start:server', 'webdriver_update'], cb => {
-    gulp.src(paths.client.e2e)
-    .pipe(protractor({
-      configFile: 'protractor.conf.js',
-    })).on('error', err => {
-      console.log(err)
-    }).on('end', () => {
-      process.exit();
-    });
+gulp.task('mocha:integration', () => {
+  return gulp.src(paths.server.test.integration)
+  .pipe(mocha());
+});
+
+gulp.task('test:client', ['wiredep:test', 'constant'], (done) => {
+  new KarmaServer({
+    configFile: `${__dirname}/${paths.karma}`,
+    singleRun: true
+  }, done).start();
+});
+
+// inject bower components
+gulp.task('wiredep:client', () => {
+  return gulp.src(paths.client.mainView)
+  .pipe(wiredep({
+    exclude: [
+      /bootstrap-sass-official/,
+      /bootstrap.js/,
+      /json3/,
+      /es5-shim/,
+      /bootstrap.css/,
+      /font-awesome.css/
+    ],
+    ignorePath: clientPath
+  }))
+  .pipe(gulp.dest(`${clientPath}/`));
+});
+
+gulp.task('wiredep:test', () => {
+  return gulp.src(paths.karma)
+  .pipe(wiredep({
+    exclude: [
+      /bootstrap-sass-official/,
+      /bootstrap.js/,
+      '/json3/',
+      '/es5-shim/',
+      /bootstrap.css/,
+      /font-awesome.css/
+    ],
+    devDependencies: true
+  }))
+  .pipe(gulp.dest('./'));
+});
+
+/********************
+* Build
+********************/
+
+//FIXME: looks like font-awesome isn't getting loaded
+gulp.task('build', cb => {
+  runSequence(
+    [
+      'clean:dist',
+      'clean:tmp'
+    ],
+    'inject',
+    'wiredep:client',
+    [
+      'build:images',
+      'copy:extras',
+      'copy:fonts',
+      'copy:assets',
+      'copy:server',
+      'transpile:server',
+      'build:client'
+    ],
+    cb);
+  }
+);
+
+gulp.task('clean:dist', () => del([`${paths.dist}/!(.git*|.openshift|Procfile)**`], {dot: true}));
+
+gulp.task('build:client', ['transpile:client', 'styles', 'html', 'constant'], () => {
+  var manifest = gulp.src(`${paths.dist}/${clientPath}/assets/rev-manifest.json`);
+
+  var appFilter = plugins.filter('**/app.js', {restore: true});
+  var jsFilter = plugins.filter('**/*.js', {restore: true});
+  var cssFilter = plugins.filter('**/*.css', {restore: true});
+  var htmlBlock = plugins.filter(['**/*.!(html)'], {restore: true});
+
+  return gulp.src(paths.client.mainView)
+  .pipe(plugins.useref())
+  .pipe(appFilter)
+  .pipe(plugins.addSrc.append('.tmp/templates.js'))
+  .pipe(plugins.concat('app/app.js'))
+  .pipe(appFilter.restore)
+  .pipe(jsFilter)
+  .pipe(plugins.ngAnnotate())
+  .pipe(plugins.uglify())
+  .pipe(jsFilter.restore)
+  .pipe(cssFilter)
+  .pipe(plugins.minifyCss({
+    cache: true,
+    processImportFrom: ['!fonts.googleapis.com']
+  }))
+  .pipe(cssFilter.restore)
+  .pipe(htmlBlock)
+  .pipe(plugins.rev())
+  .pipe(htmlBlock.restore)
+  .pipe(plugins.revReplace({manifest}))
+  .pipe(gulp.dest(`${paths.dist}/${clientPath}`));
+});
+
+gulp.task('html', function() {
+  return gulp.src(`${clientPath}/{app,components}/**/*.html`)
+  .pipe(plugins.angularTemplatecache({
+    module: 'photonlineApp'
+  }))
+  .pipe(gulp.dest('.tmp'));
+});
+
+gulp.task('constant', function() {
+  let sharedConfig = require(`./${serverPath}/config/environment/shared`);
+  return plugins.ngConstant({
+    name: 'photonlineApp.constants',
+    deps: [],
+    wrap: true,
+    stream: true,
+    constants: { appConfig: sharedConfig }
+  })
+  .pipe(plugins.rename({
+    basename: 'app.constant'
+  }))
+  .pipe(gulp.dest(`${clientPath}/app/`))
+});
+
+gulp.task('build:images', () => {
+  return gulp.src(paths.client.images)
+  .pipe(plugins.imagemin({
+    optimizationLevel: 5,
+    progressive: true,
+    interlaced: true
+  }))
+  .pipe(plugins.rev())
+  .pipe(gulp.dest(`${paths.dist}/${clientPath}/assets/images`))
+  .pipe(plugins.rev.manifest(`${paths.dist}/${clientPath}/assets/rev-manifest.json`, {
+    base: `${paths.dist}/${clientPath}/assets`,
+    merge: true
+  }))
+  .pipe(gulp.dest(`${paths.dist}/${clientPath}/assets`));
+});
+
+gulp.task('copy:extras', () => {
+  return gulp.src([
+    `${clientPath}/favicon.ico`,
+    `${clientPath}/robots.txt`,
+    `${clientPath}/.htaccess`
+  ], { dot: true })
+  .pipe(gulp.dest(`${paths.dist}/${clientPath}`));
+});
+
+gulp.task('copy:fonts', () => {
+  return gulp.src(`${clientPath}/bower_components/font-awesome/fonts/**/*`, { dot: true })
+  .pipe(gulp.dest(`${paths.dist}/${clientPath}/bower_components/font-awesome/fonts`));
+});
+
+gulp.task('copy:assets', () => {
+  return gulp.src([paths.client.assets, '!' + paths.client.images])
+  .pipe(gulp.dest(`${paths.dist}/${clientPath}/assets`));
+});
+
+gulp.task('copy:server', () => {
+  return gulp.src([
+    'package.json',
+    'bower.json',
+    '.bowerrc'
+  ], {cwdbase: true})
+  .pipe(gulp.dest(paths.dist));
+});
+
+gulp.task('coverage:pre', () => {
+  return gulp.src(paths.server.scripts)
+  // Covering files
+  .pipe(plugins.istanbul({
+    instrumenter: Instrumenter, // Use the isparta instrumenter (code coverage for ES6)
+    includeUntested: true
+  }))
+  // Force `require` to return covered files
+  .pipe(plugins.istanbul.hookRequire());
+});
+
+gulp.task('coverage:unit', () => {
+  return gulp.src(paths.server.test.unit)
+  .pipe(mocha())
+  .pipe(istanbul())
+  // Creating the reports after tests ran
+});
+
+gulp.task('coverage:integration', () => {
+  return gulp.src(paths.server.test.integration)
+  .pipe(mocha())
+  .pipe(istanbul())
+  // Creating the reports after tests ran
+});
+
+gulp.task('mocha:coverage', cb => {
+  runSequence('coverage:pre',
+  'env:all',
+  'env:test',
+  'coverage:unit',
+  'coverage:integration',
+  cb);
+});
+
+// Downloads the selenium webdriver
+gulp.task('webdriver_update', webdriver_update);
+
+gulp.task('test:e2e', ['env:all', 'env:test', 'start:server', 'webdriver_update'], cb => {
+  gulp.src(paths.client.e2e)
+  .pipe(protractor({
+    configFile: 'protractor.conf.js',
+  })).on('error', err => {
+    console.log(err)
+  }).on('end', () => {
+    process.exit();
   });
+});
