@@ -48,19 +48,27 @@ angular.module('photonlineApp')
           var $img = angular.element(event.target);
           var $ngContent = $img.parent().parent();
           var ratio = $img[0].naturalWidth / $img[0].naturalHeight;
-          var temp;
+          var temp, newWidth;
 
           setTimeout(setWidth, 100);
+
           function setWidth() {
             $ngContent.css("height", "auto");
             temp = document.documentElement.clientHeight / $ngContent[0].clientHeight;
             temp = temp * $ngContent[0].clientWidth;
-            $ngContent.css("width", temp + "px");
-            if (temp > $img[0].naturalWidth) {
-              $ngContent.css("width", $img[0].naturalWidth + "px");
+
+            if (temp > document.documentElement.clientWidth) {
+              newWidth = document.documentElement.clientWidth;
             } else {
-              $ngContent.css("width", temp + "px");
+              if (temp > $img[0].naturalWidth) {
+                newWidth = $img[0].naturalWidth;
+              } else if (ratio > 1) {
+                newWidth = temp + $ngContent[0].clientWidth;
+              } else {
+                newWidth = temp;
+              }
             }
+            $ngContent.css("width", newWidth + "px");
           }
         };
 
