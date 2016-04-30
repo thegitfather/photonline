@@ -52,11 +52,10 @@ header.page-header {
   header.page-header {
     .header-left {
       & > a:first-child {
-        position: fixed;
+        position: absolute;
         top: 0;
-        left: 50%;
-        padding-top: 2px;
-        margin-left: -55px;
+        left: 0;
+        padding: 2px 4px;
       }
 
       .header-tab {
