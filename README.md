@@ -10,9 +10,9 @@ This project was created with an educational aim towards learning AngularJS and 
 
 ## Screenshots
 
-<img src="/screenshots/scr_create-gallery.png" width="250">
-<img src="/screenshots/scr_gallery-list.png" width="250">
-<img src="/screenshots/scr_photo.jpg" width="250">
+<img src="/screenshots/create-gallery.jpg" width="250">
+<img src="/screenshots/gallery-list.jpg" width="250">
+<img src="/screenshots/photo.jpg" width="250">
 
 ## Used Libs
 
