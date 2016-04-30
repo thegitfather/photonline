@@ -11,6 +11,8 @@ cd "$DIR"/..; gulp build
 cd dist; npm install --only=prod
 cd ..; tar cvfz dist.tar.gz dist/
 
+chmod 755 "$DIR"/../docker/startup.sh
+
 docker build -t "$IMAGE" .
 
 # rm old images/containers
