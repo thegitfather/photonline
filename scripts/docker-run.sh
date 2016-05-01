@@ -4,14 +4,14 @@ command docker ps >/dev/null 2>&1 || { echo "docker not running? aborting..." >&
 
 IMAGE="thegitfather/photonline:0.1.0"
 CONTAINER="photonline"
-ENV="prod"
+ENV="production"
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-ENVDIR="${DIR}/../docker-volume-data/${ENV}"
+VOL_DIR="${DIR}/../docker-volume-data"
 
-if [ ! -e "$ENVDIR" ]; then
-  mkdir -p "$ENVDIR"/mongodb
-  chmod 777 "$ENVDIR"/mongodb
+if [ ! -e "$VOL_DIR"/mongodb ]; then
+  mkdir -p "$VOL_DIR"/mongodb
+  chmod 777 "$VOL_DIR"/mongodb
 fi
 
 #docker run -ti --rm \
@@ -19,8 +19,8 @@ docker run -d \
   --name "$CONTAINER" \
   --env-file "$DIR"/../docker/"$ENV".env \
   --expose 19321 -p 19321:19321 \
-  -v "$ENVDIR"/public:/srv/photonline/dist/public \
-  -v "$ENVDIR"/mongodb:/srv/photonline/mongodb \
+  -v "$VOL_DIR"/public:/srv/photonline/dist/public \
+  -v "$VOL_DIR"/mongodb:/srv/photonline/mongodb \
   "$IMAGE"
 
 exit 0
