@@ -11,5 +11,4 @@ coverage
 *?bak
 *?bak?[0-9]*
 scripts/deploy*
-dist.tar.gz
 docker-volume-data

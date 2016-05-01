@@ -38,9 +38,12 @@ ENV LD_LIBRARY_PATH $LD_LIBRARY_PATH:$VIPSHOME/lib
 ENV PATH $PATH:$VIPSHOME/bin
 ENV PKG_CONFIG_PATH $PKG_CONFIG_PATH:$VIPSHOME/lib/pkgconfig
 
-ADD dist /srv/photonline/dist
+ADD docker/dist.tar.gz /srv/photonline
 ADD docker/mongod.conf /etc
 ADD docker/startup.sh /srv/photonline
+
+RUN chmod 755 /srv/photonline/startup.sh
+
 WORKDIR /srv/photonline
 
 CMD ["/srv/photonline/startup.sh"]

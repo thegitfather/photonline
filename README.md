@@ -38,58 +38,68 @@ This project was created with an educational aim towards learning AngularJS and 
 
 ## Production
 
-For production I recommend building a [Docker](https://www.docker.com/) image and running the app in a container (all dependencies will be included while building the image). A `Dockerfile` is included in this repo. The image is based on the official [node docker image](https://hub.docker.com/_/node/) which uses Debian as a base. 
+For production I recommend building a [Docker](https://www.docker.com/) image and running the app in a container (all dependencies will be included while building the image). A `Dockerfile` is included in this repo. The image is based on the official [node docker image](https://hub.docker.com/_/node/) which uses Debian as a base.
 
-1. clone/fork this repo
-2. build the dist folder with `npm install && bower install && gulp build`
-3. change into `dist` folder and run `npm install --only=prod`
-4. change back to the root folder where the `Dockerfile` is and build the docker image with e.g.:
+All configuration should be done via environment variables. So if you want to run the app on a different port than `19321` adjust it in `docker/prod.env` and make sure you expose and link the correct port when running the container (e.g. `--expose 8080 -p 19321:8080`).
 
-```sh
-docker build -t photonline .
-```
-
-### Configuration
-
-Edit `docker/prod.env` to your needs:
-
-```
-NODE_ENV=production
-PORT=19321
-IP=0.0.0.0
-MONGODB=mongodb://0.0.0.0:27111/photonline
-SESSION_SECRET=somesecret
-```
-
-MongoDB is in the Docker build included and will be used so the `IP` and `PORT`. The MongoDB config can be found in `docker` folder too but usually you don't need to change it (port `27111` is already set).
-
-And run a docker container from the image (new container will be created automatically):
+There are also bash scripts for building/running a docker image/container inside the `scripts/` folder you can use (`docker-build.sh` and `docker-run.sh`) but first you need to clone/fork this repo to the system where the Docker container should be running:
 
 ```sh
-$ docker run -d --name photonline --env-file docker/prod.env --expose 19321 -p 19321:19321 -v `pwd`/public:/srv/photonline/dist/public photonline
+$ git clone https://github.com/thegitfather/photonline
 ```
 
-The folder for uploaded images can be configured in this command so that the files will be accessible outside the docker container (e.g. for backups). MongoDB files stay in the container at the moment but of course you can change that too (see `docker/mongod.conf`: `dbPath`) and adjust the above `docker run` command (I had some problems with folder permissions when i tried this so maybe you need to do a `$ chmod 777 <mongodb-folder>` or find a better solution).
+### Build docker image
 
+1. change into the folder where the `Dockerfile` is located
+2. build docker image with e.g.:
+
+```sh
+$ docker build -t thegitfather/photonline .
+```
+
+### Run docker container
+
+To access/backup the uploaded photo files and MongoDB data it might be a good idea to use a docker 'volume' linking to a path on the host system.
+
+Adjust the access permissions for the `mongodb` folder first otherwise MongoDB will have problems writing to it (Nodejs has no issues though..):
+
+```sh
+$ mkdir -p docker-volume-data/mongodb && chmod 777 docker-volume-data/mongodb
+```
+
+Now you should check the environment variables (`docker/prod.env`) that are going to be used while creating a container from the image. Set the `SESSION_SECRET` to some random string for security reasons.
+
+Next step is to run/create a docker container:
+
+```sh
+$ docker run -d \
+    --name photonline \
+    --env-file docker/prod.env \
+    --expose 19321 -p 19321:19321 \
+    -v `pwd`/docker-volume-data/public:/srv/photonline/dist/public \
+    -v `pwd`/docker-volume-data/mongodb:/srv/photonline/mongodb \
+    thegitfather/photonline
+```
 
 ## Development
 
 ### Prerequisites
 
-- [Node.js and npm](nodejs.org) Node ^4.2.3, npm ^2.14.7
-- [Bower](bower.io) (`npm install --global bower`)
-- [Ruby](https://www.ruby-lang.org) and then `gem install sass`
-- [Gulp](http://gulpjs.com/) (`npm install --global gulp`)
-- [MongoDB](https://www.mongodb.org/) - Keep a running daemon with `mongod`
+NodeJS 6.0.0 might be not building correctly for now so better use 5.x.x. You could use [tj/n](https://github.com/tj/n) for easy NodeJS version management/switching.
+
+- Bower and Gulp (`$ npm install -g gulp-cli bower`)
+- Python (2.x will do)
+- node-gyp (`$ npm install -g node-gyp`)
+- [MongoDB](https://www.mongodb.org/)
 
 ### Developing
 
-1. run `npm install` to install server dependencies
-2. run `bower install` to install front-end dependencies
-3. run `mongod` in a separate shell to keep an instance of the MongoDB Daemon running
-4. run `gulp serve` to start the development server
+1. run `npm install` to install server-side dependencies
+2. run `bower install` to install client-side dependencies
+3. run/start `mongod` daemon
+4. run `gulp serve` to start the development server and watch task
 
-## Build & development
+## Build for production
 
 Run `gulp build` for building (output will be in `dist` folder).
 
