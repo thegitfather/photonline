@@ -48,7 +48,7 @@ var all = {
 
   // Secret for session, you will want to change this and make it an environment variable
   secrets: {
-    session: process.env.SESSION_SECRET || 'n3a9sdf92yaz21'
+    session: process.env.SESSION_SECRET || 'somesecret'
   },
 
   // MongoDB connection options
