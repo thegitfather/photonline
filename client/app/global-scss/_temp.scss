@@ -1,0 +1,4 @@
+// fix till pull request (https://github.com/danialfarid/ng-file-upload/pull/1506)
+body > img {
+  max-width: none !important;
+}

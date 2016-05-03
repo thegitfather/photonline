@@ -6,7 +6,7 @@
   <div class="pseudo-table">
     <div class="row head">
       <div class="cell name">Filename</div>
-      <!-- <div class="cell image-dims">Dimensions</div> -->
+      <div class="cell image-dims">Dimensions</div>
       <div class="cell size">Size</div>
       <div class="cell upload-progress">Upload progress</div>
       <!-- <div class="cell preview-thumb">Preview</div> -->
@@ -16,9 +16,9 @@
       <div class="cell name">
         {{file.name}}
       </div>
-      <!-- <div class="cell image-dims">
+      <div class="cell image-dims">
         {{ file.dimensions.width }}&times;{{ file.dimensions.height }}
-      </div> -->
+      </div>
       <div class="cell size">
         {{convertBytesToKB(file.size)}} KB
       </div>

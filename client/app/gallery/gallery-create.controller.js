@@ -33,8 +33,7 @@ angular.module('photonlineApp')
       var fileErrors = 0;
       for (var i = 0; i < newVal.length; i++) {
         if (newVal[i].dimensions === undefined) {
-          // TODO: https://github.com/danialfarid/ng-file-upload/issues/1490
-          // appendDimensions(newVal[i]);
+          appendDimensions(newVal[i]);
         }
         if (newVal[i].$error !== undefined) {
           fileErrors += 1;
