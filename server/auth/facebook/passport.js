@@ -23,7 +23,7 @@ export function setup(User, config) {
           email: profile.emails[0].value,
           role: 'user',
           provider: 'facebook',
-          facebook: profile._json
+          facebook: { id: profile.id }
         });
         user.save()
           .then(user => done(null, user))

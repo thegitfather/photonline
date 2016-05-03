@@ -10,5 +10,6 @@ npm-debug.log
 coverage
 *?bak
 *?bak?[0-9]*
-scripts/deploy*
+scripts/*deploy*
+scripts/build-start-*.sh
 docker-volume-data

@@ -8,8 +8,6 @@ angular.module('photonlineApp')
       replace: true,
       controller: 'OauthButtonsCtrl',
       controllerAs: 'OauthButtons',
-      scope: {
-        classes: '@'
-      }
+      scope: {}
     };
   });

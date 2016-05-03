@@ -30,6 +30,7 @@ var server = http.createServer(app);
 require('./config/express').default(app);
 require('./routes').default(app);
 
+console.log("process.env.DOMAIN:", process.env.DOMAIN);
 console.log("config.publicPath:", config.publicPath);
 console.log("config.ip:", config.ip);
 console.log("config.port:", config.port);

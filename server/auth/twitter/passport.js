@@ -19,7 +19,7 @@ export function setup(User, config) {
           username: profile.username,
           role: 'user',
           provider: 'twitter',
-          twitter: profile._json
+          twitter: { id: profile.id }
         });
         user.save()
           .then(user => done(null, user))

@@ -61,7 +61,7 @@ $ docker build -t thegitfather/photonline .
 
 To access/backup the uploaded photo files and MongoDB data it might be a good idea to use a docker 'volume' linking to a path on the host system.
 
-Adjust the access permissions for the `mongodb` folder first otherwise MongoDB will have problems writing to it (Nodejs has no issues though..):
+Adjust the access permissions for the `mongodb` folder first otherwise MongoDB will have problems writing to it (NodeJS has no issues writing to `docker-volume-data/public` though..):
 
 ```sh
 $ mkdir -p docker-volume-data/mongodb && chmod 777 docker-volume-data/mongodb
@@ -80,6 +80,17 @@ $ docker run -d \
     -v `pwd`/docker-volume-data/mongodb:/srv/photonline/mongodb \
     thegitfather/photonline
 ```
+
+### Setting up OAuth
+
+Currently the app supports this OAuth strategies:
+
+- Facebook
+- Twitter
+- Google
+- GitHub
+
+To enable a strategy you need to obtain an `App ID` and the corresponding `Secret` by registering your site in the provider's developer section (e.g. [https://developers.facebook.com/apps/](https://developers.facebook.com/apps/)) with the appropriate site URL. Afterwards you also have to pass those settings as environment variables to your app. If you use the docker solution, you can do that by editing `docker/production.env` (`DOMAIN`, `xxx_ID` and `xxx_SECRET`).
 
 ## Development
 

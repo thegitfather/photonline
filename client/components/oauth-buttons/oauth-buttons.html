@@ -1,14 +1,14 @@
 <article class="oauth-buttons">
-  <a ng-class="classes" ng-click="OauthButtons.loginOauth('facebook')" class="btn-facebook">
+  <a class="button btn-facebook" title="Connect with Facebook" ng-click="OauthButtons.loginOauth('facebook')">
     <i class="fa fa-facebook"></i>
-    <span>Connect with Facebook</span>
   </a>
-  <a ng-class="classes" ng-click="OauthButtons.loginOauth('google')" class="btn-google">
-    <i class="fa fa-google-plus"></i>
-    <span>Connect with Google+</span>
-  </a>
-  <a ng-class="classes" ng-click="OauthButtons.loginOauth('twitter')" class="btn-twitter">
+  <a class="button btn-twitter" title="Connect with Twitter" ng-click="OauthButtons.loginOauth('twitter')">
     <i class="fa fa-twitter"></i>
-    <span>Connect with Twitter</span>
+  </a>
+  <a class="button btn-google" title="Connect with Google" ng-click="OauthButtons.loginOauth('google')">
+    <i class="fa fa-google"></i>
+  </a>
+  <a class="button btn-github" title="Connect with GitHub" ng-click="OauthButtons.loginOauth('github')">
+    <i class="fa fa-github"></i>
   </a>
 </article>
