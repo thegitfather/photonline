@@ -21,11 +21,6 @@ angular.module('photonlineApp')
     controller: 'GalleryCreateController',
     controllerAs: 'vm',
     authenticate: true
-    // resolve: {
-    //   location: function (geoLocation) {
-    //     return geoLocation;
-    //   }
-    // }
   })
   .state('gallery.show', {
     url: '/:id',

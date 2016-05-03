@@ -25,12 +25,6 @@ angular.module('photonlineApp')
       ngModelOptions: { allowInvalid: true }
     });
 
-    // TODO: vendor-b47e96d874.js:2 Mixed Content: The page at 'https://photonline.joinpoint.org/gallery/list' was loaded over HTTPS, but requested an insecure XMLHttpRequest endpoint 'http://ip-api.com/json'. This request has been blocked; the content must be served over HTTPS.
-    // if (appConfig.geoLocation !== undefined && appConfig.geoLocation.hasOwnProperty("country")) {
-    //   vm.locationPlaceholder = appConfig.geoLocation.country + ", " + appConfig.geoLocation.city;
-    // } else {
-    //   vm.locationPlaceholder = "USA, New York";
-    // }
     vm.locationPlaceholder = "Germany, Berlin";
 
     $scope.$watchCollection('vm.files', function(newVal, oldVal) {
