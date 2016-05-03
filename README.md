@@ -40,7 +40,7 @@ This project was created with an educational aim towards learning AngularJS and 
 
 For production I recommend building a [Docker](https://www.docker.com/) image and running the app in a container (all dependencies will be included while building the image). A `Dockerfile` is included in this repo. The image is based on the official [node docker image](https://hub.docker.com/_/node/) which uses Debian as a base.
 
-All configuration should be done via environment variables. So if you want to run the app on a different port than `19321` adjust it in `docker/prod.env` and make sure you expose and link the correct port when running the container (e.g. `--expose 8080 -p 19321:8080`).
+All configuration should be done via environment variables. So if you want to run the app on a different port than `19321` adjust it in `docker/production.env` and make sure you expose and link the correct port when running the container (e.g. `--expose 8080 -p 8080:19321`).
 
 There are also bash scripts for building/running a docker image/container inside the `scripts/` folder you can use (`docker-build.sh` and `docker-run.sh`) but first you need to clone/fork this repo to the system where the Docker container should be running:
 
@@ -67,14 +67,14 @@ Adjust the access permissions for the `mongodb` folder first otherwise MongoDB w
 $ mkdir -p docker-volume-data/mongodb && chmod 777 docker-volume-data/mongodb
 ```
 
-Now you should check the environment variables (`docker/prod.env`) that are going to be used while creating a container from the image. Set the `SESSION_SECRET` to some random string for security reasons.
+Now you should check the environment variables (`docker/production.env`) that are going to be used while creating a container from the image. Set the `SESSION_SECRET` to some random string for security reasons.
 
 Next step is to run/create a docker container:
 
 ```sh
 $ docker run -d \
     --name photonline \
-    --env-file docker/prod.env \
+    --env-file docker/production.env \
     --expose 19321 -p 19321:19321 \
     -v `pwd`/docker-volume-data/public:/srv/photonline/dist/public \
     -v `pwd`/docker-volume-data/mongodb:/srv/photonline/mongodb \
