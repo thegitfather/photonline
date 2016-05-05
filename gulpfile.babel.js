@@ -1,4 +1,3 @@
-// Generated on 2016-04-01 using generator-angular-fullstack 3.5.0
 'use strict';
 
 import _ from 'lodash';
@@ -225,7 +224,7 @@ gulp.task('inject:js', () => {
 gulp.task('inject:css', () => {
   return gulp.src(paths.client.mainView)
   .pipe(plugins.inject(
-    gulp.src(`/${clientPath}/{app,components}/**/*.css`, {read: false})
+    gulp.src(`${clientPath}/{app,components}/**/*.css`, {read: false})
     .pipe(plugins.sort()),
     {
       starttag: '<!-- injector:css -->',
@@ -314,6 +313,13 @@ gulp.task('start:client', cb => {
   });
 });
 
+gulp.task('start:server', () => {
+  process.env.NODE_ENV = process.env.NODE_ENV || 'development';
+  config = require(`./${serverPath}/config/environment`);
+  nodemon(`-w ${serverPath} ${serverPath}`)
+  .on('log', onServerLog);
+});
+
 gulp.task('start:server:prod', () => {
   process.env.NODE_ENV = process.env.NODE_ENV || 'production';
   config = require(`./${paths.dist}/${serverPath}/config/environment`);
@@ -321,10 +327,15 @@ gulp.task('start:server:prod', () => {
   .on('log', onServerLog);
 });
 
-gulp.task('start:server', () => {
+gulp.task('start:inspector', () => {
+  gulp.src([])
+  .pipe(plugins.nodeInspector());
+});
+
+gulp.task('start:server:debug', () => {
   process.env.NODE_ENV = process.env.NODE_ENV || 'development';
   config = require(`./${serverPath}/config/environment`);
-  nodemon(`-w ${serverPath} ${serverPath}`)
+  nodemon(`-w ${serverPath} --debug-brk ${serverPath}`)
   .on('log', onServerLog);
 });
 
@@ -360,7 +371,7 @@ gulp.watch('bower.json', ['wiredep:client']);
 });
 
 gulp.task('serve', cb => {
-  runSequence(['clean:tmp', 'constant'],
+  runSequence(['clean:tmp', 'constant', 'env:all'],
   ['lint:scripts', 'inject'],
   ['wiredep:client'],
   ['transpile:client', 'styles'],
@@ -385,9 +396,22 @@ gulp.task('serve:demo', cb => {
     'env:all',
     'env:demo',
     ['start:server:prod', 'start:client'],
-    cb);
-  }
-);
+    cb
+  );
+});
+
+gulp.task('serve:debug', cb => {
+  runSequence(
+    ['clean:tmp', 'constant'],
+    ['lint:scripts', 'inject'],
+    ['wiredep:client'],
+    ['transpile:client', 'styles'],
+    'start:inspector',
+    ['start:server:debug', 'start:client'],
+    'watch',
+    cb
+  );
+});
 
 gulp.task('test', cb => {
   return runSequence('test:server', 'test:client', cb);
@@ -426,12 +450,9 @@ gulp.task('wiredep:client', () => {
   return gulp.src(paths.client.mainView)
   .pipe(wiredep({
     exclude: [
-      /bootstrap-sass-official/,
-      /bootstrap.js/,
-      /json3/,
-      /es5-shim/,
-      /bootstrap.css/,
-      /font-awesome.css/
+      '/json3/',
+      '/es5-shim/',
+      /font-awesome\.css/
     ],
     ignorePath: clientPath
   }))
@@ -442,12 +463,9 @@ gulp.task('wiredep:test', () => {
   return gulp.src(paths.karma)
   .pipe(wiredep({
     exclude: [
-      /bootstrap-sass-official/,
-      /bootstrap.js/,
       '/json3/',
       '/es5-shim/',
-      /bootstrap.css/,
-      /font-awesome.css/
+      /font-awesome\.css/
     ],
     devDependencies: true
   }))
@@ -481,7 +499,7 @@ gulp.task('build', cb => {
 
 gulp.task('clean:dist', () => del([`${paths.dist}/!(.git*|.openshift|Procfile)**`], {dot: true}));
 
-gulp.task('build:client', ['transpile:client', 'styles', 'html', 'constant'], () => {
+gulp.task('build:client', ['transpile:client', 'styles', 'html', 'constant', 'build:images'], () => {
   var manifest = gulp.src(`${paths.dist}/${clientPath}/assets/rev-manifest.json`);
 
   var appFilter = plugins.filter('**/app.js', {restore: true});
@@ -500,8 +518,7 @@ gulp.task('build:client', ['transpile:client', 'styles', 'html', 'constant'], ()
   .pipe(plugins.uglify())
   .pipe(jsFilter.restore)
   .pipe(cssFilter)
-  .pipe(plugins.minifyCss({
-    cache: true,
+  .pipe(plugins.cleanCss({
     processImportFrom: ['!fonts.googleapis.com']
   }))
   .pipe(cssFilter.restore)
