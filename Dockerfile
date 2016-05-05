@@ -40,7 +40,7 @@ ENV PKG_CONFIG_PATH $PKG_CONFIG_PATH:$VIPSHOME/lib/pkgconfig
 
 WORKDIR /srv/photonline
 
-RUN wget -O - https://joinpoint.org/saebl/docker/photonline/dist.tar.gz | tar xzf - -C "/srv/photonline"
+RUN wget -O - https://github.com/thegitfather/photonline/releases/download/v0.1.0/dist.tar.gz | tar xzf - -C "/srv/photonline"
 ADD docker/mongod.conf /etc
 ADD docker/startup.sh /srv/photonline
 RUN chmod 755 /srv/photonline/startup.sh
