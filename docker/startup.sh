@@ -6,6 +6,7 @@ PWD=`pwd -P`
 echo -e "\nNODE_ENV: $NODE_ENV"
 echo "IP: $IP"
 echo "PORT: $PORT"
+echo "DOMAIN: $DOMAIN"
 echo "PUBLIC_PATH: $PUBLIC_PATH"
 echo "MONGODB: $MONGODB"
 echo -e "SESSION_SECRET: $SESSION_SECRET\n"

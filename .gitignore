@@ -10,7 +10,8 @@ npm-debug.log
 coverage
 *?bak
 *?bak?[0-9]*
-scripts/*deploy*
+scripts/*deploy.sh
+!scripts/*pre-deploy.sh
 scripts/build-start-*.sh
 docker-volume-data
 docker/dist.tar.gz
