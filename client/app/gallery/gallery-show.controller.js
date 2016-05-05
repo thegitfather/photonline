@@ -74,6 +74,7 @@ angular.module('photonlineApp')
       $state.go($state.current, { photo: galleryItemScope.photo.position }, { location: "replace" });
 
       function addKeydownEvents(e) {
+        e.preventDefault();
         var controls, nextBtn, prevBtn;
         controls = document.getElementsByClassName("ngdialog")[0].getElementsByClassName("controls")[0];
         nextBtn = controls.querySelectorAll('a.next')[0];
