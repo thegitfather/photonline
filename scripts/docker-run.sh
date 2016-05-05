@@ -9,7 +9,7 @@ ENV="production"
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 VOL_DIR="${DIR}/../docker-volume-data"
 
-if [ ! -e "$VOL_DIR"/mongodb ]; then
+if [ ! -e "$VOL_DIR" ]; then
   mkdir -p "$VOL_DIR"/mongodb
   chmod 777 "$VOL_DIR"/mongodb
 fi
