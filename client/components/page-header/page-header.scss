@@ -23,7 +23,8 @@ header.page-header {
     & > a:first-child {
       padding: 0 20px;
       margin-bottom: 0px;
-      font-weight: bold;
+      span { font-weight: bold; color: $primary; }
+      i.fa { font-size: 28px; color: $primary; }
     }
   }
 
@@ -53,15 +54,13 @@ header.page-header {
   header.page-header {
     .header-left {
       & > a:first-child {
-        position: absolute;
-        top: 0;
-        left: 0;
-        padding: 2px 4px;
+        padding: 0 10px;
+        span { display: none; }
       }
 
       .header-tab {
         padding: 5px 5px 0px;
-        margin-top: 18px;
+        margin-top: 8px;
       }
     }
     .greeting { display: none; }

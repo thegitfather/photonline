@@ -2,7 +2,9 @@
 
   <div class="container">
     <div class="header-left">
-      <a ui-sref="main" ui-sref-active="is-active" class="header-item title is-4">photonline</a>
+      <a ui-sref="main" ui-sref-active="is-active" class="header-item title is-4">
+        <i class="fa fa-picture-o" aria-hidden="true"></i>&nbsp;<span>photonline</span>
+      </a>
       <a ui-sref="gallery.list" ui-sref-active="is-active" class="header-tab">List Galleries</a>
       <a ng-show="nav.isLoggedIn()" ui-sref="gallery.create" ui-sref-active="is-active" class="header-tab">Create Galllery</a>
     </div>
@@ -18,7 +20,7 @@
 
     <div class="header-right header-menu">
       <!-- TODO: refactor to directive? -->
-      <a ng-hide="nav.isLoggedIn()" ui-sref="signup" ui-sref-active="is-active" class="header-item">Sign up</a>
+      <!-- <a ng-hide="nav.isLoggedIn()" ui-sref="signup" ui-sref-active="is-active" class="header-item">Sign up</a> -->
       <a ng-hide="nav.isLoggedIn()" ui-sref="login" ui-sref-active="is-active" class="header-item">
         <i class="fa fa-sign-in" aria-hidden="true"></i>&nbsp;Login
       </a>
