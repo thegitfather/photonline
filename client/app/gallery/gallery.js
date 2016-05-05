@@ -23,18 +23,22 @@ angular.module('photonlineApp')
     authenticate: true
   })
   .state('gallery.show', {
-    url: '/:id',
+    url: '/:id?photo',
     templateUrl: 'app/gallery/gallery-show.view.html',
     controller: 'GalleryShowController',
-    controllerAs: 'vm'
-  })
-  .state('gallery.show-photo', {
-    url: '/:id/:position',
-    template: '<div>TODO: gallery.show-photo</div>',
-    controller: 'GalleryShowPhotoController',
     controllerAs: 'vm',
-    params: {
-      position: "0" // default
+    reloadOnSearch: false,
+    resolve: {
+      galleryObj: function(Gallery, $stateParams) {
+        return Gallery.get({ id: $stateParams.id }).$promise;
+      },
+      galleryPhotos: function(galleryObj, Photo) {
+        return Promise.all(galleryObj.photo_ids.map(getPhotoPromise));
+
+        function getPhotoPromise(photoId) {
+          return Photo.get({ id: photoId }).$promise;
+        }
+      }
     }
   });
 

@@ -22,9 +22,7 @@
   </div>
 
   <div class="container">
-    <gallery-item id="gallery-item-{{$index}}"
-      ng-repeat="photo in vm.photos | orderBy: 'position'">
-    </gallery-item>
+    <gallery-item ng-repeat="photo in vm.photos | orderBy: 'position'"></gallery-item>
 
     <article class="gallery-item placeholder"
       ng-repeat="placeholder in [1,2,3]">

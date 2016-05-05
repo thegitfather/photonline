@@ -12,45 +12,6 @@ article.gallery-item {
   }
 }
 
-.gallery-item-wrapper {
-  & > img {
-    @include transition-ng-show($speed: 400ms);
-  }
-  .loading {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    margin-top: -25px;
-    margin-left: -20px;
-    color: $grey;
-    span {
-      display: block;
-      padding-top: 0.5em;
-    }
-  }
-
-  .controls {
-    & > a {
-      position: absolute;
-      top: 50%;
-      padding: 2px;
-      border-radius: 4px;
-      background-color: #fff;
-      box-shadow: 0 0 8px rgba(0, 0, 0, 0.5);
-      .fa { font-size: 3em; }
-    }
-    .click-area {
-      position: absolute;
-      bottom: 25%;
-      width: 33%;
-      height: 50%;
-      background-color: transparent;
-      cursor: pointer;
-    }
-    .next { right: 0; }
-    .prev { left: 0; }
-  }
-}
 
 @include mobile {
   article.gallery-item {

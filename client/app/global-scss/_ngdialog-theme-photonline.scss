@@ -1,5 +1,6 @@
 .ngdialog-overlay {
   background: rgba(0, 0, 0, 0.8);
+  z-index: 1000;
 }
 
 .ngdialog.ngdialog-theme-photonline {
@@ -14,8 +15,8 @@
 }
 
 .ngdialog.ngdialog-theme-photonline .ngdialog-content {
-  -webkit-animation: ngdialog-flyin .5s;
-  animation: ngdialog-flyin .5s;
+  // -webkit-animation: ngdialog-flyin .5s;
+  // animation: ngdialog-flyin .5s;
   background: #fff;
   border-radius: 5px;
   color: #444;

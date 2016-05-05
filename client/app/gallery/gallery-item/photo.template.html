@@ -1,23 +1,24 @@
-<div class="gallery-item-wrapper">
+<div class="photo-wrapper">
   <h1>{{photo.originalFilename}}</h1>
 
-  <div class="loading" ng-hide="poolImgReady">
+  <div class="loading" ng-hide="vm.poolImgReady">
     <i class="fa fa-spinner fa-spin fa-3x fa-fw margin-bottom"></i>
     <span class="sr-only">Loading...</span>
   </div>
 
-  <img ng-src="{{photo.path}}{{photo.filename}}"
-    po-on-load="onPoolImgLoad($event)"
-    ng-show="poolImgReady">
+  <img ng-src="{{photo.path}}{{photo.filename}}" ng-show="vm.poolImgReady"
+    po-on-load="vm.onPoolImgLoad($event)">
 
-  <div class="controls" ng-show="poolImgReady">
-    <div class="click-area next" ng-show="!($last)" ng-click="openNext()"></div>
-    <a href="" class="next" title="next" ng-show="!($last)" ng-click="openNext()">
-      <i class="fa fa-arrow-circle-right" aria-hidden="true"></i>
-    </a>
-    <div class="click-area prev" ng-show="!($first)" ng-click="openPrev()"></div>
-    <a href="" class="prev" title="previous" ng-show="!($first)" ng-click="openPrev()">
-      <i class="fa fa-arrow-circle-left" aria-hidden="true"></i>
-    </a>
+  <div class="controls" ng-show="vm.poolImgReady">
+    <div class="click-area next" ng-show="!($last)" ng-click="vm.openNext()">
+      <a href="" class="next" title="next" ng-click="vm.openNext()">
+        <i class="fa fa-arrow-circle-right" aria-hidden="true"></i>
+      </a>
+    </div>
+    <div class="click-area prev" ng-show="!($first)" ng-click="vm.openPrev()">
+      <a href="" class="prev" title="previous" ng-click="vm.openPrev()">
+        <i class="fa fa-arrow-circle-left" aria-hidden="true"></i>
+      </a>
+    </div>
   </div>
 </div>
