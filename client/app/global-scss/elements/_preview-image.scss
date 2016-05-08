@@ -20,11 +20,3 @@
     margin: 0 auto 1em;
   }
 }
-
-@include mobile {
-  .preview-image {
-    img {
-        max-height: 150px;
-    }
-  }
-}

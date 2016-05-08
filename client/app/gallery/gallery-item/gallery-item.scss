@@ -13,7 +13,7 @@ article.gallery-item {
 }
 
 
-@include mobile {
+@include phone {
   article.gallery-item {
     width: 48%;
   }

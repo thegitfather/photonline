@@ -1,14 +1,18 @@
 article.gallery-list-item {
   position: relative; // -> footer is absolute
-  width: 218px;
+  flex: 1 0 0;
+  min-width: 24%;
+  max-width: 0;
   padding: 10px 10px 20px 10px;
+  text-align: center;
   @include transition-ng-show;
 
   h2.title { margin-bottom: 0.25em; }
   p { margin-bottom: 1em; }
 
-  .preview-image {
+  .item-head {
     position: relative;
+    display: inline-block;
     span.tag {
       position: absolute;
       box-shadow: 0 0 6px rgba(0, 0, 0, 0.33);
@@ -20,12 +24,16 @@ article.gallery-list-item {
         right: -5px;
       }
       &.photo-count {
-        bottom: -5px;
+        bottom: 5px;
         left: -5px;
         border-radius: 0px;
         border: 1px solid $grey-lighter;
       }
     }
+  }
+
+  .item-body {
+    text-align: left;
   }
 
   footer {
@@ -54,4 +62,17 @@ article.gallery-list-item.placeholder {
   padding: 0;
   margin: 0;
   visibility: hidden;
+}
+
+
+@include touch {
+  article.gallery-list-item {
+    min-width: 48%;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  article.gallery-list-item {
+    min-width: 100%;
+  }
 }

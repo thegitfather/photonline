@@ -1,13 +1,13 @@
 form {
   .notification {
     margin-top: 1px;
-    padding: 0 $default-gap-bottom;
+    padding: 0 $gap-bottom;
     max-height: 0;
     opacity: 0;
-    transition: all $animation-speed ease-in-out;
+    transition: all $fade-speed ease-in-out;
 
     &.visible {
-      padding: 0.5em $default-gap-bottom;
+      padding: 0.5em $gap-bottom;
       max-height: 100%;
       opacity: 1;
     }

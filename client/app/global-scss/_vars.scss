@@ -1,45 +1,67 @@
 @import "colors";
 
-$default-gap-bottom: 1em;
-
-$animation-speed: 200ms;
-
-
-
-/*******************************
-  BULMA VARIABLES
- ******************************/
-
 // Typography
 
 $family-sans-serif: "Helvetica Neue", "Helvetica", "Arial", sans-serif;
 $family-monospace: "Source Code Pro", "Monaco", "Inconsolata", monospace;
 
-$size-1: 24px;
-$size-2: 22px;
-$size-3: 20px;
-$size-4: 18px;
-$size-5: 16px;
-$size-6: 12px;
-$size-7: 11px;
+$family-primary: $family-sans-serif;
+$family-code: $family-monospace;
 
+$size-1: 1.8em;
+$size-2: 1.6em;
+$size-3: 1.5em;
+$size-4: 1.4em;
+$size-5: 1.2em;
+$size-6: 1.1em;
+$size-7: 0.9em;
+
+$sizes: $size-1 $size-2 $size-3 $size-4 $size-5 $size-6;
+
+$size-small: $size-7;
+$size-normal: 12px;
+$size-medium: $size-5;
+$size-large: $size-3;
+$size-huge: $size-1;
+
+$weight-normal: 400;
+$weight-bold: 700;
 $weight-title-normal: 300;
 $weight-title-bold: 500;
 
+
 // Breakpoints
 
-$tablet: 600px;
-$desktop: 980px;
-$widescreen: 1180px;
+$screen-xs: 340px;
+$screen-s: 480px;
+$screen-m: 600px;
+$screen-l: 768px;
+$screen-xl: 960px;
+$screen-xxl: 1140px;
+
+$screen-max: $screen-xl;
+
 
 // Dimensions
 
-$column-gap: 20px;
-
 $header-height: 50px;
+$footer-height: 40px;
+
+$col-gap: 20px;
+
+// horizontal gap
+$gap-x: 10px;
+$gap-left: $gap-x / 2;
+$gap-right: $gap-left;
+
+// vertical gap
+$gap-y: 20px;
+$gap-top: $gap-y / 2;
+$gap-bottom: $gap-top;
+
 
 // Miscellaneous
 
-$easing: ease-out;
 $radius: 3px;
-$speed: 86ms;
+$easing: ease-out;
+$fade-speed: 200ms;

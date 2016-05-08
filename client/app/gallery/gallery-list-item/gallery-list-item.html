@@ -1,5 +1,5 @@
 <article class="box gallery-list-item" ng-show="imgReady">
-  <div class="preview-image">
+  <div class="item-head preview-image">
     <a sref="gallery/{{galleryListItem._id}}" href="gallery/{{galleryListItem._id}}">
       <img ng-src="/public/gallery_thumbs/thumb_{{galleryListItem._id}}.jpg"
         po-on-load="onImgLoad($event)">
@@ -11,16 +11,17 @@
       {{galleryListItem.photo_ids.length}}
     </span>
   </div>
-  <h2 class="title is-4">{{galleryListItem.location}}</h2>
-
-  <p class="timeframe">
-    <span>{{galleryListItem.timeframeFrom | date:'mediumDate'}}</span>
-    <span ng-if="galleryListItem.timeframeFrom !== galleryListItem.timeframeTo">
-      &nbsp;-&nbsp;
-      {{galleryListItem.timeframeTo | date:'mediumDate'}}
-    </span>
-  </p>
-  <p class="description">{{galleryListItem.description}}</p>
+  <div class="item-body">
+    <h2 class="title is-4">{{galleryListItem.location}}</h2>
+    <p class="timeframe">
+      <span>{{galleryListItem.timeframeFrom | date:'mediumDate'}}</span>
+      <span ng-if="galleryListItem.timeframeFrom !== galleryListItem.timeframeTo">
+        &nbsp;-&nbsp;
+        {{galleryListItem.timeframeTo | date:'mediumDate'}}
+      </span>
+    </p>
+    <p class="description">{{galleryListItem.description}}</p>
+  </div>
 
   <footer class="created-at has-text-right">
     <i><small>created at {{galleryListItem.created_at | date:'mediumDate'}}</small></i>

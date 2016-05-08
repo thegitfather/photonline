@@ -4,9 +4,7 @@
 @import 'global-scss/mixins';
 @import 'global-scss/extends';
 
-@import '../bower_components/bulma/bulma';
-@import 'global-scss/bulma-overwrites';
-@import 'global-scss/bulma-additions';
+@import '../bower_components/flexomatic/src/scss/flexomatic';
 @import 'global-scss/ngdialog-theme-photonline';
 @import 'global-scss/pickadate-overwrites';
 

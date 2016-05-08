@@ -27,7 +27,7 @@
   align-self: center;
   margin: 0 auto;
 
-  transition: width $animation-speed*2 ease-out;
+  transition: width 400ms ease-out;
   width: 200px;
   height: 200px;
   box-shadow: 0 0 32px rgba(255, 255, 255, 0.25);

@@ -3,6 +3,14 @@
     <h1 class="state title is-1">{{vm.gallery.location}}</h1>
   </header>
 
+  <div class="user-actions">
+    <a href="" class="button is-danger" title="Delete this gallery"
+      ng-click="vm.delete()"
+      ng-show="vm.userIsOwner">
+      <i class="fa fa-trash-o fa-2x" aria-hidden="true"></i>
+    </a>
+  </div>
+
   <p class="timeframe">
     <span>{{vm.gallery.timeframeFrom | date:'mediumDate'}}</span>
     <span ng-if="vm.gallery.timeframeFrom !== vm.gallery.timeframeTo">
@@ -13,13 +21,6 @@
 
   <p class="description" ng-show="vm.gallery.description">{{vm.gallery.description}}</p>
 
-  <div class="user-actions">
-    <a href="" class="button is-danger" title="Delete this gallery"
-      ng-click="vm.delete()"
-      ng-show="vm.userIsOwner">
-      <i class="fa fa-trash-o fa-2x" aria-hidden="true"></i>
-    </a>
-  </div>
 
   <div class="container">
     <gallery-item ng-repeat="photo in vm.photos | orderBy: 'position'"></gallery-item>

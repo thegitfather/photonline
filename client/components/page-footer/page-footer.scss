@@ -1,15 +1,7 @@
 footer.page-footer {
-  text-align: center;
-  padding: 1em;
-  border-top: 1px solid $grey-light;
   position: fixed;
   bottom: 0;
   z-index: 10;
   width: 100%;
-  background: #fff;
-  box-shadow: 0 0 12px rgba(0, 0, 0, 0.25);
-  .container > span {
-    display: inline-block;
-    margin: 0 0.25em;
-  }
+  text-align: center;
 }

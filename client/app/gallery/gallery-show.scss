@@ -1,6 +1,9 @@
 section.gallery-show {
   position: relative;
   @extend %box;
+  header h1 {
+    padding-right: 60px;
+  }
   p { margin-bottom: 1em; }
   .user-actions {
     position: absolute;

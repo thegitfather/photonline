@@ -1,6 +1,6 @@
 .photo-wrapper {
   & > img {
-    @include transition-ng-show($speed: 2 * $animation-speed);
+    @include transition-ng-show($speed: $fade-speed);
   }
   .loading {
     position: absolute;
@@ -16,7 +16,7 @@
   }
 
   .controls {
-    @include transition-ng-show($speed: 2 * $animation-speed);
+    @include transition-ng-show($speed: $fade-speed);
     .click-area {
       position: absolute;
       bottom: 25%;

@@ -1,10 +1,12 @@
 // Colors
 
+$black: #111;
 $grey-darker: #222324;
 $grey-dark: #69707a;
 $grey: #aeb1b5;
 $grey-light: #d3d6db;
 $grey-lighter: #f5f7fa;
+$white: #fff;
 
 $blue: #42afe3;
 $green: #97cd76;
@@ -14,8 +16,80 @@ $red: #ed6c63;
 $turquoise: #1fc8db;
 $yellow: #fce473;
 
+
+// Theme colors
+
 $primary: $turquoise;
 
+$info: $blue;
+$success: $green;
+$warning: $yellow;
+$danger: $red;
+
+$light: $grey-lighter;
+$dark: $grey-dark;
+
+$text: $grey-dark;
+
+
+// General colors
+
+$site-background: $grey-lighter;
+$background: $grey-lighter;
+
+$border: $grey-light;
+$border-hover: $grey;
+
+
+// Invert colors
+
+
+$light-invert: $dark;
+$dark-invert: $light;
+
+
+// Text colors
+
+$text-light: $grey;
+$text-strong: $grey-darker;
+
+
+// Code colors
+
+$code: $red;
+$code-background: $background;
+
+$pre: $text;
+$pre-background: $background;
+
+
+// Link colors
+
+$link: $primary;
+$link-visited: $purple;
+
+$link-hover: $grey-darker;
+$link-hover-background: $grey-lighter;
+$link-hover-border: $grey-darker;
+
+$link-active: $grey-darker;
+$link-active-border: $grey-darker;
+
+
+// Control colors
+
+$control: $text-strong;
+$control-border: $border;
+
+$control-hover: $link-hover;
+$control-hover-border: $border-hover;
+
+$control-active: $link;
+$control-active-background: $link;
+$control-active-border: $link;
+
+
+// Lists and maps
 
 // oauth-button background colors
 $facebook-blue: #3B5998;

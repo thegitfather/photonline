@@ -28,6 +28,10 @@
     margin: 0 auto;
     pointer-events: none;
     transition: opacity 100ms linear;
+    .title {
+      border-width: 0;
+      margin-bottom: 2px;
+    }
   }
   .queueLength {
     position: absolute;
@@ -38,6 +42,7 @@
     font-style: italic;
     padding: 0 0.5em;
     color: $grey-light;
+    line-height: 1em;
     &.invalid {
       top: auto;
       right: auto;
