@@ -14,4 +14,4 @@ scripts/*deploy.sh
 !scripts/*pre-deploy.sh
 scripts/build-start-*.sh
 docker-volume-data
-docker/dist.tar.gz
+docker/dist-*.tar.gz

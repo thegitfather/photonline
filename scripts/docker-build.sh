@@ -7,7 +7,7 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 IMAGE="thegitfather/photonline:0.1.0"
 CONTAINER="photonline"
 
-docker build -t "$IMAGE" .
+docker build -t "$IMAGE" -f "$DIR/../Dockerfile" "$DIR/.."
 
 # rm old images/containers
 docker stop "$CONTAINER"; docker rm "$CONTAINER"

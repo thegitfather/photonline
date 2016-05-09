@@ -6,8 +6,9 @@ command tar --version >/dev/null 2>&1 || { echo "tar not found! aborting..." >&2
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
-cd "$DIR"/..; gulp build
-cd dist; npm install --only=prod
-cd ..; tar cvfz docker/dist.tar.gz dist/
+cd "$DIR"/..; gulp build && \
+cd dist; npm install --only=prod && \
+cd ..; rm -f docker/dist-*.tar.gz;
+tar cvfz docker/dist-`date +%s`.tar.gz dist/
 
 exit 0
