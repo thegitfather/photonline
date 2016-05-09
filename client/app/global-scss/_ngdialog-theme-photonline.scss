@@ -10,8 +10,8 @@
 }
 
 .ngdialog.ngdialog-theme-photonline.ngdialog-closing .ngdialog-content {
-  -webkit-animation: ngdialog-flyout .5s;
-  animation: ngdialog-flyout .5s;
+  // -webkit-animation: ngdialog-flyout .5s;
+  // animation: ngdialog-flyout .5s;
 }
 
 .ngdialog.ngdialog-theme-photonline .ngdialog-content {
@@ -20,17 +20,16 @@
   background: #fff;
   border-radius: 5px;
   color: #444;
-  max-width: 100%;
+  max-width: 95%;
+  max-height: 100%;
   padding: 20px 10px;
   position: relative;
   text-align: left;
   align-self: center;
   margin: 0 auto;
-
-  transition: width 400ms ease-out;
-  width: 200px;
-  height: 200px;
   box-shadow: 0 0 32px rgba(255, 255, 255, 0.25);
+  min-width: 200px;
+  min-height: 200px;
 }
 
 .ngdialog.ngdialog-theme-photonline .ngdialog-close {

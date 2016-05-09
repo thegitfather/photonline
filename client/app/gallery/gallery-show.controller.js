@@ -45,8 +45,8 @@ angular.module('photonlineApp')
       };
 
       vm.poolImgReady = false;
-      vm.nextElement = document.getElementById( "gallery-item-" + parseInt(galleryItemScope.photo.position + 1) );
-      vm.prevElement = document.getElementById( "gallery-item-" + parseInt(galleryItemScope.photo.position - 1) );
+      vm.nextElementScope = angular.element(document.getElementById( "gallery-item-" + parseInt(galleryItemScope.photo.position + 1) )).scope();
+      vm.prevElementScope = angular.element(document.getElementById( "gallery-item-" + parseInt(galleryItemScope.photo.position - 1) )).scope();
 
       if (dialogIsOpen) {
         ngDialog.closeAll();
@@ -92,47 +92,36 @@ angular.module('photonlineApp')
 
     vm.openDialog = openDialog;
 
+    function preload(scopes) {
+      for (var i = 0; i < scopes.length; i++) {
+        if (scopes[i] !== undefined) {
+          angular.element('<img src="' + scopes[i].photo.path + scopes[i].photo.filename +'">');
+        }
+      }
+    }
+
     vm.openNext = function() {
-      if (vm.nextElement !== null) {
-        var next = angular.element(vm.nextElement).scope();
-        openDialog(next);
+      if (vm.nextElementScope !== undefined) {
+        openDialog(vm.nextElementScope);
       }
     };
 
     vm.openPrev = function() {
-      if (vm.prevElement !== null) {
-        var prev = angular.element(vm.prevElement).scope();
-        openDialog(prev);
+      if (vm.prevElementScope !== undefined) {
+        openDialog(vm.prevElementScope);
       }
     };
 
     vm.onPoolImgLoad = function(event) {
-      vm.poolImgReady = true;
       var $img = angular.element(event.target);
-      var $ngContent = $img.parent().parent();
       var ratio = $img[0].naturalWidth / $img[0].naturalHeight;
-      var temp, newWidth;
 
-      setTimeout(setWidth, 200);
-
-      function setWidth() {
-        $ngContent.css("height", "auto");
-        temp = document.documentElement.clientHeight / $ngContent[0].clientHeight;
-        temp = temp * $ngContent[0].clientWidth;
-
-        if (temp > document.documentElement.clientWidth) {
-          newWidth = document.documentElement.clientWidth;
-        } else {
-          if (temp > $img[0].naturalWidth) {
-            newWidth = $img[0].naturalWidth;
-          } else if (ratio > 1) {
-            newWidth = temp + $ngContent[0].clientWidth;
-          } else {
-            newWidth = temp;
-          }
-        }
-        $ngContent.css("width", newWidth + "px");
+      // if img is upright then limit height to viewport
+      if (ratio < 1) {
+        $img.css("max-height", document.documentElement.clientHeight * 0.9 + "px");
       }
+      vm.poolImgReady = true;
+      preload([vm.nextElementScope, vm.prevElementScope]);
     };
 
     vm.delete = function() {
