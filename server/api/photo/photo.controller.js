@@ -83,151 +83,134 @@ export function show(req, res) {
 
 export function check(req, res) {
   let fileDoesExist = fileExists(config.photoPoolPath + '/' + req.params.checksum + ".jpg");
-  console.log("check() if file exists:", fileDoesExist);
+  console.log(`check fileExists(${req.params.checksum}.jpg):`, fileDoesExist);
   res.send({fileAlreadyExists: fileDoesExist}).end();
 }
 
-// Creates a new Photo in the DB
-// export function create(req, res) {
-//   return Photo.create(req.body)
-//     .then(respondWithResult(res, 201))
-//     .catch(handleError(res));
-// }
-
 export function create(req, res) {
-  let photo;
   let md5 = req.params.checksum;
-  let filename = md5 + ".jpg";
   let fileDoesExist = fileExists(config.photoPoolPath + '/' + req.params.checksum + ".jpg");
+  let photoPromise;
 
   if (fileDoesExist) {
-    skipUpload();
+    photoPromise = skipUpload(req, md5);
   } else {
-    upload();
+    photoPromise = upload(req, res, md5);
   }
 
-  function upload() {
-    let storage = multer.diskStorage({
-      destination: function (req, file, cb) {
-        cb(null, config.publicPath + '/photo_pool');
-      },
-      filename: function (req, file, cb) {
-        // console.log("file:", file);
-        // TODO: server side md5 generation / db update (cron job?)
-        if (md5.length !== 32) {
-          filename = getRandomHash(16) + ".jpg";
-        }
-        cb(null, filename);
-      }
-    });
-
-    let multerUpload = multer({
-      storage: storage,
-      limits: {
-        fileSize: sharedConfig.uploadLimits.maxFileSize
-      },
-      fileFilter: function (req, file, cb) {
-        let isJpeg = (/image\/jpeg/i).test(file.mimetype);
-        if (isJpeg) { cb(null, true); }
-        else { cb(new Error("mime is not 'image/jpeg'")); }
-      }
-    }).single('photo');
-
-    multerUpload(req, res, function (uploadError) {
-      if (uploadError) {
-        console.log("uploadError:", uploadError);
-        return res.status(400).send({
-          message: 'Error occurred while uploading photo'
-        });
-      } else {
-        photo = new Photo(req.body);
-        photo.path = '/public/photo_pool/';
-        photo.filename = filename;
-
-        // TODO: promise?
-        createThumbnail(photo);
-
-        // push current photo id to gallery
-        console.log("photo.gallery_id:", photo.gallery_id);
-        Gallery.findById(photo.gallery_id).exec()
-          .then(function(res) {
-            res.photo_ids.push(photo._id);
-            res.save();
-          });
-
-        // create new photo entry
-        Photo.create(photo)
-          .then(respondWithResult(res, 201))
-          .catch(handleError(res));
-      }
-    })
-  }
-
-  function skipUpload() {
-    let clientPhotoData = new Photo(req.body);
-    clientPhotoData.path = '/public/photo_pool/';
-    clientPhotoData.filename = clientPhotoData.md5 + ".jpg";
-
-    createThumbnail(clientPhotoData);
-
-    // push current photo id to gallery
-    Gallery.findById(clientPhotoData.gallery_id).exec()
-      .then(function(res) {
-        res.photo_ids.push(clientPhotoData._id);
+  photoPromise.then(photoData => {
+    createThumbnail(photoData).then(() => {
+      // push current photo id to gallery
+      Gallery.findById(photoData.gallery_id).exec().then(res => {
+        res.photo_ids.push(photoData._id);
         res.save();
       });
 
-    // create new photo entry in DB
-    Photo.create(clientPhotoData)
+      Photo.create(photoData)
       .then(respondWithResult(res, 201))
       .catch(handleError(res));
-  }
+    });
+  }).catch(err => {
+    console.log("err:", err);
+    return res.status(400).send({
+      message: 'Error occurred while uploading photo'
+    });
+  });
+}
 
-  function createThumbnail(photo) {
-    // console.log("photo:", photo);
-    let image = sharp(config.photoPoolPath + '/' + filename);
+function skipUpload(req, md5) {
+  // create new photo object and return it as promise
+  let photo = new Photo(req.body);
+  photo.path = '/public/photo_pool/';
+  photo.filename = req.body.md5 + ".jpg";
+  return new Promise((resolve, reject) => {
+    resolve(photo);
+  });
+}
 
-    image
-      .metadata()
-      .then(function(metadata) {
-        // console.log("metadata:", metadata);
-        return image;
-      })
-      .then(data => {
-        if (!fileDoesExist) {
-          return image
-            .resize(204, 204)
-            .max()
-            .toFile(config.photoThumbsPath + '/thumb_' + photo.md5 + '.jpg')
-        }
-      })
-      .then(data => {
-        // create gallery preview image for gallery list view
-        if (photo.position === 0) {
-          return image
-            .resize(204, 204)
-            .max()
-            .toFile(config.galleryThumbsPath + '/thumb_' + photo.gallery_id + '.jpg');
-        }
-      })
-      .then(info => {
-        // console.log("info:", info);
-      })
-      .catch(err => {
-        console.error("err:", err);
-      });
-
-  }
-
-  function getRandomHash(count) {
-    const alphabet = '0123456789abcdefghijklmnopqrstuvwxyz';
-    var result = '', i;
-    for (i = 0; i < count; i++) {
-      result += alphabet.charAt(Math.floor(Math.random() * alphabet.length));
+function upload(req, res, md5) {
+  let storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+      cb(null, config.publicPath + '/photo_pool');
+    },
+    filename: function (req, file, cb) {
+      // TODO: server side md5 generation / db update (cron job?)
+      if (md5.length !== 32) {
+        cb(null, getRandomHash(16) + ".jpg");
+      } else {
+        cb(null, md5 + ".jpg");
+      }
     }
-    return result;
-  }
+  });
 
+  let multerUpload = multer({
+    storage: storage,
+    limits: {
+      fileSize: sharedConfig.uploadLimits.maxFileSize
+    },
+    fileFilter: function (req, file, cb) {
+      let isJpeg = (/image\/jpeg/i).test(file.mimetype);
+      if (isJpeg) { cb(null, true); }
+      else { cb(new Error("mime is not 'image/jpeg'")); }
+    }
+  }).single('photo');
+
+  return new Promise((resolve, reject) => {
+    multerUpload(req, res, function (uploadError) {
+      if (uploadError) {
+        console.log("uploadError:", uploadError);
+        reject(uploadError);
+      } else {
+        let photo = new Photo(req.body);
+        photo.path = '/public/photo_pool/';
+        photo.filename = req.body.md5 + ".jpg";
+        resolve(photo);
+      }
+    });
+  });
+
+}
+
+function createThumbnail(photo) {
+  let image = sharp(config.photoPoolPath + '/' + photo.md5 + '.jpg');
+
+  return image
+    .metadata()
+    .then(metadata => {
+      image.metadata = metadata;
+      return image;
+    })
+    .then(data => {
+      if (!fileExists(config.photoThumbsPath + '/thumb_' + photo.md5 + '.jpg')) {
+        image
+          .resize(204, 204)
+          .max()
+          .toFile(config.photoThumbsPath + '/thumb_' + photo.md5 + '.jpg')
+      }
+      return image;
+    })
+    .then(data => {
+      // create gallery preview image for gallery list view
+      if (photo.position === 0) {
+        image
+          .resize(204, 136)
+          .crop()
+          .toFile(config.galleryThumbsPath + '/thumb_' + photo.gallery_id + '.jpg');
+      }
+      return image;
+    })
+    .catch(err => {
+      console.error("err:", err);
+    });
+}
+
+function getRandomHash(count) {
+  const alphabet = '0123456789abcdefghijklmnopqrstuvwxyz';
+  var result = '', i;
+  for (i = 0; i < count; i++) {
+    result += alphabet.charAt(Math.floor(Math.random() * alphabet.length));
+  }
+  return result;
 }
 
 // Updates an existing Photo in the DB

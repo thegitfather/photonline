@@ -1,18 +1,8 @@
-/**
- * Using Rails-like standard naming convention for endpoints.
- * GET     /api/gallery              ->  index
- * POST    /api/gallery              ->  create
- * GET     /api/gallery/:id          ->  show
- * PUT     /api/gallery/:id          ->  update
- * DELETE  /api/gallery/:id          ->  destroy
- */
-
 'use strict';
 
 import _ from 'lodash';
 import Gallery from './gallery.model';
 import Photo from '../photo/photo.model'
-
 
 function respondWithResult(res, statusCode) {
   statusCode = statusCode || 200;
