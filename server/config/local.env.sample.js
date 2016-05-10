@@ -18,6 +18,9 @@ module.exports = {
   GOOGLE_ID:        'app-id',
   GOOGLE_SECRET:    'secret',
 
+  // disable bluebird 'promise created but not returned' warning
+  BLUEBIRD_W_FORGOTTEN_RETURN: 0,
+
   // Control debug level for modules using visionmedia/debug
   DEBUG: ''
 };
