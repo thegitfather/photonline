@@ -34,7 +34,7 @@
                  orderBy: vm.sortOption">
     </gallery-list-item>
 
-    <div class="nothing-found"><h1 class="title is-1">Nothing found...</h1></div>
+    <div class="nothing-found" ng-hide="vm.galleries.length"><h1 class="title is-1">Nothing found...</h1></div>
 
     <article class="box gallery-list-item placeholder"
       ng-repeat="placeholder in [1,2,3]">

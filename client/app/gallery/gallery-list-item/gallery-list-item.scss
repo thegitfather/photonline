@@ -44,19 +44,6 @@ article.gallery-list-item {
   }
 }
 
-.nothing-found {
-  display: block;
-  width: 100%;
-  padding: 4em 0 0;
-  text-align: center;
-  font-weight: bold;
-  h1 { color: $grey; }
-}
-
-article.gallery-list-item + .nothing-found {
-  display: none;
-}
-
 article.gallery-list-item.placeholder {
   height: 1px;
   padding: 0;
@@ -65,13 +52,19 @@ article.gallery-list-item.placeholder {
 }
 
 
-@include touch {
+@include tablet {
   article.gallery-list-item {
-    min-width: 48%;
+    min-width: 32%;
   }
 }
 
-@media screen and (max-width: 480px) {
+@include phone {
+  article.gallery-list-item {
+    min-width: 49%;
+  }
+}
+
+@include phone-xs {
   article.gallery-list-item {
     min-width: 100%;
   }
