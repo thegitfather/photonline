@@ -1,14 +1,13 @@
 section.gallery-show {
   position: relative;
-  @extend %box;
   header h1 {
     padding-right: 60px;
   }
   p { margin-bottom: 1em; }
   .user-actions {
     position: absolute;
-    top: 1em;
-    right: 1em;
+    top: $gap-top * -2;
+    right: $gap-top * -1;
   }
   .container {
     display: flex;

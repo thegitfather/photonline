@@ -3,7 +3,7 @@ article.gallery-list-item {
   flex: 1 0 0;
   min-width: 24%;
   max-width: 0;
-  padding: 10px 10px 20px 10px;
+  padding-bottom: 20px;
   text-align: center;
   @include transition-ng-show;
 

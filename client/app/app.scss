@@ -13,21 +13,18 @@
 @import 'global-scss/layout';
 @import 'global-scss/form';
 @import 'global-scss/links';
-@import 'global-scss/headings';
 @import 'global-scss/elements/pseudo-table';
 @import 'global-scss/elements/preview-image';
+@import 'global-scss/elements/section-header';
 
 
 // Component styles are injected through grunt injector
-@import 'account/account';
 @import 'admin/admin';
-@import 'gallery/gallery-create';
 @import 'gallery/gallery-list';
 @import 'gallery/gallery-show';
 @import 'gallery/gallery-list-item/gallery-list-item';
 @import 'gallery/gallery-item/gallery-item';
 @import 'gallery/gallery-item/photo.template';
-@import 'main/main';
 @import '../components/file-drop-area/file-drop-area';
 @import '../components/oauth-buttons/oauth-buttons';
 @import '../components/page-header/page-header';

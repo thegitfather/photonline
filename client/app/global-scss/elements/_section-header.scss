@@ -1,0 +1,7 @@
+header.section-header {
+  margin-bottom: $gap-bottom * 2;
+  h1 {
+    padding-bottom: $gap-bottom;
+    border-bottom: 1px solid $grey-light;
+  }
+}
