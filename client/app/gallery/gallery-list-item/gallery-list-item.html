@@ -1,6 +1,6 @@
 <article class="box gallery-list-item" ng-show="imgReady">
   <div class="item-head preview-image">
-    <a sref="gallery/{{galleryListItem._id}}" href="gallery/{{galleryListItem._id}}">
+    <a href="gallery/{{galleryListItem._id}}" sref="gallery/{{galleryListItem._id}}">
       <img ng-src="/public/gallery_thumbs/thumb_{{galleryListItem._id}}.jpg"
         po-on-load="onImgLoad($event)">
     </a>
