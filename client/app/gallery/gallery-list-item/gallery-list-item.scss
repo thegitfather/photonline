@@ -7,6 +7,13 @@ article.gallery-list-item {
   text-align: center;
   @include transition-ng-show;
 
+  &.placeholder {
+    height: 1px;
+    padding: 0;
+    margin: 0;
+    visibility: hidden;
+  }
+
   h2.title { margin-bottom: 0.25em; }
   p { margin-bottom: 1em; }
 
@@ -42,13 +49,6 @@ article.gallery-list-item {
     bottom: 10px;
     color: $grey;
   }
-}
-
-article.gallery-list-item.placeholder {
-  height: 1px;
-  padding: 0;
-  margin: 0;
-  visibility: hidden;
 }
 
 
