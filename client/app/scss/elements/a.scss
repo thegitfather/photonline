@@ -2,7 +2,7 @@ a {
   &:not(.is-active) {
     &:focus, &:active {
       outline: 1px dotted $primary;
-      color: $grey-darker;
+      color: $link-hover;
     }
   }
 }
