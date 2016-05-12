@@ -1,0 +1,41 @@
+@mixin phone {
+  @media screen and (max-width: $screen-m - 1px) {
+    @content;
+  }
+}
+
+@mixin phone-s {
+  @media screen and (max-width: $screen-s - 1px) {
+    @content;
+  }
+}
+
+@mixin phone-xs {
+  @media screen and (max-width: $screen-xs) {
+    @content;
+  }
+}
+
+@mixin tablet {
+  @media screen and (min-width: $screen-m) and (max-width: $screen-xl - 1px) {
+    @content;
+  }
+}
+
+@mixin touch {
+  @media screen and (max-width: $screen-xl - 1px) {
+    @content;
+  }
+}
+
+@mixin desktop {
+  @media screen and (min-width: $screen-xl) {
+    @content;
+  }
+}
+
+@mixin widescreen {
+  @media screen and (min-width: $screen-xxl) {
+    @content;
+  }
+}

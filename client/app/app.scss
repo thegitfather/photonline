@@ -1,24 +1,25 @@
-// @import 'global-scss/helper/disable-animations';
+@import 'scss/variables/common';
+@import 'scss/variables/colors';
 
-@import 'global-scss/vars';
-@import 'global-scss/mixins';
-@import 'global-scss/extends';
+@import '../bower_components/flexomatic_local/src/scss/flexomatic';
 
-@import '../bower_components/flexomatic/src/scss/flexomatic';
-@import 'global-scss/ngdialog-theme-photonline';
-@import 'global-scss/pickadate-overwrites';
+@import 'scss/util/mixins';
+@import 'scss/util/extends';
 
-@import 'global-scss/temp';
-@import 'global-scss/fonts';
-@import 'global-scss/layout';
-@import 'global-scss/form';
-@import 'global-scss/links';
-@import 'global-scss/elements/pseudo-table';
-@import 'global-scss/elements/preview-image';
-@import 'global-scss/elements/section-header';
+@import 'scss/layout';
+@import 'scss/fonts';
+@import 'scss/temp';
 
+@import 'scss/elements/a';
+@import 'scss/elements/form';
 
-// Component styles are injected through grunt injector
+@import 'scss/components/pseudo-table';
+@import 'scss/components/preview-image';
+@import 'scss/components/section-header';
+
+@import 'scss/vendor/ngdialog-theme-photonline';
+@import 'scss/vendor/pickadate-overwrites';
+
 @import 'admin/admin';
 @import 'gallery/gallery-list';
 @import 'gallery/gallery-show';
@@ -30,4 +31,5 @@
 @import '../components/page-header/page-header';
 @import '../components/page-footer/page-footer';
 @import '../components/upload-list/upload-list';
-// endinjector
+
+// @import 'scss/util/disable/animations';

@@ -1,6 +1,7 @@
 .preview-image {
   & > a {
     &:hover, &:focus, &:active {
+      outline: 0px dotted transparent;
       img { box-shadow: 0 0 12px rgba(0, 0, 0, 0.8); }
     }
     &:focus {
