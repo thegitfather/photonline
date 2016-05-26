@@ -91,15 +91,15 @@ export function update(req, res) {
 // Deletes a Gallery from the DB
 export function destroy(req, res) {
   Gallery.findById(req.params.id).exec().then(gallery => {
-    // console.log("gallery:", gallery);
-    let photoIds = gallery.photo_ids;
-    photoIds.forEach(function(photoId) {
-      Photo.findById(photoId).exec()
-        .then(handleEntityNotFound(res))
-        .then(removeEntity(res))
-        .then(respondWithResult(res))
-        .catch(handleError(res));
-    });
+    if (gallery && gallery.photo_ids.length) {
+      gallery.photo_ids.forEach(function(photoId) {
+        Photo.findById(photoId).exec()
+          .then(handleEntityNotFound(res))
+          .then(removeEntity(res))
+          .then(respondWithResult(res))
+          .catch(handleError(res));
+      });
+    }
   });
 
   return Gallery.findById(req.params.id).exec()

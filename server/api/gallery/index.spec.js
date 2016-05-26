@@ -10,10 +10,18 @@ var galleryCtrlStub = {
   destroy: 'galleryCtrl.destroy'
 };
 
+var authServiceStub = {
+  isAuthenticated() {
+    return 'authService.isAuthenticated';
+  },
+  hasRole(role) {
+    return 'authService.hasRole.' + role;
+  }
+};
+
 var routerStub = {
   get: sinon.spy(),
   put: sinon.spy(),
-  patch: sinon.spy(),
   post: sinon.spy(),
   delete: sinon.spy()
 };
@@ -25,7 +33,8 @@ var galleryIndex = proxyquire('./index.js', {
       return routerStub;
     }
   },
-  './gallery.controller': galleryCtrlStub
+  './gallery.controller': galleryCtrlStub,
+  '../../auth/auth.service': authServiceStub
 });
 
 describe('Gallery API Router:', function() {
@@ -58,7 +67,7 @@ describe('Gallery API Router:', function() {
 
     it('should route to gallery.controller.create', function() {
       routerStub.post
-        .withArgs('/', 'galleryCtrl.create')
+        .withArgs('/', 'authService.isAuthenticated', 'galleryCtrl.create')
         .should.have.been.calledOnce;
     });
 
@@ -68,17 +77,7 @@ describe('Gallery API Router:', function() {
 
     it('should route to gallery.controller.update', function() {
       routerStub.put
-        .withArgs('/:id', 'galleryCtrl.update')
-        .should.have.been.calledOnce;
-    });
-
-  });
-
-  describe('PATCH /api/gallery/:id', function() {
-
-    it('should route to gallery.controller.update', function() {
-      routerStub.patch
-        .withArgs('/:id', 'galleryCtrl.update')
+        .withArgs('/:id', 'authService.isAuthenticated', 'galleryCtrl.update')
         .should.have.been.calledOnce;
     });
 
@@ -88,7 +87,7 @@ describe('Gallery API Router:', function() {
 
     it('should route to gallery.controller.destroy', function() {
       routerStub.delete
-        .withArgs('/:id', 'galleryCtrl.destroy')
+        .withArgs('/:id', 'authService.isAuthenticated', 'galleryCtrl.destroy')
         .should.have.been.calledOnce;
     });
 

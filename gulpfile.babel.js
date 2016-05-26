@@ -428,6 +428,15 @@ gulp.task('test:server', cb => {
   }
 );
 
+gulp.task('test:mocha:int', cb => {
+  runSequence(
+    'env:all',
+    'env:test',
+    'mocha:integration',
+    cb);
+  }
+);
+
 gulp.task('mocha:unit', () => {
   return gulp.src(paths.server.test.unit)
   .pipe(mocha());

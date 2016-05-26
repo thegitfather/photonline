@@ -122,7 +122,7 @@ function skipUpload(req, md5) {
   // create new photo object and return it as promise
   let photo = new Photo(req.body);
   photo.path = '/public/photo_pool/';
-  photo.filename = req.body.md5 + ".jpg";
+  photo.filename = md5 + ".jpg";
   return new Promise((resolve, reject) => {
     resolve(photo);
   });

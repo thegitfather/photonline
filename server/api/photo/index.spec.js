@@ -5,9 +5,19 @@ var proxyquire = require('proxyquire').noPreserveCache();
 var photoCtrlStub = {
   index: 'photoCtrl.index',
   show: 'photoCtrl.show',
+  check: 'photoCtrl.check',
   create: 'photoCtrl.create',
   update: 'photoCtrl.update',
   destroy: 'photoCtrl.destroy'
+};
+
+var authServiceStub = {
+  isAuthenticated() {
+    return 'authService.isAuthenticated';
+  },
+  hasRole(role) {
+    return 'authService.hasRole.' + role;
+  }
 };
 
 var routerStub = {
@@ -19,13 +29,14 @@ var routerStub = {
 };
 
 // require the index with our stubbed out modules
-var photoIndex = proxyquire('./index.js', {
+var photoIndex = proxyquire('./index', {
   'express': {
-    Router: function() {
+    Router() {
       return routerStub;
     }
   },
-  './photo.controller': photoCtrlStub
+  './photo.controller': photoCtrlStub,
+  '../../auth/auth.service': authServiceStub
 });
 
 describe('Photo API Router:', function() {
@@ -54,11 +65,21 @@ describe('Photo API Router:', function() {
 
   });
 
-  describe('POST /api/photo', function() {
+  describe('GET /api/photo/check/:checksum', function() {
+
+    it('should route to photo.controller.check', function() {
+      routerStub.get
+        .withArgs('/check/:checksum', 'photoCtrl.check')
+        .should.have.been.calledOnce;
+    });
+
+  });
+
+  describe('POST /api/photo/:checksum', function() {
 
     it('should route to photo.controller.create', function() {
       routerStub.post
-        .withArgs('/', 'photoCtrl.create')
+        .withArgs('/:checksum', 'authService.isAuthenticated', 'photoCtrl.create')
         .should.have.been.calledOnce;
     });
 
@@ -68,17 +89,7 @@ describe('Photo API Router:', function() {
 
     it('should route to photo.controller.update', function() {
       routerStub.put
-        .withArgs('/:id', 'photoCtrl.update')
-        .should.have.been.calledOnce;
-    });
-
-  });
-
-  describe('PATCH /api/photo/:id', function() {
-
-    it('should route to photo.controller.update', function() {
-      routerStub.patch
-        .withArgs('/:id', 'photoCtrl.update')
+        .withArgs('/:id', 'authService.isAuthenticated', 'photoCtrl.update')
         .should.have.been.calledOnce;
     });
 
@@ -88,7 +99,7 @@ describe('Photo API Router:', function() {
 
     it('should route to photo.controller.destroy', function() {
       routerStub.delete
-        .withArgs('/:id', 'photoCtrl.destroy')
+        .withArgs('/:id', 'authService.isAuthenticated', 'photoCtrl.destroy')
         .should.have.been.calledOnce;
     });
 

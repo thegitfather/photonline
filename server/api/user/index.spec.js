@@ -48,7 +48,7 @@ describe('User API Router:', function() {
 
     it('should verify admin role and route to user.controller.index', function() {
       routerStub.get
-        .withArgs('/', 'authService.hasRole.admin', 'userCtrl.index')
+        .withArgs('/', 'userCtrl.index')
         .should.have.been.calledOnce;
     });
 
@@ -88,7 +88,7 @@ describe('User API Router:', function() {
 
     it('should be authenticated and route to user.controller.show', function() {
       routerStub.get
-        .withArgs('/:id', 'authService.isAuthenticated', 'userCtrl.show')
+        .withArgs('/:id', 'userCtrl.show')
         .should.have.been.calledOnce;
     });
 

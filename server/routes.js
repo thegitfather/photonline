@@ -10,10 +10,10 @@ import path from 'path';
 export default function(app) {
   var env = app.get('env');
   // Insert routes below
-  app.use('/api/admin', require('./api/admin').default);
-  app.use('/api/users', require('./api/user').default);
-  app.use('/api/gallery', require('./api/gallery').default);
-  app.use('/api/photo', require('./api/photo').default);
+  app.use('/api/admin', require('./api/admin'));
+  app.use('/api/users', require('./api/user'));
+  app.use('/api/gallery', require('./api/gallery'));
+  app.use('/api/photo', require('./api/photo'));
 
   app.use('/auth', require('./auth').default);
 

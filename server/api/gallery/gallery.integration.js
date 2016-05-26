@@ -1,16 +1,64 @@
 'use strict';
 
-var app = require('../..');
+import app from '../..';
+import User from '../user/user.model';
+import Gallery from '../gallery/gallery.model';
 import request from 'supertest';
 
-var newGallery;
 
 describe('Gallery API:', function() {
+  var newGallery, token;
+  var date = new Date();
+
+  // clear users and create new user for testing
+  before(function() {
+    return User.remove().then(function() {
+      var user = new User({
+        name: 'inttest',
+        email: 'inttest@example.com',
+        password: '12qw34er'
+      });
+
+      return user.save();
+    });
+  });
+
+  // log in to get token
+  before(function(done) {
+    request(app)
+      .post('/auth/local')
+      .send({
+        email: 'inttest@example.com',
+        password: '12qw34er'
+      })
+      .expect(200)
+      .expect('Content-Type', /json/)
+      .end((err, res) => {
+        token = res.body.token;
+        done();
+      });
+  });
+
+  // clear galleries
+  before(function() {
+    return Gallery.remove();
+  });
+
+  // clear users
+  after(function() {
+    return User.remove();
+  });
+
+  // clear galleries
+  after(function() {
+    return Gallery.remove();
+  });
+
 
   describe('GET /api/gallery', function() {
-    var gallerys;
+    var galleries;
 
-    beforeEach(function(done) {
+    before(function(done) {
       request(app)
         .get('/api/gallery')
         .expect(200)
@@ -19,24 +67,28 @@ describe('Gallery API:', function() {
           if (err) {
             return done(err);
           }
-          gallerys = res.body;
+          galleries = res.body;
           done();
         });
     });
 
-    it('should respond with JSON array', function() {
-      gallerys.should.be.instanceOf(Array);
+    it('should respond array with length 0', function() {
+      galleries.should.be.instanceOf(Array);
+      galleries.should.have.length(0);
     });
-
   });
 
   describe('POST /api/gallery', function() {
-    beforeEach(function(done) {
+
+    before(function(done) {
       request(app)
         .post('/api/gallery')
+        .set('authorization', 'Bearer ' + token)
         .send({
-          name: 'New Gallery',
-          info: 'This is the brand new gallery!!!'
+          location: 'Test gallery location',
+          description: 'This is the brand new gallery description',
+          timeframeTo: date,
+          timeframeFrom: date
         })
         .expect(201)
         .expect('Content-Type', /json/)
@@ -49,17 +101,40 @@ describe('Gallery API:', function() {
         });
     });
 
-    it('should respond with the newly created gallery', function() {
-      newGallery.name.should.equal('New Gallery');
-      newGallery.info.should.equal('This is the brand new gallery!!!');
+    it('should respond with new gallery', function() {
+      newGallery.location.should.equal('Test gallery location');
+      newGallery.description.should.equal('This is the brand new gallery description');
     });
 
+  });
+
+  describe('GET /api/gallery', function() {
+    var galleries;
+
+    before(function(done) {
+      request(app)
+        .get('/api/gallery')
+        .expect(200)
+        .expect('Content-Type', /json/)
+        .end((err, res) => {
+          if (err) {
+            return done(err);
+          }
+          galleries = res.body;
+          done();
+        });
+    });
+
+    it('should respond array with length 1', function() {
+      galleries.should.be.instanceOf(Array);
+      galleries.should.have.length(1);
+    });
   });
 
   describe('GET /api/gallery/:id', function() {
     var gallery;
 
-    beforeEach(function(done) {
+    before(function(done) {
       request(app)
         .get('/api/gallery/' + newGallery._id)
         .expect(200)
@@ -73,26 +148,22 @@ describe('Gallery API:', function() {
         });
     });
 
-    afterEach(function() {
-      gallery = {};
-    });
-
     it('should respond with the requested gallery', function() {
-      gallery.name.should.equal('New Gallery');
-      gallery.info.should.equal('This is the brand new gallery!!!');
+      gallery.location.should.equal('Test gallery location');
+      gallery.description.should.equal('This is the brand new gallery description');
     });
-
   });
 
   describe('PUT /api/gallery/:id', function() {
     var updatedGallery;
 
-    beforeEach(function(done) {
+    before(function(done) {
       request(app)
         .put('/api/gallery/' + newGallery._id)
+        .set('authorization', 'Bearer ' + token)
         .send({
-          name: 'Updated Gallery',
-          info: 'This is the updated gallery!!!'
+          location: 'Updated test gallery location',
+          description: 'This is the updated gallery description'
         })
         .expect(200)
         .expect('Content-Type', /json/)
@@ -105,13 +176,9 @@ describe('Gallery API:', function() {
         });
     });
 
-    afterEach(function() {
-      updatedGallery = {};
-    });
-
     it('should respond with the updated gallery', function() {
-      updatedGallery.name.should.equal('Updated Gallery');
-      updatedGallery.info.should.equal('This is the updated gallery!!!');
+      updatedGallery.location.should.equal('Updated test gallery location');
+      updatedGallery.description.should.equal('This is the updated gallery description');
     });
 
   });
@@ -121,6 +188,7 @@ describe('Gallery API:', function() {
     it('should respond with 204 on successful removal', function(done) {
       request(app)
         .delete('/api/gallery/' + newGallery._id)
+        .set('authorization', 'Bearer ' + token)
         .expect(204)
         .end((err, res) => {
           if (err) {
@@ -133,6 +201,7 @@ describe('Gallery API:', function() {
     it('should respond with 404 when gallery does not exist', function(done) {
       request(app)
         .delete('/api/gallery/' + newGallery._id)
+        .set('authorization', 'Bearer ' + token)
         .expect(404)
         .end((err, res) => {
           if (err) {
